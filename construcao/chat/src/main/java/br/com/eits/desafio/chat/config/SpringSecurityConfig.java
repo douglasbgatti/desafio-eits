@@ -21,26 +21,26 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {  //regras de security
 		http.authorizeRequests()  //a partir de qql request criaremos as regras de acesso;
-			.antMatchers("/css/**").permitAll()
-			.antMatchers("/js/**").permitAll()
-			.antMatchers("/**", "/auth/**").permitAll()
+			.antMatchers("/static/css/**").permitAll()
+			.antMatchers("/static/**", "/static/js/**").permitAll()
+			.antMatchers("/**", "/auth/**").permitAll();
 			
-			.anyRequest().authenticated()
-			
-		.and()
-			.formLogin()
-			.loginPage("/login")
-			.failureUrl("/auth/login?error=true")
-			.usernameParameter("j_username")
-			.passwordParameter("j_password")
-			.permitAll()
-		.and()
-			.logout()
-			.logoutSuccessUrl("/auth/login?logout=true")
-			.invalidateHttpSession(true)
-			.deleteCookies("JSESSIONID")
-		.and()
-			.exceptionHandling().accessDeniedPage("/auth/denied");
+//			.anyRequest().authenticated()
+//			
+//		.and()
+//			.formLogin()
+//			.loginPage("/login")
+//			.failureUrl("/auth/login?error=true")
+//			.usernameParameter("j_username")
+//			.passwordParameter("j_password")
+//			.permitAll()
+//		.and()
+//			.logout()
+//			.logoutSuccessUrl("/auth/login?logout=true")
+//			.invalidateHttpSession(true)
+//			.deleteCookies("JSESSIONID")
+//		.and()
+//			.exceptionHandling().accessDeniedPage("/auth/denied");
 		
 	}
 

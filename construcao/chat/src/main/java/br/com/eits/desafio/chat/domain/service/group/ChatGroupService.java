@@ -3,6 +3,7 @@ package br.com.eits.desafio.chat.domain.service.group;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import br.com.eits.desafio.chat.domain.entity.group.ChatGroup;
@@ -12,12 +13,11 @@ import br.com.eits.desafio.chat.domain.service.user.UserService;
 public class ChatGroupService {
 	private static final Logger LOG = Logger.getLogger(ChatGroupService.class);
 
-	public ChatGroup addMemberGroup(Long chatGroupId, Long userId){
-		
+	public ChatGroup addMemberGroup(Long chatGroupId, Long userId){		
 		return null;
 	}
 	
-	public List<ChatGroup> getAllChatGroups(){
+	public Page<ChatGroup> getAllChatGroups(){
 		return null;
 	}
 	

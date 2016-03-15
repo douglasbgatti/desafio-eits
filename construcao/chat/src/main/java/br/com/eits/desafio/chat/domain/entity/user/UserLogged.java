@@ -8,7 +8,7 @@ public class UserLogged extends org.springframework.security.core.userdetails.Us
 
 	public UserLogged(User user) {
 		super(
-				user.getUsername(),
+				user.getEmail(),
 				user.getPassword(),
 				AuthorityUtils.createAuthorityList(user.getRole().toString()));
 		

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.eits.desafio.chat.domain.entity.user.Roles;
-import br.com.eits.desafio.chat.domain.entity.user.Sex;
 import br.com.eits.desafio.chat.domain.entity.user.User;
 import br.com.eits.desafio.chat.domain.service.user.UserService;
 
@@ -41,7 +40,7 @@ public class UserController {
 	
 	@RequestMapping(value="/getDummyUser", method=RequestMethod.GET)
 	public @ResponseBody User getDummyUser(){
-		return new User("Maria", "da silva", "maria", "maaria@email.com",Roles.USER, Sex.FEMININO);
+		return new User("Maria da silva", "maaria@email.com", Roles.USER);
 	}
 	
 	@RequestMapping(value="/alterUser")

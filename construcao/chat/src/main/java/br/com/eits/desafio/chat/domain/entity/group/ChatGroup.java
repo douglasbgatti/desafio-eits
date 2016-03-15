@@ -14,14 +14,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
-import br.com.eits.desafio.chat.domain.entity.message.Message;
 import br.com.eits.desafio.chat.domain.entity.user.User;
 
 @Entity
@@ -38,20 +39,10 @@ public class ChatGroup implements Serializable{
 	@Column(name="group_name", nullable=false, length=60)
 	private String groupName;
 	
-	/**
-	 * lista de usuários pertencentes ao grupo de chat
-	 */
-	@NotAudited
-	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-	@JoinTable(name = "chat_group_members", 
-		joinColumns ={ 
-			@JoinColumn(name = "chat_group_id", referencedColumnName = "id", nullable = false) 
-		},
-		inverseJoinColumns = { 
-			@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false) 
-		}
-	)
-	private List<User> userList = new ArrayList<User>();
+	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+	@JoinColumn(name = "user_group_id", referencedColumnName = "id", nullable = false) 
+	private List<UserGroup> userGroupList = new ArrayList<UserGroup>();
 	
 	@NotAudited
 	@Transient
@@ -75,13 +66,7 @@ public class ChatGroup implements Serializable{
 		this.groupName = groupName;
 	}
 
-	public List<User> getUserList() {
-		return userList;
-	}
 
-	public void setUserList(List<User> userList) {
-		this.userList = userList;
-	}
 
 	public Message getLatestMessage() {
 		return latestMessage;
@@ -89,6 +74,14 @@ public class ChatGroup implements Serializable{
 
 	public void setLatestMessage(Message latestMessage) {
 		this.latestMessage = latestMessage;
+	}
+
+	public List<UserGroup> getUserGroupList() {
+		return userGroupList;
+	}
+
+	public void setUserGroupList(List<UserGroup> userGroupList) {
+		this.userGroupList = userGroupList;
 	}
 	
 	

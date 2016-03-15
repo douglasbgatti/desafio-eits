@@ -11,8 +11,8 @@ import br.com.eits.desafio.chat.domain.entity.user.User;
 @Repository
 public interface IUserRepository extends JpaRepository<User, Long>{ 
 	
-//	@Query(value="Select new User(user.id, user.firstName, user.lastName, user.username, user.password, user.enabled, user.role) "
-//			+ "FROM User user WHERE user.username=:username" )
-	User findUserByUsername(String username);
+//	@Query(value="Select new User(user.id, user.name, user.email, user.password, user.enabled, user.role) "
+//			+ " FROM User user WHERE user.email= ?1 " )
+	User findUserByEmail(String email);
 
 }

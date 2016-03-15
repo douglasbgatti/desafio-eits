@@ -32,11 +32,7 @@ public class SpringWebXmlConfig implements WebApplicationInitializer {
 	 * starta nossa aplicacao apartir do contexto do servidor
 	 **/
 	public void onStartup(ServletContext servletContext) throws ServletException {
-//		AnnotationConfigWebApplicationContext webContext 
-//				= new AnnotationConfigWebApplicationContext();
-		
-		AnnotationConfigWebApplicationContext webContext 
-		= getContext();
+		AnnotationConfigWebApplicationContext webContext = getContext();
 		
 		servletContext.addListener(new ContextLoaderListener(webContext));
 		
@@ -45,9 +41,7 @@ public class SpringWebXmlConfig implements WebApplicationInitializer {
 		
 		DispatcherServlet dispatcherServlet 
 			= new DispatcherServlet(webContext);//faz toda a parte de request e response da nossa aplicacao
-		
-		
-		
+			
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true); // setando mostrar pagina de erro
 		
 		ServletRegistration.Dynamic registrationDynamic 
@@ -56,16 +50,17 @@ public class SpringWebXmlConfig implements WebApplicationInitializer {
 		registrationDynamic.setLoadOnStartup(1);
 		registrationDynamic.addMapping("/"); // url inicial
 		
+		
 		FilterRegistration.Dynamic encodingFilter = 
 				servletContext.addFilter("encodingFilter", new CharacterEncodingFilter()) ;
 		encodingFilter.setInitParameter("encoding", "UTF-8");
 		encodingFilter.setInitParameter("forceEncoding", "true");
 		encodingFilter.addMappingForUrlPatterns(null, true, "/*"); //a partir do / tudo e tratado como utf-8
 		
-		FilterRegistration.Dynamic securityFilter = 
-				servletContext.addFilter(AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME, DelegatingFilterProxy.class);
-		securityFilter.setAsyncSupported(Boolean.TRUE);
-		securityFilter.addMappingForUrlPatterns(null, true, "/*");
+//		FilterRegistration.Dynamic securityFilter = 
+//				servletContext.addFilter(AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME, DelegatingFilterProxy.class);
+//		securityFilter.setAsyncSupported(Boolean.TRUE);
+//		securityFilter.addMappingForUrlPatterns(null, true, "/*");
 	}
 	
 	

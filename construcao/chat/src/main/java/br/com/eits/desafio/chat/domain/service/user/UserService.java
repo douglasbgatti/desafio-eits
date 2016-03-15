@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,8 +23,8 @@ public class UserService {
 	private IUserRepository userRepository;
 	
 	
-	public User findUserByUsername(String username){
-		return userRepository.findUserByUsername(username);
+	public User findUserByEmail(String email){
+		return userRepository.findUserByEmail(email);
 	}
 
 	@Transactional(readOnly = false)
@@ -39,8 +40,8 @@ public class UserService {
 		return userRepository.saveAndFlush(user);
 	}
 	
-	public List<User> getAllUsers(String username){
-		return (List<User>) userRepository.findAll();
+	public Page<User> getAllUsers(String username){
+		return  (Page<User>) userRepository.findAll();
 	}
 	
 	
