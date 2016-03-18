@@ -1,0 +1,60 @@
+<div layout="column" layout-fill role="main">
+  <!-- <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdd($event)">
+      <md-icon md-svg-icon="content:ic_add_24px" aria-label="Plus"></md-icon>
+    </md-button> -->
+  <md-toolbar class="animate-show md-tall md-whiteframe-z1 md-hue-3" layout-align="center center">
+    <div class="md-toolbar-tools">
+      <h5 style="color:black">
+        Users
+      </h5>
+      <span flex></span>
+      <md-button class="md-icon-button" aria-label="Open Settings" ng-click="">
+        <ng-md-icon icon="person_add" size="24" aria-label="Add user to Group" style="fill:white"></ng-md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-content layout-padding layout-wrap>
+    <h1>USERS LIST</h1>
+    <md-card style="margin:0px">
+          <md-subheader>Filter by search</md-subheader>
+
+          <md-input-container style="margin:15px;">
+              <label>Search</label>
+              <input type="text" ng-model="model.filter">
+          </md-input-container>
+
+          <div ng-hide="true">
+              {{(filteredItems = (nutritionList | filter: filterName))}}
+          </div>
+      </md-card>
+    <md-data-table-container layout-margin flex>
+      <table md-data-table class="md-primary" ng-model="model.selectedUser">
+        <thead md-head md-order="query.order">
+          <tr md-row>
+            <th md-column>
+              <span>Name</span>
+            </th>
+            <th md-column>
+              <span>E-mail</span>
+            </th>
+            <th md-column>
+              <span>Role</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr md-row md-select="user" md-on-select="model.userSelected" md-auto-select="options.autoSelect"
+            ng-repeat="user in model.users | filter: model.filter | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+            <td md-cell>{{user.name}}</td>
+            <td md-cell>{{user.email}}</td>
+            <td md-cell>{{user.role}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </md-data-table-container>
+    <!-- notice we didn't provide mdt-row here -->
+  </mdt-table>
+  <!-- <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{model.users.count}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination> -->
+</md-content>
+</div>

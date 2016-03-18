@@ -160,6 +160,11 @@
 		    <artifactId>angular-material-icons</artifactId>
 		    <version>0.6.0</version>
 		</dependency>
+		<dependency>
+		<groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-material-data-table</artifactId>
+		    <version>0.8.13</version>
+		</dependency>
 
 
 
