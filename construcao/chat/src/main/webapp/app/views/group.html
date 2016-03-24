@@ -1,0 +1,72 @@
+<div layout="column" layout-fill role="main">
+  <!-- <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdd($event)">
+      <md-icon md-svg-icon="content:ic_add_24px" aria-label="Plus"></md-icon>
+    </md-button> -->
+
+  <md-toolbar class="animate-show md-tall md-whiteframe-z1 md-hue-3" layout-align="center center">
+    <div class="md-toolbar-tools">
+      <h5 style="color:black">
+        {{::model.window.name}}
+      </h5>
+      <span flex></span>
+    </div>
+  </md-toolbar>
+
+  <md-content layout-padding layout-wrap>
+    <form name="model.form">
+      <div layout="column" layout-sm="column" layout-wrap="">
+
+        <md-input-container class="md-block">
+          <label>Group Name</label>
+          <input md-maxlength="144" required="" name="groupName" ng-model="model.group.name">
+          <div ng-messages="model.form.groupName.$error">
+            <div ng-message="required">Group name is required and unique.</div>
+            <div ng-message="md-maxlength">The name has to be less than 144 characters long.</div>
+          </div>
+        </md-input-container>
+
+        <h2 class="md-title">Add users to group:</h2>
+
+        <md-content class="md-padding autocomplete" layout="column">
+          <md-chips flex class="md-contact-chips"
+            ng-model="model.usersSelected" md-require-match="true" md-autocomplete-snap md-on-add="consol()" md-on-remove="consol()" readonly="false" md-on-select="showUserInfo($chip)">
+            <md-autocomplete
+                md-menu-class="md-contact-chips-suggestions"
+                md-selected-item="model.selectedItem"
+                md-search-text="model.searchText"
+                md-items="item in model.allContacts | filter: {name: model.searchText}"
+                md-no-cache="true"
+                 md-autoselect="true"
+                 placeholder="Select Team Member">
+              <div class="md-contact-suggestion">
+                <span class="md-contact-name">{{item.name}}</span>
+                <span class="md-contact-email">{{item.email}}</span>
+              </div>
+            </md-autocomplete>
+            <md-chip-template>
+              <!-- <div class="md-contact-avatar">
+                                           <img ng-src="{{$chip.image}}" alt="{{$chip.name}}" ng-if="$chip.image" />
+                                       </div> -->
+              <div class="md-contact-name">
+                {{$chip.name}}
+              </div>
+            </md-chip-template>
+          </md-chips>
+        </md-content>
+        <span flex="20"></span>
+
+        <div layout="row" layout-align="start center" flex>
+          <span flex></span>
+          <md-button class="md-fab" aria-label="Cancel" ng-href="#/">
+            <ng-md-icon icon="clear" style="fill:white;  margin-top: 5px;" size="36" aria-label="Cancel"></ng-md-icon>
+          </md-button>
+          <md-button class="md-fab" aria-label="Add New Group" ng-href="#/">
+            <ng-md-icon icon="add" aria-label="Add" style="fill:white; margin-top: 5px;" size="36"></ng-md-icon>
+          </md-button>
+        </div>
+
+      </md-content>
+
+    </div>
+  </form>
+</div>

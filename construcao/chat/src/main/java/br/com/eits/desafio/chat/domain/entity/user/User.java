@@ -14,18 +14,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
+import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
 import br.com.eits.desafio.chat.domain.entity.group.UserGroup;
-
-
 
 
 @Entity
 @Table(name="users")
 @Audited
 @SequenceGenerator(name="USER_SEQUENCE", sequenceName="USER_SEQUENCE", allocationSize=1)
+@DataTransferObject(javascript="User")
 public class User{
 	
 	@Id 
@@ -92,6 +91,8 @@ public class User{
 	public void setRole(Roles role) {
 		this.role = role;
 	}
+	
+	
 	public User(){}
 	
 	public User(String name, String email, Roles role) {
@@ -116,5 +117,7 @@ public class User{
 		return "User [id=" + id + ", name=" + name + ", password=" + password + ", email=" + email + ", enabled="
 				+ enabled + ", role=" + role + "]";
 	}
+	
+	
 	
 }

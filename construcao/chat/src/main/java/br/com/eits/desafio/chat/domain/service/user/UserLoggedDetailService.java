@@ -19,14 +19,14 @@ public class UserLoggedDetailService implements UserDetailsService {
 	private UserService service;
 	
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user;
-		try{
-			user = service.findUserByEmail(email);
-			LOG.info("User found: {" + email + "}.");
-		}catch(Exception ex){
-			LOG.error("User not found: {" + email + "}.");
-			throw new UsernameNotFoundException("User [" + email + "] not found in the system.");				
-		}
+		User user = null;
+//		try{
+//			user = service.findUserByEmail(email);
+//			LOG.info("User found: {" + email + "}.");
+//		}catch(Exception ex){
+//			LOG.error("User not found: {" + email + "}.");
+//			throw new UsernameNotFoundException("User [" + email + "] not found in the system.");				
+//		}
 		
 		return new UserLogged(user);
 	}

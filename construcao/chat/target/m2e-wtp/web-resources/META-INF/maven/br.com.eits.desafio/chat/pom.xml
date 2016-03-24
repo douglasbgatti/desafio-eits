@@ -9,13 +9,37 @@
 	<url>http://maven.apache.org</url>
 	<build>
 		<finalName>chat</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 	<properties>
-		<spring.version>4.2.4.RELEASE</spring.version>
+		<spring.version>4.2.2.RELEASE</spring.version>
 		<spring.security.version>4.0.4.RELEASE</spring.security.version>
 		<jstl.version>1.2</jstl.version>
+		<eits-webjars.version>1.0.3-SNAPSHOT</eits-webjars.version>
+		<eits-java-common.version>1.0.1-RELEASE</eits-java-common.version>
+		<eits-ng.version>1.1.0-SNAPSHOT</eits-ng.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>eits-repository</id>
+			<url>http://maven.eits.com.br/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>eits-repository-snapshot</id>
+			<url>http://maven.eits.com.br/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -33,6 +57,24 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>4.2.4.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
@@ -48,11 +90,7 @@
 			<artifactId>spring-security-web</artifactId>
 			<version>${spring.security.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
+
 
 
 
@@ -80,7 +118,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -154,20 +191,37 @@
 			<artifactId>angular-material</artifactId>
 			<version>1.0.6</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>angular-material-icons</artifactId>
+			<version>0.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>angular-material-data-table</artifactId>
+			<version>0.8.13</version>
+		</dependency>
+		<!-- FIM DEPENDENCIAS WEBJARS -->
+
+
+		<dependency>
+			<groupId>org.directwebremoting</groupId>
+			<artifactId>dwr</artifactId>
+			<version>3.0.0-RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>eits-ng</artifactId>
+			<version>${eits-ng.version}</version>
+		</dependency>
+
 		
 		<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>angular-material-icons</artifactId>
-		    <version>0.6.0</version>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jquery</artifactId>
+		    <version>2.2.2</version>
 		</dependency>
-		<dependency>
-		<groupId>org.webjars.bower</groupId>
-		    <artifactId>angular-material-data-table</artifactId>
-		    <version>0.8.13</version>
-		</dependency>
-
-
-
 
 
 	</dependencies>

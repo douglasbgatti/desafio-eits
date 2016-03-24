@@ -1,0 +1,306 @@
+// Colors
+$gray: #eee;
+
+// Angular
+[ng-click] {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.wi {
+  font-size: 2.8rem;
+  display: block;
+}
+
+ng-md-icon {
+  fill: currentColor;
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 1;
+}
+
+// Main content bg color
+md-content.md-default-theme {
+  background-color: $gray;
+}
+
+// Navigation drawer pattern: https://www.google.com/design/spec/patterns/navigation-drawer.html#navigation-drawer-specs
+md-sidenav {
+  & > md-toolbar {
+    padding: 15px;
+    height: 150px;
+    max-height: 150px;
+  }
+  & md-list-item.md-2-line .md-list-item-text {
+    padding-top: 14px;
+    padding-bottom: 12px;
+  }
+  & md-divider {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+}
+
+// White svg icons in toolbar and fab
+
+md-sidenav {
+  md-icon {
+    fill: #737373;
+    position: relative;
+  }
+  .md-avatar {
+    height: 64px;
+    width: 64px;
+  }
+}
+
+/* More closely matches https://www.google.com/design/spec/components/lists.html#lists-specs */
+md-list-item.md-3-line {
+  md-divider {
+    &[md-inset] {
+      left: 70px;
+    }
+  }
+}
+
+// Round avatar
+.md-avatar {
+  & > svg {
+    border-radius: 50%;
+  }
+}
+
+/* fade animation */
+.animate-show {
+    transition: 0.75s ease-out opacity;
+    opacity: 1;
+  &.ng-hide {
+    height: 0;
+    min-height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+}
+
+
+md-button.ng-md-icon {
+  position: absolute;
+  top: 5px;
+  left: 2px;
+}
+.chipsdemoContactChips md-content.autocomplete {
+  min-height: 250px; }
+  .chipsdemoContactChips md-content.autocomplete input {
+    min-width: 400px; }
+
+.chipsdemoContactChips .md-item-text.compact {
+  padding-top: 8px;
+  padding-bottom: 8px; }
+
+.chipsdemoContactChips .contact-item {
+  box-sizing: border-box; }
+  .chipsdemoContactChips .contact-item.selected {
+    opacity: 0.5; }
+    .chipsdemoContactChips .contact-item.selected h3 {
+      opacity: 0.5; }
+  .chipsdemoContactChips .contact-item .md-list-item-text {
+    padding: 14px 0;
+    max-width: 190px; }
+    .chipsdemoContactChips .contact-item .md-list-item-text h3 {
+      margin: 0 !important;
+      padding: 0;
+      line-height: 1.2em !important; }
+    .chipsdemoContactChips .contact-item .md-list-item-text h3, .chipsdemoContactChips .contact-item .md-list-item-text p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden; }
+  @media screen and (min-width: 960px) {
+    .chipsdemoContactChips .contact-item {
+      float: left;
+      width: 33%; } }
+
+.chipsdemoContactChips md-contact-chips {
+  margin-bottom: 10px; }
+
+.chipsdemoContactChips .md-chips {
+  padding: 5px 0 8px; }
+
+.chipsdemoContactChips .fixedRows {
+  height: 250px;
+  overflow: hidden; }
+/*
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+}
+
+/*html, body {
+  background: -webkit-linear-gradient(330deg, #17bebb, #f0a6ca);
+  background: linear-gradient(120deg, #17bebb, #f0a6ca);
+  overflow: hidden;
+}*/
+
+.chat-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  /*height: relative;
+  width: relative;*/
+}
+.chat-container h1 {
+  margin: 0.5em auto;
+  color: #000;
+  text-align: center;
+}
+
+.chat-container {
+  background: rgba(83, 165, 247,0.5);
+  width: 100%;
+  height: 100%;
+  border-radius: 0.2em;
+  position: relative;
+  box-shadow: 1px 1px 12px rgba(83, 165, 247,0.5) ;
+}
+.other-user-message {
+  float: right;
+}
+/*.chatbox__messages:nth-of-type(odd) .chatbox__messages__user-message--ind-message:after {
+  content: '';
+  position: absolute;
+  margin-right:80%;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid rgba(31, 205, 224, 0.67);
+}*/
+.user-message {
+  float: left;
+}
+/*.chatbox__messages:nth-of-type(even) .chatbox__messages__user-message--ind-message:after {
+  content: '';
+  position: absolute;
+  margin-left:20%
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid rgba(119, 255, 0, 0.63);
+}*/
+.chatbox__messages__user-message {
+  width: 80%;
+}
+.chatbox__messages__user-message--ind-message {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1em 0;
+  height: auto;
+  width: 65%;
+  border-radius: 5px;
+  margin: 2em 1em;
+  overflow: auto;
+}
+.chatbox__messages__user-message--ind-message > p.name {
+  color: black;
+  font-size: 1em;
+}
+.chatbox__messages__user-message--ind-message > p.message {
+  color: #black !important;
+  font-size: 0.7em;
+  margin: 0 2.8em;
+}
+.chatbox__user-list {
+  background: rgba(216, 216, 216,0.5);
+  width: 25%;
+  height: 100%;
+  float: right;
+  border-top-right-radius: 0.2em;
+  border-bottom-right-radius: 0.2em;
+}
+.chatbox__user-list h1 {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 1);
+  font-size: 1em;
+  padding: 1em;
+  margin: 0;
+  font-weight: 300;
+  text-align: center;
+}
+.chatbox__user, .chatbox__user--active, .chatbox__user--busy, .chatbox__user--away {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  margin: 1.1em 1.1em;
+}
+.chatbox__user--active {
+  background: rgba(23, 190, 187, 0.8) !important;
+}
+.chatbox__user--busy {
+  background: rgba(252, 100, 113, 0.8) !important;
+}
+.chatbox__user--away {
+  background: rgba(255, 253, 130, 0.8) !important;
+}
+.chatbox{
+  background: rgba(216, 216, 216,0.3);
+}
+.chatbox p {
+  float: left;
+  text-align: left;
+  margin: -0.25em 0.5em;
+  font-size: 1em;
+  font-weight: 300;
+  color: black;
+  width: 80%;
+}
+.chatbox form {
+  background: rgba(0, 0, 0, 0.5);
+}
+.chatbox form input {
+  background: rgba(49, 122, 196,0.1);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border: none;
+  width: 70%;
+  padding: 1.2em;
+  outline: none;
+  color: black;
+  font-weight: 300;
+}
+
+/*::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.9);
+}*/

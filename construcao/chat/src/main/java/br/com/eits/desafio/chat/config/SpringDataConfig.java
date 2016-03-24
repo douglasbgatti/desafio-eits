@@ -1,14 +1,31 @@
 package br.com.eits.desafio.chat.config;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.directwebremoting.annotations.DataTransferObject;
+import org.directwebremoting.annotations.GlobalFilter;
+import org.directwebremoting.annotations.RemoteProxy;
+import org.directwebremoting.extend.Configurator;
+import org.directwebremoting.spring.DwrClassPathBeanDefinitionScanner;
+import org.directwebremoting.spring.DwrController;
+import org.directwebremoting.spring.DwrHandlerMapping;
+import org.directwebremoting.spring.SpringConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -16,11 +33,12 @@ import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
 
-@Configuration
-@EnableJpaRepositories("br.com.eits.desafio.chat.domain.repository")
-@EnableTransactionManagement
-@PropertySource(value="classpath:application.properties")
+//@Configuration
+//@EnableJpaRepositories("br.com.eits.desafio.chat.domain.repository")
+//@EnableTransactionManagement
+//@PropertySource(value="classpath:application.properties")
 public class SpringDataConfig {
 	
 	@Autowired
@@ -81,6 +99,8 @@ public class SpringDataConfig {
 		dataSource.setUrl(env.getProperty("jdbc.url"));
 		return dataSource;		
 	}
+	
+
 		
 
 }

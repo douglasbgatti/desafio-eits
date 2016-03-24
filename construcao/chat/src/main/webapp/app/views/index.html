@@ -1,0 +1,178 @@
+<html ng-app="desafioChat">
+  <head>
+    <title>DesafioChat</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="webjars/angular-material/1.0.6/angular-material.min.css">
+    <link rel="stylesheet" type="text/css" href="webjars/angular-material-data-table/0.8.13/dist/md-data-table.min.css">
+    <link rel="stylesheet" type="text/css" href="app/css/style.css">
+
+  </head>
+
+  <body layout="column" ng-controller="RootController" style="overflow:hidden">
+    <!-- <md-toolbar class="md-hue-2" layout="row">
+
+      <md-menu>
+        <md-button aria-label="Open menu" class="md-icon-button" ng-click="ctrl.openMenu($mdOpenMenu, $event)">
+          <md-icon md-menu-origin="" icon="menu"></md-icon>
+        </md-button>
+        <md-menu-content width="4">
+          <md-menu-item>
+            <md-button>
+              <md-icon icon="chat" md-menu-align-target=""></md-icon>
+              Chat
+            </md-button>
+          </md-menu-item>
+          <md-menu-divider></md-menu-divider>
+          <md-menu-item>
+            <md-button >
+              <md-icon icon="people"></md-icon>
+              Users
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
+      <h1 class="md-title" ng-href="#/main">Desafio Chat</h1>
+    </md-toolbar> -->
+    <md-toolbar class="md-hue-2">
+      <div class="md-toolbar-tools md-display-3" layout="row">
+        <!-- <md-button class="md-icon-button" aria-label="Menu">
+          <ng-md-icon icon="menu" size="36" style="fill:white"></md-icon>
+        </md-button>-->
+        <md-menu>
+          <md-button aria-label="Open menu" class="md-fab-left" ng-click="openMenu($mdOpenMenu, $event)">
+            <ng-md-icon md-menu-origin="" icon="menu" size="48" style="fill:white"></ng-md-icon>
+          </md-button>
+          <md-menu-content width="4">
+            <md-menu-item>
+              <md-button ng-click="openChatHanlder()">
+                <ng-md-icon icon="chat" size="36"></ng-md-icon>
+                  Chat
+              </md-button>
+            </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+              <md-button ng-click="openUsersHandler()">
+                <ng-md-icon icon="people"></ng-md-icon>
+                Users
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+        <span flex></span>
+        <div class="md-display-2">
+          <h1>
+            Desafio Chat
+          </h1>
+        </div>
+
+        <span flex></span>
+        <md-button aria-label="exit">
+          <ng-md-icon icon="exit_to_app" size="48" style="fill:white"></md-icon>
+        </md-button>
+
+      </div>
+    </md-toolbar>
+
+    <div layout="row" flex>
+      <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" ng-show="showSideNav" md-is-locked-open="$mdMedia('gt-md')">
+        <!-- <md-content layout-padding layout-wrap> -->
+        <md-toolbar class="animate-show md-tall md-whiteframe-z1" layout-align="center center">
+          <div class="md-toolbar-tools" layout="row">
+            <h5 flex="65">
+              <span>Chat Groups</span>
+            </h5>
+            <!-- <md-button class="md-icon-button" ng-href="#/new-group" aria-label="Add New Group">
+              <ng-md-icon icon="add_circle" style="fill:white" size="24" aria-label="Close Side Navigation"></ng-md-icon>
+            </md-button> -->
+            <!-- <md-button aria-label="Add New Group" class="md-fab md-fab-top-left" ng-href="#/new-group">
+              <ng-md-icon icon="add_circle" style="fill:white" aria-label="Add New Group"></ng-md-icon>
+              <div class="md-ripple-container"></div>
+            </md-button> -->
+
+            <md-button class="md-fab" aria-label="Add New Group" ng-href="#/add-group">
+              <ng-md-icon icon="add" style="fill:white; margin-top:5px" size="36" aria-label="Plus"></ng-md-icon>
+            </md-button>
+
+          </div>
+        </md-toolbar>
+        <!-- </md-content> -->
+
+        <!-- <div flex layout="row" style="overflow: scroll; height:80%"> -->
+        <md-content layout-padding layout-wrap class="md-hue-1">
+          <div ng-repeat="group in chatGroups">
+            <md-card>
+              <md-card-header>
+                <md-card-avatar>
+                  <ng-md-icon class="md-avatar-icon" icon="menu" size="12"></ng-md-icon>
+                </md-card-avatar>
+                <md-card-header-text>
+                  <span class="md-title">{{group.name}}</span>
+
+                </md-card-header-text>
+              </md-card-header>
+              <md-card-content>
+                <p>
+                  {{::group.latestMessage}}
+                </p>
+              </md-card-content>
+            </md-card>
+          </div>
+        </md-content>
+
+        <md-divider md-inset></md-divider>
+
+      </md-sidenav>
+
+      <div layout="column" flex id="content">
+        <!-- <md-content layout="column" flex class="md-padding md-hue-1"> -->
+        <section ng-view></section>
+        <!-- </md-content> -->
+      </div>
+    </div>
+
+    <!-- <div layout="row">
+        <footer>
+          v{{ ::appInfo.versionCode }} - {{ ::appInfo.versionName }} - Copyright {{ ::copyRightYear }}
+        </footer>
+      </div> -->
+
+    <script type="text/javascript" src="webjars/jquery/2.2.2/jquery.min.js"/></script>
+
+    <script type="text/javascript" src="webjars/angularjs/1.5.0/angular.min.js"></script>
+    <script type="text/javascript" src="webjars/angularjs/1.5.0/angular-animate.min.js"></script>
+    <script type="text/javascript" src="webjars/angularjs/1.5.0/angular-aria.min.js"></script>
+
+    <script type="text/javascript" src="webjars/angularjs/1.5.0/angular-route.min.js"></script>
+    <script type="text/javascript" src="webjars/angularjs/1.5.0/angular-messages.min.js"></script>
+
+    <script type="text/javascript" src="webjars/angular-material/1.0.6/angular-material.min.js"></script>
+    <script type="text/javascript" src="webjars/angular-material-icons/0.6.0/angular-material-icons.min.js"></script>
+
+    <script type="text/javascript" src="webjars/angular-material-data-table/0.8.13/dist/md-data-table.min.js"></script>
+
+
+    <!-- EITS -->
+    <script type="text/javascript" src="webjars/eits-ng/1.1.0-SNAPSHOT/eits-ng.js"/></script>
+    <script type="text/javascript" src="webjars/eits-ng/1.1.0-SNAPSHOT/broker/dwr-broker.js"/></script>
+
+
+
+
+    <!-- DWR -->
+    <script type="text/javascript" src="/chat/dwr/engine.js"></script>
+    <script type="text/javascript" src="/chat/dwr/util.js"></script>
+
+    <script type="text/javascript" src="app/js/app.js"></script>
+    <script type="text/javascript" src="app/js/controllers/RootController.js"></script>
+    <script type="text/javascript" src="app/js/controllers/AddGroupController.js"></script>
+    <script type="text/javascript" src="app/js/controllers/EditGroupController.js"></script>
+    <script type="text/javascript" src="app/js/controllers/UsersController.js"></script>
+    <script type="text/javascript" src="app/js/controllers/UserController.js"></script>
+
+
+
+  </body>
+
+</html>
