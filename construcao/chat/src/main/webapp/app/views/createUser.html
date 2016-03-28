@@ -18,25 +18,37 @@
     <md-content layout-padding layout-wrap layout="column">
       <md-input-container>
         <label>Name</label>
-        <input ng-model="model.user.name">
+        <input ng-model="model.user.name" required>
       </md-input-container>
 
       <md-input-container>
         <label>E-mail</label>
-        <input ng-model="model.user.email" type="email">
+        <input ng-model="model.user.email" type="email" required>
       </md-input-container>
 
       <md-input-container>
         <label>Password</label>
-        <input ng-model="model.user.password" type="password">
+        <input id="password" ng-model="model.user.password" type="password" required>
+          <div  ng-messages="model.form.confirmPassword.$error">
+            <div ng-show="model.form.confirmPassword.$error" ng-message='compareTo'>
+                Passwords must match!
+            </div>
+        </div>
       </md-input-container>
 
       <md-input-container>
         <label>Re-type Password</label>
-        <input ng-model="model.retypePassword" type="password">
+        <input id="confirmPassword" ng-model="model.retypePassword" type="password" required compare-to='model.user.password'>
+          <div ng-show="model.form.confirmPassword.$error" ng-messages="model.form.confirmPassword.$error">
+            <div ng-show="model.form.confirmPassword.$error" ng-message='compareTo'>
+                Passwords must match!
+            </div>
+        </div>
       </md-input-container>
 
-      <md-radio-group ng-model="model.user.role">
+
+
+      <md-radio-group ng-model="model.user.role" required>
         <md-radio-button value="ADMINISTRATOR" aria-label="ADMINISTRATOR">
           ADMINISTRATOR
         </md-radio-button>
@@ -52,7 +64,7 @@
         <md-button class="md-fab" aria-label="Cancel" ng-href="#/">
           <ng-md-icon icon="clear" style="fill:white;  margin-top: 5px;" size="36" aria-label="Cancel"></ng-md-icon>
         </md-button>
-        <md-button class="md-fab" aria-label="Create User" ng-href="#/">
+        <md-button class="md-fab" aria-label="Create User" ng-click="insertUser()">
           <ng-md-icon icon="save" aria-label="Save" style="fill:white; margin-top: 5px;" size="36"></ng-md-icon>
         </md-button>
       </div>

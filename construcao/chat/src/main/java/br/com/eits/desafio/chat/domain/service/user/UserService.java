@@ -32,7 +32,7 @@ public class UserService {
 
 	@Transactional(readOnly = false)
 	public User insertUser(User user){
-		String hashPassword = new BCryptPasswordEncoder().encode("12345678");
+		String hashPassword = new BCryptPasswordEncoder().encode(user.getPassword());
 		user.setPassword(hashPassword);
 		return userRepository.save(user);
 	}
