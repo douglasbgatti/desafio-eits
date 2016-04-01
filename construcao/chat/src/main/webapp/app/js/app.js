@@ -25,7 +25,7 @@ desafioChat.config(function($routeProvider, $httpProvider, $importServiceProvide
     })
     .when('/add-group',{
       templateUrl: 'app/views/group.html',
-      controller: 'AddGroupController'
+      controller: 'CreateGroupController'
     })
     .when('/edit-group',{
       templateUrl: 'app/views/group.html',
@@ -36,8 +36,12 @@ desafioChat.config(function($routeProvider, $httpProvider, $importServiceProvide
       controller: 'UsersController'
     })
     .when('/create-user',{
-      templateUrl: 'app/views/createUser.html',
-      controller: 'UserController'
+      templateUrl: 'app/views/user.html',
+      controller: 'CreateUserController'
+    })
+    .when('/edit-user/:id',{
+      templateUrl: 'app/views/user.html',
+      controller: 'EditUserController'
     })
 
 });

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="authentication">
+  <head>
+    <title>DesafioChat</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="webjars/angular-material/1.0.6/angular-material.min.css">
+    <link rel="stylesheet" type="text/css" href="webjars/angular-material-data-table/0.8.13/dist/md-data-table.min.css">
+    <link rel="stylesheet" type="text/css" href="app/css/style.css">
+
+  </head>
+  <body ng-controller="LoginController">
+
+    <div style="height: 100%;" layout="column" layout-align="center center">
+
+      <md-content class="wrapper">
+        <form name="form" layout="column" layout-align="center center" class="login" ng-submit="loginHandler()" novalidate>
+          <h1>Login</h1>
+          <md-input-container style="width: 100%;" flex>
+            <label>E-mail</label>
+            <input autofocus type="email" id="username" name="username" ng-model="model.credentials.username" required>
+            <div ng-messages="form.username.$error" ng-if="form.username.$touched || form.$submitted">
+              <div ng-message="required">Enter a valid e-mail address!</div>
+              <div ng-message="email">Not a valid e-mail address!</div>
+            </div>
+          </md-input-container>
+          <md-input-container style="width: 100%;" flex>
+            <label>Password</label>
+            <input type="password" id="password" name="password" ng-model="model.credentials.password" required>
+            <div ng-messages="form.password.$error" ng-if="form.password.$touched || form.$submitted">
+              <div ng-message="required">Enter your password!</div>
+            </div>
+          </md-input-container>
+          <div>
+            <md-button type="submit" name="submit" class="md-raised md-primary">Login</md-button>
+          </div>
+          <div ng-messages="form.$error"  ng-if="form.$submitted" style="color:red">
+              <div ng-message="incorrectCredentials">Email/Password combinantion is incorrect!</div>
+          </div>
+        </form>
+      </md-content>
+    </div>
+
+
+
+
+    <script type="text/javascript" src="webjars/jquery/2.2.2/jquery.min.js"/></script>
+
+    <script type="text/javascript" src="webjars/angularjs/1.5.0/angular.min.js"></script>
+    <script type="text/javascript" src="webjars/angularjs/1.5.0/angular-animate.min.js"></script>
+    <script type="text/javascript" src="webjars/angularjs/1.5.0/angular-aria.min.js"></script>
+
+    <script type="text/javascript" src="webjars/angularjs/1.5.0/angular-route.min.js"></script>
+    <script type="text/javascript" src="webjars/angularjs/1.5.0/angular-messages.min.js"></script>
+
+    <script type="text/javascript" src="webjars/angular-material/1.0.6/angular-material.min.js"></script>
+    <script type="text/javascript" src="webjars/angular-material-icons/0.6.0/angular-material-icons.min.js"></script>
+
+    <script type="text/javascript" src="webjars/angular-material-data-table/0.8.13/dist/md-data-table.min.js"></script>
+
+
+    <script type="text/javascript" src="app/authentication/authenticationModule.js"></script>
+    <script type="text/javascript" src="app/authentication/controllers/LoginController.js"></script>
+
+</body>
+
+</html>

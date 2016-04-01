@@ -1,110 +1,95 @@
-desafioChat.controller('UsersController', function($scope) {
+desafioChat.controller('UsersController', function($scope, $location,  $injector, $importService, $mdToast) {
+
+  /**
+   * Serviços importados do DWR
+   */
+  $importService("userService");
 
   $scope.model = {
-    users: [],
-    selectedUser: [],
-    filter : ''
+    selectedUser: new User(),
+    usersList: [],
+    filter: '',
+    query: {
+            order: 'name',
+            limit: 5,
+            page: 1
+    },
+    options: {
+            rowSelection: true,
+            multiSelect: false,
+            autoSelect: true,
+            decapitate: false,
+            largeEditDialog: false,
+            boundaryLinks: false,
+            limitSelect: true,
+            pageSelect: true
+    },
+    limitOptions : [5, 10, 15]
+
   };
 
-  $scope.query = {
-    order: 'name',
-    limit: 5,
-    page: 1
+
+
+  $scope.listUsersByFilterHandler = function() {
+    console.log('listUsersByFilterHandler:', $scope.model);
+
+    userService.listUsersByFilter($scope.model.filter, {
+      callbackHandler: function(result) {
+        console.log("result", result);
+          $scope.model.usersList = result;
+          $scope.$apply();
+
+      },
+      errorHandler: function(message, exception) {
+        $mdToast.showSimple(message);
+        console.log('ERROR', message, exception);
+      }
+
+    });
   };
 
-  $scope.options = {
-  autoSelect: true,
-  boundaryLinks: false,
-  largeEditDialog: false,
-  pageSelector: false,
-  rowSelection: true
-};
+  $scope.listUsersByFilterHandler();
 
-  $scope.model.users = [{
-    "name": "Lukas",
-    "email": "email@email.com",
-    "role": "ADMIN"
-  },
-  {
-    "name": "Douglas",
-    "email": "email@email.com",
-    "role": "ADMIN"
-  }, {
-    "name": "Tiago",
-    "email": "email@email.com",
-    "role": "ADMIN"
-  }, {
-    "name": "Maria",
-    "email": "email@email.com",
-    "role": "ADMIN"
-  }, {
-    "name": "Joao",
-    "email": "email@email.com",
-    "role": "ADMIN"
-  }, {
-    "name": "Jose",
-    "email": "email@email.com",
-    "role": "ADMIN"
-  }
-];
-
-
-  $scope.query = {
-    order: 'name',
-    limit: 5,
-    page: 1
-  };
-
-  function getUsers(query) {
-    // $scope.promise = $model.users.get(query, success).$promise;
+  $scope.editUserHandler = function(id){
+    $location.path('/edit-user/' + id);
   }
 
-  function success(desserts) {
-    // $scope.desserts = desserts;
+  $scope.activateUser = function(id){
+    userService.activateUser(id,{
+      callbackHandler: function(result) {
+          console.log("activateUser", result);
+          $scope.showSimpleToast("User has been activated!");
+          $scope.listUsersByFilterHandler();
+      },
+      errorHandler: function(message, exception) {
+        $mdToast.showSimple(message);
+        console.log('ERROR', message, exception);
+      }
+    });
   }
 
-  $scope.onPaginate = function(page, limit) {
-    // getUsers(angular.extend({}, $scope.query, {page: page, limit: limit}));
-  };
+  $scope.deactivateUser = function(id){
+    userService.deactivateUser(id,{
+      callbackHandler: function(result) {
+        console.log("deactivateUser", result);
+        $scope.showSimpleToast("User has been deactivated!");
+        $scope.listUsersByFilterHandler();
+      },
+      errorHandler: function(message, exception) {
+        $mdToast.showSimple(message);
+        console.log('ERROR', message, exception);
+      }
+    });
+  }
 
-  $scope.onReorder = function(order) {
-    // getDesserts(angular.extend({}, $scope.query, {order: order}));
-  };
 
-
-
-  $scope.onPaginate = function(page, limit) {
-    // $scope.$broadcast('md.table.deselect');
-    console.log('Scope Page: ' + $scope.query.page + ' Scope Limit: ' + $scope.query.limit);
-    console.log('Page: ' + page + ' Limit: ' + limit);
-
-    $scope.promise = $timeout(function() {
-
-    }, 2000);
-
-    $scope.deselect = function (item) {
-  console.log(item.name, 'was deselected');
-};
-
-$scope.log = function (item) {
-  console.log(item.name, 'was selected');
-};
-
-$scope.loadStuff = function () {
-  $scope.promise = $timeout(function () {
-
-  }, 2000);
-};
-
-$scope.onReorder = function(order) {
-
-  console.log('Scope Order: ' + $scope.query.order);
-  console.log('Order: ' + order);
-
-  $scope.promise = $timeout(function () {
-
-  }, 2000);
-};
+  $scope.showSimpleToast = function(content) {
+    $mdToast.show(
+      $mdToast.simple()
+      .textContent(content)
+      .position('top right')
+      .hideDelay(5000)
+    );
   };
 
 });

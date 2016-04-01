@@ -1,11 +1,19 @@
 package br.com.eits.desafio.chat.domain.entity.user;
 
-import org.directwebremoting.annotations.DataTransferObject;
+import java.io.Serializable;
 
-@DataTransferObject(type="Roles")
-public enum Roles {
+import org.directwebremoting.annotations.DataTransferObject;
+import org.springframework.security.core.GrantedAuthority;
+
+@DataTransferObject(type="enum")
+public enum Roles implements Serializable, GrantedAuthority{
 	
 	ADMINISTRATOR,
 	USER;
+
+	@Override
+	public String getAuthority() {
+		return "ROLE_" + name();
+	}
 
 }

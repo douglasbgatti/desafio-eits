@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import br.com.eits.desafio.chat.domain.entity.group.Message;
-import br.com.eits.desafio.chat.domain.repository.group.IGroupRepository;
+import br.com.eits.desafio.chat.domain.repository.group.IChatGroupRepository;
 
 //@Service
 //@RemoteProxy (name="messageService")
@@ -15,7 +15,7 @@ public class MessageService{
 	private static final Logger LOG = Logger.getLogger(MessageService.class);
 	
 	@Autowired
-	private IGroupRepository groupRepository;
+	private IChatGroupRepository groupRepository;
 	
 //	public Message setVisualizedMessage(Long messageId){
 //		return null;

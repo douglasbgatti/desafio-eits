@@ -1,0 +1,31 @@
+<html xmlns:ng="http://angularjs.org">
+  <md-dialog aria-label="User Info" style="width: 550px; height:300px">
+    <md-dialog-content style="margin-top:30px; margin-left:10px; height: 260px; width:530px;">
+      <div style="height:100%;" flex>
+          <h2>User Info</h2>
+
+          <md-content layout-padding layout-wrap layout="column">
+            <div layout="row">
+              <label flex="30">Name:</label>
+              <p>{{model.user.name}}</p>
+            </div>
+            <div layout="row">
+              <label flex="30">E-mail:</label>
+              <p>{{model.user.email}}</p>
+            </div>
+            <div layout="row">
+              <label flex="30">Role:</label>
+              <p>{{model.user.role}}</p>
+            </div>
+            <div layout="row">
+              <label flex="30">Status:</label>
+              <p>{{model.user.enabled == true ? 'ACTIVE' : 'INACTIVE'}}</p>
+            </div>
+          </md-content>
+          <div layout="row" layout-align="end end" flex>
+            <md-button   class="md-raised md-primary" ng-click="hide()">Close</md-button>
+          </div>
+
+    </md-dialog-content>
+  </md-dialog>
+</html>

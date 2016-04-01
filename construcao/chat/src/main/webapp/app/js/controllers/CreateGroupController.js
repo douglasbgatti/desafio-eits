@@ -1,0 +1,151 @@
+desafioChat.controller('CreateGroupController', function($scope, $importService, $mdDialog, $mdToast) {
+
+
+$importService('userService');
+$importService('chatGroupService');
+
+  /*-------------------------------------------------------------------
+   * 		 				 	ATTRIBUTES
+   *-------------------------------------------------------------------*/
+  $scope.model = {
+    chatGroup: new ChatGroup(),
+    window:{
+      name:'Add New Group'
+    },
+    filterSelected: true,
+    usersSelected: [],
+    usersList: [],
+    selectedUser: null
+  };
+
+
+
+
+
+
+var pendingSearch, cancelSearch = angular.noop;
+var cachedQuery, lastSearch;
+
+
+/**
+ * Create filter function for a query string
+ */
+function createFilterFor(query) {
+  var lowercaseQuery = angular.lowercase(query);
+
+  return function filterFn(contact) {
+    return (contact._lowername.indexOf(lowercaseQuery) != -1);;
+  };
+
+}
+
+$scope.loadAllUsers = function() {
+  // return contacts.map(function(c, index) {
+  //   var cParts = c.split(' ');
+  //   var contact = {
+  //     name: c,
+  //     email: cParts[0][0].toLowerCase() + '.' + cParts[1].toLowerCase() + '@example.com'
+  //   };
+  //   contact._lowername = contact.name.toLowerCase();
+  //   return contact;
+  // });
+  userService.listUsersByFilter('', {
+    callbackHandler: function(result) {
+      console.log("result", result);
+        $scope.model.usersList = result;
+        $scope.$apply();
+
+    },
+    errorHandler: function(message, exception) {
+      $mdToast.showSimple(message);
+      console.log('ERROR', message, exception);
+    }
+
+  });
+}
+
+  $scope.loadAllUsers();
+
+// $scope.model.allContacts = $scope.loadContacts();
+
+
+/**
+ * Search for contacts.
+ */
+function querySearch(query) {
+  var results = query ?
+    $scope.model.usersList.filter(createFilterFor(query)) : [];
+  return results;
+}
+
+/**
+ * Create filter function for a query stringchatGroupService.
+ */
+function createFilterFor(query) {
+  var lowercaseQuery = angular.lowercase(query);
+
+  return function filterFn(user) {
+    return (user.name.indexOf(lowercaseQuery) != -1);;
+  };
+}
+
+$scope.showUserInfo = function(event, userSelected) {
+  $mdDialog.show({
+    controller: 'UserInfoModalController',
+    templateUrl: 'app/views/user-info-modal.html',
+    targetEvent: event,
+    bindToController: false,
+    locals: {
+        user: userSelected
+    }
+})
+};
+
+$scope.validateGroupName = function(){
+  chatGroupService.verifyChatGroupNameIsUsed($scope.model.chatGroup.groupName, {
+    callbackHandler: function(result) {
+      // console.log("result", result);
+        if(result != null){
+            $scope.form.groupName.$setValidity(duplicateValue, false);
+        }
+    },
+    errorHandler: function(message, exception) {
+      $mdToast.showSimple(message);
+      console.log('ERROR', message, exception);
+    }
+  });
+};
+
+$scope.insertChatGroup = function(){
+  var userChatGroup;
+  //  $scope.model.chatGroup.userGroupList = []
+  // angular.forEach($scope.model.usersSelected, function(user, key) {
+  //   userChatGroup = new UserChatGroup();
+  //   userChatGroup.user = user;
+  //   console.log("UserChatGroup:", userChatGroup);
+  //   console.log("userGroupList:", $scope.model.chatGroup);
+  //   $scope.model.chatGroup.userGroupList.push(userChatGroup);
+  //   console.log("userGroupList:", $scope.model.chatGroup);
+  // });
+  //  console.log('chatGroup:', $scope.model.chatGroup);
+
+    console.log("chatGroup:", $scope.model.chatGroup);
+
+   chatGroupService.insertChatGroup($scope.model.chatGroup, {
+     callbackHandler: function(result) {
+       console.log("result", result);
+         $scope.model.chatGroup = result;
+         $scope.$apply();
+     },
+     errorHandler: function(message, exception) {
+       $mdToast.showSimple(message);
+       console.log('ERROR', message, exception);
+     }
+   });
+
+}
+
+
+
+
+});

@@ -3,6 +3,7 @@ package br.com.eits.desafio.chat.domain.entity.group;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Calendar;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
@@ -27,8 +29,14 @@ import br.com.eits.desafio.chat.domain.entity.user.User;
 @Table(name="message")
 @Audited
 @SequenceGenerator(name="MESSAGE_SEQUENCE", sequenceName="MESSAGE_SEQUENCE", allocationSize=1)
+@DataTransferObject(javascript="Messages")
 public class Message implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id 
 	@GeneratedValue (strategy = GenerationType.SEQUENCE, generator="MESSAGE_SEQUENCE")
 	@Column(name="id", unique=true)
@@ -39,45 +47,68 @@ public class Message implements Serializable{
 
 	
 	@Column(name="sent_time", nullable=false)
-	private LocalDate sentTime;
+	private Calendar sentTime;
 	
 	@Column(name="visualized")
 	private Boolean visualized;
 	
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-	@JoinColumn(name = "user_group_id", referencedColumnName = "id", nullable = true) 
-	private UserGroup userGroup;
+//	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+//	@JoinColumn(name = "user_group_id", referencedColumnName = "id", nullable = true) 
+//	private UserChatGroup userGroup;
+	
+	
+
+	
+	
+	public Message(String message, boolean visualized) {
+		this.message = message;
+		this.sentTime = Calendar.getInstance();
+		this.visualized = visualized;
+	}
 	
 	
 	public Long getId() {
 		return id;
 	}
+
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public LocalDate getSentTime() {
+
+
+	public String getMessage() {
+		return message;
+	}
+
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+
+	public Calendar getSentTime() {
 		return sentTime;
 	}
-	public void setSentTime(LocalDate sentTime) {
+
+
+	public void setSentTime(Calendar sentTime) {
 		this.sentTime = sentTime;
 	}
-	public boolean isVisualized() {
+
+
+	public Boolean getVisualized() {
 		return visualized;
 	}
-	public void setVisualized(boolean visualized) {
+
+
+	public void setVisualized(Boolean visualized) {
 		this.visualized = visualized;
 	}
-	public Message(String message, boolean visualized) {
-		super();
-		this.message = message;
-		this.sentTime = LocalDate.now();
-		this.visualized = visualized;
-	}
-	
-	
-	public Message(){}
-	
+
+
+	public Message(){}	
 	
 
 }

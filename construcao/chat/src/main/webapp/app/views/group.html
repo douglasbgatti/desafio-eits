@@ -12,16 +12,17 @@
     </div>
   </md-toolbar>
 
-  <md-content layout-padding layout-wrap>
+  <md-content layout-padding layout-wrap style="height: 500px">
     <form name="model.form">
       <div layout="column" layout-sm="column" layout-wrap="">
 
         <md-input-container class="md-block">
           <label>Group Name</label>
-          <input md-maxlength="144" required="" name="groupName" ng-model="model.group.name">
+          <input md-maxlength="144" required="" name="groupName" ng-model="model.chatGroup.groupName" ng-change="validateGroupName()">
           <div ng-messages="model.form.groupName.$error">
             <div ng-message="required">Group name is required and unique.</div>
             <div ng-message="md-maxlength">The name has to be less than 144 characters long.</div>
+            <div ng-message="duplicateValue">This Chat Group name has already been used!</div>
           </div>
         </md-input-container>
 
@@ -29,15 +30,15 @@
 
         <md-content class="md-padding autocomplete" layout="column">
           <md-chips flex class="md-contact-chips"
-            ng-model="model.usersSelected" md-require-match="true" md-autocomplete-snap md-on-add="consol()" md-on-remove="consol()" readonly="false" md-on-select="showUserInfo($chip)">
+            ng-model="model.usersSelected" md-require-match="true" md-autocomplete-snap md-on-add="" md-on-remove="" readonly="false" md-on-select="showUserInfo($event, $chip)">
             <md-autocomplete
                 md-menu-class="md-contact-chips-suggestions"
                 md-selected-item="model.selectedItem"
                 md-search-text="model.searchText"
-                md-items="item in model.allContacts | filter: {name: model.searchText}"
+                md-items="item in model.usersList | filter: {name: model.searchText}"
                 md-no-cache="true"
                  md-autoselect="true"
-                 placeholder="Select Team Member">
+                 placeholder="Find Users">
               <div class="md-contact-suggestion">
                 <span class="md-contact-name">{{item.name}}</span>
                 <span class="md-contact-email">{{item.email}}</span>
@@ -60,7 +61,7 @@
           <md-button class="md-fab" aria-label="Cancel" ng-href="#/">
             <ng-md-icon icon="clear" style="fill:white;  margin-top: 5px;" size="36" aria-label="Cancel"></ng-md-icon>
           </md-button>
-          <md-button class="md-fab" aria-label="Add New Group" ng-href="#/">
+          <md-button class="md-fab" aria-label="Add New Group" ng-click="insertChatGroup()">
             <ng-md-icon icon="add" aria-label="Add" style="fill:white; margin-top: 5px;" size="36"></ng-md-icon>
           </md-button>
         </div>

@@ -18,7 +18,7 @@ http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.
 
   <!-- Defines the dwrController. During production, set the debug property
 		to false -->
-   <dwr:controller id="dwrController" debug="true">
+   <dwr:controller id="dwrController" debug="true" >
       <dwr:config-param name="activeReverseAjaxEnabled" value="true" />
   </dwr:controller>
 
@@ -27,13 +27,16 @@ http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.
    <dwr:configuration>
     <dwr:convert type="bean" class="java.lang.StackTraceElement"/>
     <dwr:convert type="exception" class="java.lang.Exception"/>
-    <dwr:convert type="bean" class="br.com.eits.common.infrastructure.jcr.MetaFile" javascript="MetaFile"/>
+    <dwr:convert type="bean" class="br.com.eits.desafio.chat.domain.entity.user.User" javascript="User"/>
     <dwr:convert type="bean" class="org.springframework.data.domain.PageImpl" javascript="PageImpl"/>
     <dwr:convert type="bean" class="org.springframework.data.domain.PageRequest" javascript="PageRequest"/>
+    <dwr:convert type="bean" class="org.springframework.data.domain.Page" javascript="Page"/>
+    <dwr:convert type="bean" class="org.springframework.data.domain.Pageable" javascript="Pageable"/>
     <dwr:convert type="bean" class="org.springframework.data.domain.Sort" javascript="Sort"/>
     <dwr:convert type="enum" class="org.springframework.data.domain.Sort$Direction"/>
     <dwr:convert type="enum" class="org.springframework.data.domain.Sort$NullHandling"/>
-    <dwr:convert type="bean" class="org.springframework.data.domain.Sort$Order" javascript="Order"/>
+    <dwr:convert type="bean" class="org.springframework.data.domain.Sort$Order" javascript="Order"/>	
+    <dwr:convert type="bean" class="org.springframework.security.core.userdetails.UserDetails"/>
   </dwr:configuration>
 
   <!-- <bean id="dwrController" class="org.directwebremoting.spring.DwrController">
@@ -61,16 +64,15 @@ http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.
    </property>
 </bean> -->
 
-<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
 
-<bean id="viewMappings" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-    <property name="alwaysUseFullPath" value="true" />
-    <property name="urlMap">
-         <map>
-              <entry key="/dwr/**/*" value-ref="dwrController" />
-         </map>
-    </property>
-</bean>
-
+	<bean id="viewMappings" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	    <property name="alwaysUseFullPath" value="true" />
+	    <property name="urlMap">
+	         <map>
+	              <entry key="/dwr/**/*" value-ref="dwrController" />
+	         </map>
+	    </property>
+	</bean>
 
 </beans>
