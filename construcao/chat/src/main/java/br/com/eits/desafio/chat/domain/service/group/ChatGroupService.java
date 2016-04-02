@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.eits.desafio.chat.domain.entity.group.ChatGroup;
 import br.com.eits.desafio.chat.domain.entity.group.UserChatGroup;
+import br.com.eits.desafio.chat.domain.entity.user.User;
 import br.com.eits.desafio.chat.domain.repository.group.IChatGroupRepository;
 import br.com.eits.desafio.chat.domain.repository.group.IUserChatGroupRepository;
 import br.com.eits.desafio.chat.domain.service.user.UserService;
@@ -26,14 +27,35 @@ public class ChatGroupService {
 	private IChatGroupRepository chatGroupRepository;
 	@Autowired
 	private IUserChatGroupRepository userChatRepository;
+	@Autowired 
+	private UserChatGroupService userChatGroupService;
+	
+	
 
 	public ChatGroup addMemberGroup(Long chatGroupId, Long userId){		
 		return null;
 	}
 	
-	public Page<ChatGroup> getAllChatGroups(){
-		return null;
+	public List<ChatGroup> findChatGroups(User user){
+		//TODO USER ROLE CONDITION
+		List<ChatGroup> chatGroupList = this.chatGroupRepository.findAll();
+		
+		for (Iterator iterator = chatGroupList.iterator(); iterator.hasNext();) {
+			ChatGroup chatGroup = (ChatGroup) iterator.next();
+			
+			UserChatGroup userChatGroup = userChatGroupService.getUserChatGroupByChatGroupId(chatGroup.getId());
+			
+			userChatGroup = userChatGroupService.getUserChatGroupById(userChatGroup.getId());
+			
+			if(userChatGroup.getSentMessages().size() > 0){
+				chatGroup.setLatestMessage(userChatGroup.getSentMessages().get(0));
+			}						
+			
+		}
+		return chatGroupList;
 	}
+	
+	
 	
 	public ChatGroup getChatGroup(Long id){
 		return null;
@@ -44,12 +66,12 @@ public class ChatGroupService {
 		if((verifyChatGroupNameIsUsed(chatGroup.getGroupName()))== null){
 			chatGroup = chatGroupRepository.save(chatGroup);
 			
-//			for (Iterator iterator = chatGroup.getUserGroupList().iterator(); iterator.hasNext();) {
-//				UserChatGroup userChatGroup = (UserChatGroup) iterator.next();
-//				userChatGroup.setChatGroup(chatGroup);
-//				
-//				insertUserChatGroup(userChatGroup);			
-//			}
+			for (Iterator iterator = chatGroup.getUserGroupList().iterator(); iterator.hasNext();) {
+				UserChatGroup userChatGroup = (UserChatGroup) iterator.next();
+				userChatGroup.setChatGroup(chatGroup);
+				
+				insertUserChatGroup(userChatGroup);			
+			}
 		}				
 		
 		

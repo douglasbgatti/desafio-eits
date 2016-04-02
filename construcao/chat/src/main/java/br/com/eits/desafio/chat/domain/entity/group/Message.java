@@ -49,17 +49,15 @@ public class Message implements Serializable{
 	@Column(name="sent_time", nullable=false)
 	private Calendar sentTime;
 	
-	@Column(name="visualized")
+	@Column(name="visualized", nullable=true)
 	private Boolean visualized;
 	
-
-//	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-//	@JoinColumn(name = "user_group_id", referencedColumnName = "id", nullable = true) 
-//	private UserChatGroup userGroup;
-	
+	@ManyToOne
+	@JoinColumn(name="user_chat_group_id")
+	private UserChatGroup userChatGroup;
 	
 
-	
+	public Message(){}	
 	
 	public Message(String message, boolean visualized) {
 		this.message = message;
@@ -68,6 +66,17 @@ public class Message implements Serializable{
 	}
 	
 	
+	
+	
+	public Message(Long id, String message, Calendar sentTime, Boolean visualized, UserChatGroup userChatGroup) {
+		super();
+		this.id = id;
+		this.message = message;
+		this.sentTime = sentTime;
+		this.visualized = visualized;
+		this.userChatGroup = userChatGroup;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -107,8 +116,16 @@ public class Message implements Serializable{
 		this.visualized = visualized;
 	}
 
+	public UserChatGroup getUserChatGroup() {
+		return userChatGroup;
+	}
 
-	public Message(){}	
+	public void setUserChatGroup(UserChatGroup userChatGroup) {
+		this.userChatGroup = userChatGroup;
+	}
+
+
+
 	
 
 }

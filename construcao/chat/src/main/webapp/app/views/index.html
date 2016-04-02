@@ -10,36 +10,8 @@
   </head>
 
   <body layout="column" ng-controller="RootController" style="overflow:hidden">
-    <!-- <md-toolbar class="md-hue-2" layout="row">
-
-      <md-menu>
-        <md-button aria-label="Open menu" class="md-icon-button" ng-click="ctrl.openMenu($mdOpenMenu, $event)">
-          <md-icon md-menu-origin="" icon="menu"></md-icon>
-        </md-button>
-        <md-menu-content width="4">
-          <md-menu-item>
-            <md-button>
-              <md-icon icon="chat" md-menu-align-target=""></md-icon>
-              Chat
-            </md-button>
-          </md-menu-item>
-          <md-menu-divider></md-menu-divider>
-          <md-menu-item>
-            <md-button >
-              <md-icon icon="people"></md-icon>
-              Users
-            </md-button>
-          </md-menu-item>
-        </md-menu-content>
-      </md-menu>
-
-      <h1 class="md-title" ng-href="#/main">Desafio Chat</h1>
-    </md-toolbar> -->
     <md-toolbar class="md-hue-2">
       <div class="md-toolbar-tools md-display-3" layout="row">
-        <!-- <md-button class="md-icon-button" aria-label="Menu">
-          <ng-md-icon icon="menu" size="36" style="fill:white"></md-icon>
-        </md-button>-->
         <md-menu>
           <md-button aria-label="Open menu" class="md-fab-left" ng-click="openMenu($mdOpenMenu, $event)">
             <ng-md-icon md-menu-origin="" icon="menu" size="48" style="fill:white"></ng-md-icon>
@@ -76,46 +48,34 @@
     </md-toolbar>
 
     <div layout="row" flex>
-      <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" ng-show="showSideNav" md-is-locked-open="$mdMedia('gt-md')">
+      <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" ng-show="model.showSideNav" md-is-locked-open="$mdMedia('gt-md')">
         <!-- <md-content layout-padding layout-wrap> -->
         <md-toolbar class="animate-show md-tall md-whiteframe-z1" layout-align="center center">
           <div class="md-toolbar-tools" layout="row">
             <h5 flex="65">
               <span>Chat Groups</span>
             </h5>
-            <!-- <md-button class="md-icon-button" ng-href="#/new-group" aria-label="Add New Group">
-              <ng-md-icon icon="add_circle" style="fill:white" size="24" aria-label="Close Side Navigation"></ng-md-icon>
-            </md-button> -->
-            <!-- <md-button aria-label="Add New Group" class="md-fab md-fab-top-left" ng-href="#/new-group">
-              <ng-md-icon icon="add_circle" style="fill:white" aria-label="Add New Group"></ng-md-icon>
-              <div class="md-ripple-container"></div>
-            </md-button> -->
-
             <md-button class="md-fab" aria-label="Add New Group" ng-href="#/add-group">
               <ng-md-icon icon="add" style="fill:white; margin-top:5px" size="36" aria-label="Plus"></ng-md-icon>
             </md-button>
 
           </div>
         </md-toolbar>
-        <!-- </md-content> -->
 
-        <!-- <div flex layout="row" style="overflow: scroll; height:80%"> -->
+        <!--  -->
         <md-content layout-padding layout-wrap class="md-hue-1">
-          <div ng-repeat="group in chatGroups">
+          <div ng-repeat="group in model.chatGroupsList" ng-class="(group.latestMessage == null) ? md-accent : md-primary" ng-click="openChatWindow(group.id)">
             <md-card>
               <md-card-header>
                 <md-card-avatar>
                   <ng-md-icon class="md-avatar-icon" icon="menu" size="12"></ng-md-icon>
                 </md-card-avatar>
                 <md-card-header-text>
-                  <span class="md-title">{{group.name}}</span>
-
+                  <span class="md-title">{{group.groupName}}</span>
                 </md-card-header-text>
               </md-card-header>
               <md-card-content>
-                <p>
-                  {{::group.latestMessage}}
-                </p>
+                <p>{{group.latestMessage != null ? group.latestMessage.message : 'NO MESSAGES!'}}</p>
               </md-card-content>
             </md-card>
           </div>

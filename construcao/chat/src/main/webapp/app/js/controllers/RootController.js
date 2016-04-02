@@ -1,10 +1,18 @@
 'user strict';
 
-desafioChat.controller('RootController', ['$scope', '$location', '$mdBottomSheet', '$mdSidenav', '$mdDialog', '$mdToast', 'appInfo', function($scope, $location, $mdBottomSheet, $mdSidenav, $mdDialog, $mdToast, appInfo) {
-  $scope.appInfo = appInfo;
-  $scope.copyRightYear = new Date().getFullYear();
-  $scope.showSideNav = true;
+desafioChat.controller('RootController', 
+    function($scope, $location, $mdBottomSheet, $mdSidenav, $mdDialog, $mdToast, $importService, appInfo) {
 
+  /**
+  * DWR IMPORT SERVICES
+  */
+  $importService('chatGroupService');
+  $importService('userService');
+
+
+  /**
+  * SETTING MESSAGES
+  */
   $scope.REMOVE_MESSAGE = 'Remove Group';
   $scope.REMOVE_CONFIRM_CONTENT_MESSAGE = 'Are you sure you want to delete this group? This will remove all messages and users from the group.';
   $scope.REMOVE_ARIA_LABEL_MESSAGE = 'Confirm Delete Dialog';
@@ -12,6 +20,31 @@ desafioChat.controller('RootController', ['$scope', '$location', '$mdBottomSheet
   $scope.CONFIRM_CANCEL_MESSAGE = 'Cancel';
 
 
+
+
+  $scope.model ={
+    chatGroupsList: [],
+    user: new User(),
+    showSideNav: true
+  };
+
+
+
+  $scope.loadChatGroups = function(){
+    $scope.model.user = null;
+    chatGroupService.findChatGroups($scope.model.user, {
+      callbackHandler: function(result){
+        $scope.model.chatGroupsList = result;
+        console.log('CHATGROUPLIST:', $scope.model.chatGroupsList  );
+        $scope.$apply();
+      },
+      erroHandler: function(message, exception){
+
+      }
+    });
+  };
+
+  $scope.loadChatGroups();
 
   $scope.openMenu = function($mdOpenMenu, ev) {
     originatorEv = ev;
@@ -22,57 +55,34 @@ desafioChat.controller('RootController', ['$scope', '$location', '$mdBottomSheet
     $scope.showSideNav = show;
   };
 
-  $scope.chatGroups = [{
-    name: 'Group Administrator',
-    latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  }, {
-    name: 'Group Support',
-    latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  }, {
-    name: 'Group Development',
-    latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  }, {
-    name: 'Group Testers',
-    latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  }, {
-    name: 'Group Zueira',
-    latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  }, {
-    name: 'Group Support',
-    latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  }, {
-    name: 'Group Development',
-    latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  }, {
-    name: 'Group Testers',
-    latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  }, {
-    name: 'Group Zueira',
-    latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  }];
-  // Menu items
-  $scope.menu = [{
-    link: '',
-    title: 'Dashboard',
-    icon: 'action:ic_dashboard_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
-  }, {
-    link: '',
-    title: 'Friends',
-    icon: 'social:ic_group_24px'
-  }, {
-    link: '',
-    title: 'Messages',
-    icon: 'communication:ic_message_24px'
-  }];
-  $scope.admin = [{
-    link: '',
-    title: 'Trash',
-    icon: 'action:ic_delete_24px'
-  }, {
-    link: 'showListBottomSheet($event)',
-    title: 'Settings',
-    icon: 'action:ic_settings_24px'
-  }];
+  // $scope.chatGroups = [{
+  //   name: 'Group Administrator',
+  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
+  // }, {
+  //   name: 'Group Support',
+  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
+  // }, {
+  //   name: 'Group Development',
+  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
+  // }, {
+  //   name: 'Group Testers',
+  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
+  // }, {
+  //   name: 'Group Zueira',
+  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
+  // }, {
+  //   name: 'Group Support',
+  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
+  // }, {
+  //   name: 'Group Development',
+  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
+  // }, {
+  //   name: 'Group Testers',
+  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
+  // }, {
+  //   name: 'Group Zueira',
+  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
+  // }];
 
   // Mock activity
   $scope.activity = [{
@@ -165,103 +175,8 @@ desafioChat.controller('RootController', ['$scope', '$location', '$mdBottomSheet
 
 
 
-
-}]);
-
-desafioChat.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
-  $scope.items = [{
-    name: 'Share',
-    icon: 'social:ic_share_24px'
-  }, {
-    name: 'Upload',
-    icon: 'file:ic_cloud_upload_24px'
-  }, {
-    name: 'Copy',
-    icon: 'content:ic_content_copy_24px'
-  }, {
-    name: 'Print this page',
-    icon: 'action:ic_print_24px'
-  }, ];
-
-  $scope.listItemClick = function($index) {
-    var clickedItem = $scope.items[$index];
-    $mdBottomSheet.hide(clickedItem);
-  };
 });
 
-function DialogController($scope, $mdDialog) {
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
-};
-
-desafioChat.controller('DemoCtrl', DemoCtrl);
-
-function DemoCtrl($timeout, $q) {
-  var self = this;
-  // list of `state` value/display objects
-  self.states = loadAll();
-  self.selectedItem = null;
-  self.searchText = null;
-  self.querySearch = querySearch;
-  // ******************************
-  // Internal methods
-  // ******************************
-  /**
-   * Search for states... use $timeout to simulate
-   * remote dataservice call.
-   */
-  function querySearch(query) {
-    var results = query ? self.states.filter(createFilterFor(query)) : [];
-    return results;
-  }
-  /**
-   * Build `states` list of key/value pairs
-   */
-  function loadAll() {
-    var allStates = 'Ali Conners, Alex, Scott, Jennifer, \
-                Sandra Adams, Brian Holt, \
-                Trevor Hansen';
-    return allStates.split(/, +/g).map(function(state) {
-      return {
-        value: state.toLowerCase(),
-        display: state
-      };
-    });
-  }
-  /**
-   * Create filter function for a query string
-   */
-  function createFilterFor(query) {
-    var lowercaseQuery = angular.lowercase(query);
-    return function filterFn(state) {
-      return (state.value.indexOf(lowercaseQuery) === 0);
-    };
-  }
-};
-
-desafioChat.config(function($mdThemingProvider) {
-  var customBlueMap = $mdThemingProvider.extendPalette('light-blue', {
-    'contrastDefaultColor': 'light',
-    'contrastDarkColors': ['50'],
-    '50': 'ffffff'
-  });
-  $mdThemingProvider.definePalette('customBlue', customBlueMap);
-  $mdThemingProvider.theme('default')
-    .primaryPalette('customBlue', {
-      'default': '500',
-      'hue-1': '50'
-    })
-    .accentPalette('pink');
-  $mdThemingProvider.theme('input', 'default')
-    .primaryPalette('grey')
-});
 
 desafioChat.config(function($mdIconProvider) {
   $mdIconProvider

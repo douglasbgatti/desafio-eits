@@ -29,7 +29,7 @@ import org.hibernate.envers.RelationTargetAuditMode;
 import br.com.eits.desafio.chat.domain.entity.user.User;
 
 @Entity
-@Table(name="message")
+@Table(name="chat_group")
 @Audited
 @SequenceGenerator(name="CHAT_GROUP_SEQUENCE", sequenceName="CHAT_GROUP_SEQUENCE", allocationSize=1)
 @DataTransferObject(javascript="ChatGroup")
@@ -51,9 +51,10 @@ public class ChatGroup implements Serializable{
 	@Transient
 	private List<UserChatGroup> userGroupList = new ArrayList<UserChatGroup>();
 	
-//	@Transient
-//	private Message latestMessage;
+	@Transient
+	private Message latestMessage;
 
+	public ChatGroup(){}
 	
 	
 	public ChatGroup(Long id, String groupName) {
@@ -77,14 +78,14 @@ public class ChatGroup implements Serializable{
 		this.groupName = groupName;
 	}
 	
-//	@Transient
-//	public Message getLatestMessage() {
-//		return latestMessage;
-//	}
-//	@Transient
-//	public void setLatestMessage(Message latestMessage) {
-//		this.latestMessage = latestMessage;
-//	}
+	@Transient
+	public Message getLatestMessage() {
+		return latestMessage;
+	}
+	@Transient
+	public void setLatestMessage(Message latestMessage) {
+		this.latestMessage = latestMessage;
+	}
 	
 	@Transient
 	public List<UserChatGroup> getUserGroupList() {

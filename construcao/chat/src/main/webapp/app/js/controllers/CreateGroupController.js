@@ -1,4 +1,4 @@
-desafioChat.controller('CreateGroupController', function($scope, $importService, $mdDialog, $mdToast) {
+desafioChat.controller('CreateGroupController', function($scope, $location, $importService, $mdDialog, $mdToast) {
 
 
 $importService('userService');
@@ -118,23 +118,20 @@ $scope.validateGroupName = function(){
 
 $scope.insertChatGroup = function(){
   var userChatGroup;
-  //  $scope.model.chatGroup.userGroupList = []
-  // angular.forEach($scope.model.usersSelected, function(user, key) {
-  //   userChatGroup = new UserChatGroup();
-  //   userChatGroup.user = user;
-  //   console.log("UserChatGroup:", userChatGroup);
-  //   console.log("userGroupList:", $scope.model.chatGroup);
-  //   $scope.model.chatGroup.userGroupList.push(userChatGroup);
-  //   console.log("userGroupList:", $scope.model.chatGroup);
-  // });
-  //  console.log('chatGroup:', $scope.model.chatGroup);
+   $scope.model.chatGroup.userGroupList = []
+  angular.forEach($scope.model.usersSelected, function(user, key) {
+    userChatGroup = new UserChatGroup();
+    userChatGroup.user = user;
+    $scope.model.chatGroup.userGroupList.push(userChatGroup);
 
-    console.log("chatGroup:", $scope.model.chatGroup);
+  });
 
    chatGroupService.insertChatGroup($scope.model.chatGroup, {
      callbackHandler: function(result) {
        console.log("result", result);
          $scope.model.chatGroup = result;
+         $scope.showSimpleToast('Group has been created successfully!');
+         $location.path('/');
          $scope.$apply();
      },
      errorHandler: function(message, exception) {
@@ -144,6 +141,17 @@ $scope.insertChatGroup = function(){
    });
 
 }
+
+
+
+  $scope.showSimpleToast = function(content) {
+    $mdToast.show(
+      $mdToast.simple()
+      .textContent(content)
+      .position('top right')
+      .hideDelay(5000)
+    );
+  };
 
 
 
