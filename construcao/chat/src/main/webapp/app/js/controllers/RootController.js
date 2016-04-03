@@ -1,7 +1,7 @@
 'user strict';
 
 desafioChat.controller('RootController', 
-    function($scope, $location, $mdBottomSheet, $mdSidenav, $mdDialog, $mdToast, $importService, appInfo) {
+    function($scope, $location, ChatService, $mdBottomSheet, $mdSidenav, $mdDialog, $mdToast, $importService) {
 
   /**
   * DWR IMPORT SERVICES
@@ -25,7 +25,11 @@ desafioChat.controller('RootController',
   $scope.model ={
     chatGroupsList: [],
     user: new User(),
-    showSideNav: true
+    showSideNav: true,
+    messages : [],
+    maxMessages: 100,
+    message : new Message()
+
   };
 
 
@@ -39,12 +43,30 @@ desafioChat.controller('RootController',
         $scope.$apply();
       },
       erroHandler: function(message, exception){
-
+        $mdToast.simple(message, exception);
       }
     });
   };
 
   $scope.loadChatGroups();
+
+
+  // sends Message through chatservice websocket
+  $scope.addMessage = function(){
+    console.log('ADDMESSAGE!', $scope.model.message);
+      ChatService.send($scope.model.message);
+
+      $scope.model.message = new Message();
+  }
+
+
+
+  // Receives message from websocket service
+  ChatService.receive().then(null, null, function(message) {
+    console.log('MESSAGES RECEIVED', message )
+    $scope.model.messages.push(message);
+    console.log('MESSAGES RECEIVED FROM BROKER', $scope.model.messages )
+  });
 
   $scope.openMenu = function($mdOpenMenu, ev) {
     originatorEv = ev;
@@ -53,81 +75,6 @@ desafioChat.controller('RootController',
 
   $scope.sideNavVisible = function(show) {
     $scope.showSideNav = show;
-  };
-
-  // $scope.chatGroups = [{
-  //   name: 'Group Administrator',
-  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  // }, {
-  //   name: 'Group Support',
-  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  // }, {
-  //   name: 'Group Development',
-  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  // }, {
-  //   name: 'Group Testers',
-  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  // }, {
-  //   name: 'Group Zueira',
-  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  // }, {
-  //   name: 'Group Support',
-  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  // }, {
-  //   name: 'Group Development',
-  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  // }, {
-  //   name: 'Group Testers',
-  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  // }, {
-  //   name: 'Group Zueira',
-  //   latestMessage: 'douglas@gmail.com [02:40]: Sent a message.'
-  // }];
-
-  // Mock activity
-  $scope.activity = [{
-    what: 'Brunch this weekend?',
-    who: 'Ali Conners',
-    avatar: 'svg-1',
-    when: '3:08PM',
-    notes: " I'll be in your neighborhood doing errands"
-  }, {
-    what: 'Summer BBQ',
-    who: 'to Alex, Scott, Jennifer',
-    avatar: 'svg-2',
-    when: '3:08PM',
-    notes: "Wish I could come out but I'm out of town this weekend"
-  }, {
-    what: 'Oui Oui',
-    who: 'Sandra Adams',
-    avatar: 'svg-3',
-    when: '3:08PM',
-    notes: "Do you have Paris recommendations? Have you ever been?"
-  }, {
-    what: 'Birthday Gift',
-    who: 'Trevor Hansen',
-    avatar: 'svg-4',
-    when: '3:08PM',
-    notes: "Have any ideas of what we should get Heidi for her birthday?"
-  }, {
-    what: 'Recipe to try',
-    who: 'Brian Holt',
-    avatar: 'svg-5',
-    when: '3:08PM',
-    notes: "We should eat this: Grapefruit, Squash, Corn, and Tomatillo tacos"
-  }, ];
-
-  // Bottomsheet & Modal Dialogs
-  $scope.alert = '';
-  $scope.showListBottomSheet = function($event) {
-    $scope.alert = '';
-    $mdBottomSheet.show({
-      template: '<md-bottom-sheet class="md-list md-has-header"><md-list><md-list-item class="md-2-line" ng-repeat="item in items" role="link" md-ink-ripple><md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.name}}"></md-icon><div class="md-list-item-text"><h3>{{item.name}}</h3></div></md-list-item> </md-list></md-bottom-sheet>',
-      controller: 'ListBottomSheetCtrl',
-      targetEvent: $event
-    }).then(function(clickedItem) {
-      $scope.alert = clickedItem.name + ' clicked!';
-    });
   };
 
   $scope.openAddUserToGroupHandler = function() {
@@ -151,6 +98,9 @@ desafioChat.controller('RootController',
     $scope.sideNavVisible(true);
     $location.path('/');
   }
+
+
+
 
 
   $scope.showConfirmDelete = function(ev) {

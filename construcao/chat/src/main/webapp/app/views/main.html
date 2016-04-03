@@ -85,8 +85,7 @@
   </md-content> -->
 
   <md-content layout="column" layout-padding layout-wrap layout-align="center center">
-    <!-- <div class='chat-container'>
-      <h1>Swanky Chatbox UI With Angular</h1> -->
+
     <md-content md-scroll-y class="chatbox" style="height:75%; width:70%">
 
       <div class='chatbox__user-list'>
@@ -108,18 +107,23 @@
         </div>
       </div>
       <md-content layout-padding layout-wrap md-scroll-y style="height:92%">
-        <div class="chatbox__messages" ng-repeat="message in activity">
+        <div class="chatbox__messages" ng-repeat="message in model.messages" >
           <div class="chatbox__messages__user-message">
             <div class="chatbox__messages__user-message--ind-message">
-              <p class="name">{{message.who}}: [{{message.when}}]</p>
+              <p class="name">Douglas: [now]</p>
               <br/>
-              <p class="message">{{message.notes}}</p>
+              <p class="message">{{message.message}}</p>
             </div>
           </div>
         </div>
       </md-content>
-      <form class="">
-        <input type="text" placeholder="Enter your message">
+      <form class="" name="messageForm" ng-submit="addMessage()">
+        <div layout="row">
+          <md-input-container class="md-block" flex-gt-sm="" flex>
+              <input type="text" name="message" placeholder="Enter your message" ng-model="model.message.message">
+          </md-input-container>
+          <md-button type="submit" class="md-primary md-raise" aria-label="Send">Send</md-button>
+        </div>
       </form>
 
     </md-content>

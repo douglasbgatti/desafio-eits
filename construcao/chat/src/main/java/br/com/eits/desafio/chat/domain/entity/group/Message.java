@@ -29,7 +29,7 @@ import br.com.eits.desafio.chat.domain.entity.user.User;
 @Table(name="message")
 @Audited
 @SequenceGenerator(name="MESSAGE_SEQUENCE", sequenceName="MESSAGE_SEQUENCE", allocationSize=1)
-@DataTransferObject(javascript="Messages")
+@DataTransferObject(javascript="Message")
 public class Message implements Serializable{
 	
 	/**
@@ -122,6 +122,12 @@ public class Message implements Serializable{
 
 	public void setUserChatGroup(UserChatGroup userChatGroup) {
 		this.userChatGroup = userChatGroup;
+	}
+
+	@Override
+	public String toString() {
+		return "Message [id=" + id + ", message=" + message + ", sentTime=" + sentTime + ", visualized=" + visualized
+				+ ", userChatGroup=" + userChatGroup + "]";
 	}
 
 
