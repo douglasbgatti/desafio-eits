@@ -26,6 +26,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.eits.desafio.chat.domain.entity.group.UserChatGroup;
+
 
 @Entity
 @Table(name="users")
@@ -60,7 +62,37 @@ public class User implements Serializable, UserDetails{
 	@Enumerated(EnumType.ORDINAL)
 	private Roles role;
 	
-
+	
+	public User(){}
+	
+	public User(String name, String email, String password, Roles role) {
+		this.name = name;		
+		this.password = password;
+		this.email = email;
+		this.enabled = true;
+		this.role = role;
+	}
+	
+	public User(Long id, String name,  String email, String password, Boolean enabled, Roles role) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.email = email;
+		this.enabled = enabled;
+		this.role = role;
+	}	
+	
+	
+	public User(Long id, String name, String email, Boolean enabled, Roles role) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.enabled = enabled;
+		this.role = role;
+	}
+	
 
 	public Long getId() {
 		return id;
@@ -99,38 +131,14 @@ public class User implements Serializable, UserDetails{
 		this.role = role;
 	}
 	
-	
-	public User(){}
-	
-	public User(String name, String email, String password, Roles role) {
-		this.name = name;		
-		this.password = password;
-		this.email = email;
-		this.enabled = true;
-		this.role = role;
+	public Boolean getEnabled() {
+		return enabled;
 	}
-	
-	public User(Long id, String name,  String email, String password, Boolean enabled, Roles role) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.password = password;
-		this.email = email;
+
+	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
-		this.role = role;
-	}	
-	
-	
-	public User(Long id, String name, String email, Boolean enabled, Roles role) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.enabled = enabled;
-		this.role = role;
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", password=" + password + ", email=" + email + ", enabled="

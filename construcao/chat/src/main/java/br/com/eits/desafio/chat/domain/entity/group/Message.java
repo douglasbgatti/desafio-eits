@@ -52,8 +52,8 @@ public class Message implements Serializable{
 	@Column(name="visualized", nullable=true)
 	private Boolean visualized;
 	
-	@ManyToOne
-	@JoinColumn(name="user_chat_group_id")
+	
+	@ManyToOne(fetch=FetchType.EAGER ,optional=true)
 	private UserChatGroup userChatGroup;
 	
 
@@ -69,7 +69,6 @@ public class Message implements Serializable{
 	
 	
 	public Message(Long id, String message, Calendar sentTime, Boolean visualized, UserChatGroup userChatGroup) {
-		super();
 		this.id = id;
 		this.message = message;
 		this.sentTime = sentTime;

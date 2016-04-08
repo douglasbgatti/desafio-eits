@@ -1,0 +1,95 @@
+<div layout="column" layout-fill role="main">
+  <md-toolbar class="md-tall md-whiteframe-z1 md-hue-3" layout-align="center center">
+    <div class="md-toolbar-tools">
+      <div ng-if="model.editChatGroupName == false" layout="row" flex>
+          <p>
+            {{model.userChatGroup.chatGroup.groupName}}
+          </p>
+          <span flex="5"></span>
+         <md-button class="md-icon-button" aria-label="Edit Group Name" ng-click="showEditChatGroupNameInput()">
+          <ng-md-icon icon="mode_edit" size="24" aria-label="Edit Group Name" style="fill:white"></ng-md-icon>
+        </md-button>
+      </div>
+      <div ng-if="model.editChatGroupName == true" flex>
+        <form name="model.formEditGroup" flex>
+            <div layout="row">
+                <md-input-container class="md-block" flex>
+                    <label>Chat Group Name</label>
+                    <input md-maxlength="50" required="" id="groupname" name="groupname" ng-model="model.chatGroup.groupName" ng-change="validateGroupName()">
+                    <div ng-messages="model.formEditGroup.groupname.$error">
+                      <div ng-message="required">Group name is required and unique.</div>
+                      <div ng-message="md-maxlength">The name has to be less than 50 characters long.</div>
+                      <div ng-message="duplicateValue">This Chat Group name has already been used!</div>
+                    </div>
+                  </md-input-container>
+                  <md-button class="md-raised md-warn" aria-label="Edit Group" style="height:25px" ng-click="editChatGroupName()">
+                    Edit
+                 </md-button>
+                 <md-button class="md-raised md-warn" aria-label="Cancel Edit" style="height:25px" ng-click="cancelEditGroupName()">
+                   Cancel
+                </md-button>
+            </div>
+          </form>
+        </div>
+      <md-button class="md-icon-button" aria-label="Open Settings" ng-click="showManageUserToGroupHandler($event, model.userChatGroup.chatGroup.id)">
+        <ng-md-icon icon="person_add" size="24" aria-label="Add user to Group" style="fill:white"></ng-md-icon>
+      </md-button>
+      <!-- <md-button class="md-icon-button" aria-label="Edit Group" ng-click="openEditGroupHandler(model.userChatGroup.chatGroup.id)">
+        <ng-md-icon icon="mode_edit" size="24" aria-label="Edit Group" style="fill:white"></ng-md-icon>
+      </md-button> -->
+      <md-button class="md-icon-button" aria-label="Delete Group" ng-click="showConfirmDeleteChatGroup($event, model.chatGroup.id)">
+        <ng-md-icon icon="remove_circle" size="24" aria-label="Delete Group" style="fill:white"></ng-md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+
+  <md-content layout="column" layout-padding layout-wrap layout-align="center center" style="overflow:hidden;">
+
+    <md-content class="chatbox" style="height:75%; width:85%" style="overflow:hidden;">
+      <div class='chatbox__user-list'>
+        <md-data-table-container layout-margin md-scroll-y flex style="overflow-x:hidden">
+          <table md-data-table class="md-primary" >
+            <thead>
+            </thead>
+            <tbody>
+              <tr md-row md-select="user" md-on-select="model.userSelected" ng-repeat="userChatGroupList in model.userChatGroupList">
+                <td flex="45" md-cell>{{userChatGroupList.user.email}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </md-data-table-container>
+      </div>
+      <md-content layout-padding layout-wrap md-scroll-y scroll-glue style="height:89%">
+        <div class="chatbox__messages" ng-repeat="message in model.messages" >
+            <div layout="column" ng-class="message.userChatGroup.user.id == model.userChatGroup.user.id ? 'chatbox__messages__user-message--ind-message user-message' : 'chatbox__messages__user-message--ind-message other-user-message'">
+              <div layout="row">
+                <div flex ="85">
+                    <p class="name" style="font-weight:bold">{{message.userChatGroup.user.email }} [{{message.sentTime != null ?( message.sentTime | date:'dd-MM-yyyy HH:mm' ) : ' - ' }}]:</p>
+                </div>
+                <div flex ="15">
+                    <ng-md-icon ng-if="message.userChatGroup.user.id == model.userChatGroup.user.id" icon="delete" style="fill:red" size="20" ng-click="showConfirmDeleteMessage($event, message)"></ng-md-icon>
+                    <ng-md-icon ng-if="message.visualized != true" icon="done" style="fill:gray" size="20"></ng-md-icon>
+                    <ng-md-icon ng-if="message.visualized == true" icon="done_all" style="fill:yellow; margin-right:-12px" size="20" ></ng-md-icon>
+                </div>
+              </div>
+              <span flex="3"></span>
+              <div  style="height:auto; overflow-wrap:break-word">
+                <p class="message">{{message.message}}</p>
+              </div>
+            </div>
+        </div>
+      </md-content>
+      <form class="" name="messageForm" ng-submit="addMessage()" style="width:70%; height:7%">
+        <div layout="row">
+          <md-input-container class="md-block" flex-gt-sm="" flex="90" >
+              <input type="text"md-maxlength="144"  name="message" placeholder="Enter your message" ng-model="model.message.message" flex>
+          </md-input-container>
+          <md-button type="submit" class="md-primary md-raise" aria-label="Send">Send</md-button>
+        </div>
+      </form>
+
+    </md-content>
+    </md-content>
+
+  </div>

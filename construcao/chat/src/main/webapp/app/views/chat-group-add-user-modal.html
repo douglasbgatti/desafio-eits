@@ -1,0 +1,58 @@
+<html xmlns:ng="http://angularjs.org">
+  <md-dialog aria-label="User Info" style="max-width: 1200px; max-height:700px">
+    <md-dialog-content style="margin-top:30px; margin-left:10px; height: 600px; width:1000px;">
+      <div layout="column" layout-fill role="main">
+        <md-toolbar class="animate-show md-tall md-whiteframe-z1 md-hue-3" layout-align="center center">
+          <div class="md-toolbar-tools">
+            <h5 style="color:black"> Manage Users in Group </h5>
+            <span flex></span>
+          </div>
+        </md-toolbar>
+
+        <md-content layout-padding layout-wrap style="height: 500px">
+          <form name="model.form">
+            <div layout="column" layout-sm="column" layout-wrap="">
+              <md-content class="md-padding autocomplete" md-scrool-y layout-wrap layout="column">
+                <md-chips flex class="md-contact-chips"
+                  ng-model="model.usersSelected" md-require-match="true" md-autocomplete-snap md-on-add="addUserToChatGroup($chip)" md-on-remove="removeUserFromChatGroup($chip)" readonly="false" md-on-select="">
+                  <md-autocomplete
+                      md-menu-class="md-contact-chips-suggestions"
+                      md-selected-item="model.selectedItem"
+                      md-search-text="model.searchText"
+                      md-items="item in model.usersList | filter: {name: model.searchText}"
+                      md-no-cache="true"
+                       md-autoselect="true"
+                       placeholder="Find Users">
+                    <div class="md-contact-suggestion">
+                      <span class="md-contact-name">{{item.name}}</span>
+                      <span class="md-contact-email">{{item.email}}</span>
+                    </div>
+                  </md-autocomplete>
+                  <md-chip-template>
+                    <!-- <div class="md-contact-avatar">
+                                                 <img ng-src="{{$chip.image}}" alt="{{$chip.name}}" ng-if="$chip.image" />
+                                             </div> -->
+                    <div class="md-contact-name">
+                      {{$chip.name}} - {{$chip.email}}
+                    </div>
+                  </md-chip-template>
+                </md-chips>
+              </md-content>
+
+              <span flex="65"></span>
+              <div layout="row" layout-align="start center" flex>
+                <span flex></span>
+                <md-button class="md-fab" aria-label="Cancel" ng-click="hide()">
+                  <ng-md-icon icon="check" style="fill:white;  margin-top: 5px;" size="36" aria-label="Done"></ng-md-icon>
+                </md-button>
+              </div>
+
+            </md-content>
+
+          </div>
+        </form>
+      </div>
+
+      </md-dialog-content>
+    </md-dialog>
+  </html>

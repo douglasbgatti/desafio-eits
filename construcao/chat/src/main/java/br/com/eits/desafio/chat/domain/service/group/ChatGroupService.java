@@ -1,5 +1,6 @@
 package br.com.eits.desafio.chat.domain.service.group;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.eits.desafio.chat.domain.entity.group.ChatGroup;
 import br.com.eits.desafio.chat.domain.entity.group.UserChatGroup;
+import br.com.eits.desafio.chat.domain.entity.user.Roles;
 import br.com.eits.desafio.chat.domain.entity.user.User;
 import br.com.eits.desafio.chat.domain.repository.group.IChatGroupRepository;
 import br.com.eits.desafio.chat.domain.repository.group.IUserChatGroupRepository;
 import br.com.eits.desafio.chat.domain.service.user.UserService;
+import br.com.eits.desafio.chat.security.ContextHolder;
 
 @Service
 @Transactional
@@ -25,68 +28,53 @@ public class ChatGroupService {
 	
 	@Autowired
 	private IChatGroupRepository chatGroupRepository;
-	@Autowired
-	private IUserChatGroupRepository userChatRepository;
 	@Autowired 
 	private UserChatGroupService userChatGroupService;
-	
+	@Autowired
+	private UserService userService;
 	
 
-	public ChatGroup addMemberGroup(Long chatGroupId, Long userId){		
-		return null;
+	public List<ChatGroup> listAllChatGroups(){
+		return this.chatGroupRepository.findAll();
 	}
 	
-	public List<ChatGroup> findChatGroups(User user){
-		//TODO USER ROLE CONDITION
-		List<ChatGroup> chatGroupList = this.chatGroupRepository.findAll();
-		
-		for (Iterator iterator = chatGroupList.iterator(); iterator.hasNext();) {
-			ChatGroup chatGroup = (ChatGroup) iterator.next();
-			
-			UserChatGroup userChatGroup = userChatGroupService.getUserChatGroupByChatGroupId(chatGroup.getId());
-			
-			userChatGroup = userChatGroupService.getUserChatGroupById(userChatGroup.getId());
-			
-			if(userChatGroup.getSentMessages().size() > 0){
-				chatGroup.setLatestMessage(userChatGroup.getSentMessages().get(0));
-			}						
-			
-		}
-		return chatGroupList;
+	public ChatGroup getChatGroup(Long id){		
+		return this.chatGroupRepository.findOne(id);
 	}
 	
-	
-	
-	public ChatGroup getChatGroup(Long id){
-		return null;
-	}
-	
-	public ChatGroup insertChatGroup(ChatGroup chatGroup){
-		
+	public ChatGroup insertChatGroup(ChatGroup chatGroup){		
 		if((verifyChatGroupNameIsUsed(chatGroup.getGroupName()))== null){
 			chatGroup = chatGroupRepository.save(chatGroup);
 			
-			for (Iterator iterator = chatGroup.getUserGroupList().iterator(); iterator.hasNext();) {
+			List<User> adminUserList = this.userService.listUsersByRole(Roles.ADMINISTRATOR);
+			
+			//	INSERT ADMINISTRATOR USERS INTO GROUP
+			for (Iterator<User> iterator = adminUserList.iterator(); iterator.hasNext();) {
+				User user = (User) iterator.next();
+				
+				UserChatGroup userChatGroup = new UserChatGroup();
+				userChatGroup.setUser(user);
+				
+				chatGroup.getUserGroupList().add(userChatGroup);				
+			}
+
+			
+			for (Iterator<?> iterator = chatGroup.getUserGroupList().iterator(); iterator.hasNext();) {
 				UserChatGroup userChatGroup = (UserChatGroup) iterator.next();
 				userChatGroup.setChatGroup(chatGroup);
 				
-				insertUserChatGroup(userChatGroup);			
+				this.userChatGroupService.insertUserChatGroup(userChatGroup);		
 			}
-		}				
-		
-		
+		}		
 		return chatGroup;
 	}
 	
-	public UserChatGroup insertUserChatGroup(UserChatGroup userChatGroup){
-		return this.userChatRepository.save(userChatGroup);
-	}
 	
 	public void removeChatGroup(ChatGroup chatGroup){
 		
 	}
 	
-	public ChatGroup removeMember(Long chatGroupID, Long userID){
+	public ChatGroup removeUserFromChatGroup(Long chatGroupID, Long userID){
 		return null;
 	}
 	
@@ -98,4 +86,33 @@ public class ChatGroupService {
 	public ChatGroup verifyChatGroupNameIsUsed(String name){
 		return chatGroupRepository.verifyChatGroupNameIsUsed(name);
 	}
+	
+	@Transactional(readOnly=false)
+	public ChatGroup getChatGroupAndUsersList(Long id){
+		ChatGroup chatGroup = getChatGroup(id);
+		chatGroup.setUserList(new ArrayList<User>());
+		
+		List<UserChatGroup> userChatGroupList = this.userChatGroupService.listUserChatGroupsByChatGroupId(id);
+		
+		for (Iterator<UserChatGroup> iterator = userChatGroupList.iterator(); iterator.hasNext();) {
+			UserChatGroup userChatGroup = (UserChatGroup) iterator.next();
+			chatGroup.getUserList().add(userChatGroup.getUser());			
+		}			
+		return chatGroup;
+	}
+	
+	
+	@Transactional(readOnly=false)
+	public ChatGroup editChatGroup(ChatGroup chatGroup){
+		return this.chatGroupRepository.saveAndFlush(chatGroup);
+	}
+	
+	@Transactional(readOnly=false)
+	public void deleteChatGroup(Long id){		
+//		this.userChatGroupService.deleteAllUserChatGroupsByChatGroupId(id);
+		this.chatGroupRepository.delete(id);
+	}
+	
+
+	
 }

@@ -29,8 +29,8 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/dwr/**"
 			access="permitAll()" />
-<!-- 		<security:intercept-url pattern="/**"
-			access="isAuthenticated()" /> -->
+<!--     		<security:intercept-url pattern="/**"
+			access="isAuthenticated()" />   -->
 
 		<security:form-login 
 			login-page="/login"

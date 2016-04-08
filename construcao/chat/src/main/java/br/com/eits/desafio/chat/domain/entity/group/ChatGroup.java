@@ -48,8 +48,14 @@ public class ChatGroup implements Serializable{
 	@Column(name="group_name", nullable=false, length=144)
 	private String groupName;
 	
+	/**
+	 * utilizado na inclusao de usuarios ao grupo no momento de criacao
+	 */
 	@Transient
 	private List<UserChatGroup> userGroupList = new ArrayList<UserChatGroup>();
+	
+	@Transient
+	private List<User> userList = new ArrayList<User>();
 	
 	@Transient
 	private Message latestMessage;
@@ -96,6 +102,18 @@ public class ChatGroup implements Serializable{
 		this.userGroupList = userGroupList;
 	}
 
+	@Transient
+	public List<User> getUserList() {
+		return userList;
+	}
+
+	@Transient
+	public void setUserList(List<User> userList) {
+		this.userList = userList;
+	}
+
+	
+	
 
 	
 }

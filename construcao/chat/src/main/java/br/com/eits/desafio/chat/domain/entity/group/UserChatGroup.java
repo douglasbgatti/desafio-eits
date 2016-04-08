@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +21,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.OrderBy;
@@ -44,28 +46,44 @@ public class UserChatGroup implements Serializable{
 	@Column(name="id", unique=true)
 	private Long id;
 	
-	@ManyToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false) 
+	@ManyToOne(optional=false)
+	@OnDelete(action=OnDeleteAction.CASCADE)
 	private User user;
 	
-	@ManyToOne
-	@JoinColumn(name = "chat_group_id", referencedColumnName = "id", nullable = false) 
+	@ManyToOne(optional=false)
+	@OnDelete(action=OnDeleteAction.CASCADE)
+//	@JoinColumn(name = "chat_group_id", referencedColumnName = "id") 
 	private ChatGroup chatGroup;
 	
 	@OneToMany(mappedBy = "userChatGroup", fetch = FetchType.EAGER)
-	@OrderBy(clause = "id DESC")
+	@OnDelete(action=OnDeleteAction.CASCADE)
+	@OrderBy(clause = "id ASC")
 	private List<Message> sentMessages = new ArrayList<Message>();
 	
 	public UserChatGroup() {
 	}
 	
 	public UserChatGroup(Long id, User user, ChatGroup chatGroup, List<Message> sentMessages) {
-		super();
 		this.id = id;
 		this.user = user;
 		this.chatGroup = chatGroup;
 		this.sentMessages = sentMessages;
 	}
+	
+	public UserChatGroup(Long id, User user, ChatGroup chatGroup) {
+		this.id = id;
+		this.user = user;
+		this.chatGroup = chatGroup;
+	}
+	
+	public UserChatGroup(Long id, ChatGroup chatGroup) {
+		this.id = id;
+		this.chatGroup = chatGroup;
+	}
+	
+	
+	
+	
 	
 	public UserChatGroup(Long id) {
 		this.id = id;

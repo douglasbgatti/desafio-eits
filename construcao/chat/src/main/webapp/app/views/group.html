@@ -30,7 +30,7 @@
 
         <md-content class="md-padding autocomplete" layout="column">
           <md-chips flex class="md-contact-chips"
-            ng-model="model.usersSelected" md-require-match="true" md-autocomplete-snap md-on-add="" md-on-remove="" readonly="false" md-on-select="showUserInfo($event, $chip)">
+            ng-model="model.usersSelected" md-require-match="true" md-autocomplete-snap md-on-add="addUserToChatGroup($chip)" md-on-remove="removeUserFromChatGroup($event, $chip)" readonly="false" md-on-select="showUserInfo($event, $chip)">
             <md-autocomplete
                 md-menu-class="md-contact-chips-suggestions"
                 md-selected-item="model.selectedItem"
@@ -49,7 +49,7 @@
                                            <img ng-src="{{$chip.image}}" alt="{{$chip.name}}" ng-if="$chip.image" />
                                        </div> -->
               <div class="md-contact-name">
-                {{$chip.name}}
+                {{$chip.name}} - {{$chip.email}}
               </div>
             </md-chip-template>
           </md-chips>

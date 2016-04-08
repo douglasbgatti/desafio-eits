@@ -1,0 +1,82 @@
+<div layout="column" layout-fill role="main">
+  <md-toolbar class="animate-show md-tall md-whiteframe-z1 md-hue-3" layout-align="center center">
+    <div class="md-toolbar-tools">
+      <md-button aria-label="Side nav" ng-click="toggleSideNav()">
+        <ng-md-icon icon="swap_horiz" style="fill:white; margin-top:5px" size="36" aria-label="Plus"></ng-md-icon>
+      </md-button>
+      <h5>
+        Users List
+      </h5>
+      <span flex></span>
+      <md-button class="md-icon-button" aria-label="Open Settings" ng-click="openCreateUserHandler()">
+        <ng-md-icon icon="person_add" size="24" aria-label="Add user to Group" style="fill:white"></ng-md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-content layout-padding layout-wrap>
+    <md-card style="margin:0px">
+      <md-subheader>Filter by search</md-subheader>
+
+      <md-input-container style="margin:15px;">
+        <label>Search</label>
+        <!-- <input type="text" ng-model="model.filter" ng-change="listUsersByFilterHandler()"> -->
+        <input type="text" ng-model="model.filter">
+      </md-input-container>
+      <!--
+      <div ng-hide="true">
+        {{(filteredItems = (nutritionList | filter: filterName))}}
+      </div> -->
+    </md-card>
+
+    <div layout="column" flex class="list-empty-grid" layout-align="center center" ng-if="model.usersList.length == 0">
+      NO RESULT HAS BEEN FOUND!
+    </div>
+    <div ng-if="model.usersList.length > 0" flex layout-padding>
+      <md-data-table-container layout-margin flex>
+        <table md-data-table class="md-primary" ng-model="model.selectedUser">
+          <thead md-head md-order="model.query.order">
+            <tr flex md-row>
+              <th flex="40" md-column>Name</th>
+              <th flex="45" md-column>E-mail</th>
+              <th flex="10" md-column>Status</th>
+              <th flex="10" md-column>Role</th>
+              <th flex="5" md-column>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr md-row md-select="user" md-on-select="model.userSelected" ng-repeat="user in model.usersList | filter: model.filter| orderBy: model.query.order | limitTo: model.query.limit : (model.query.page -1) * model.query.limit">
+              <td flex="40" md-cell>{{user.name}}</td>
+              <td flex="45" md-cell>{{user.email}}</td>
+              <td flex="10" md-cell>{{user.enabled == true ? 'ACTIVE' : 'INACTIVE'}}</td>
+              <td flex="10" md-cell>{{user.role}}</td>
+              <td layout="row" flex="5" layout-align="end center">
+                <md-menu md-offset="0 -5">
+                  <md-button aria-label="Options" class="md-icon-button" ng-click="$event.stopPropagation(); $mdOpenMenu();">
+                    <ng-md-icon icon="more_vert"></ng-md-icon>
+                    <md-tooltip>
+                      Options
+                    </md-tooltip>
+                  </md-button>
+                  <md-menu-content width="4" >
+                    <md-menu-item ng-click="openUserEditHandler($event, user)" >
+                      <md-button>Edit</md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-click="deactivateUser(user.id)" ng-if="user.enabled == true">
+                      <md-button>Deactivate</md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-click="activateUser(user.id)" ng-if="user.enabled == false">
+                      <md-button>Activate</md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </md-data-table-container>
+      <md-table-pagination md-limit="model.query.limit" md-limit-options="model.limitOptions" md-page="model.query.page" md-total="{{model.usersList.length}}" md-page-select="model.options.pageSelect"></md-table-pagination>
+    </div>
+
+  </md-content>
+</div>

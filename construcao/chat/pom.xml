@@ -284,9 +284,41 @@
 			<version>2.3.4</version>
 		</dependency>
 
-
-
-
+	
+		
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-scroll-glue</artifactId>
+		    <version>2.0.6</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>ui-router</artifactId>
+		    <version>0.2.15</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+			<version>2.1.4.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring4</artifactId>
+			<version>2.1.4.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+			<version>2.1.2.RELEASE</version>
+		</dependency>
+		
+		
+		
 
 
 	</dependencies>

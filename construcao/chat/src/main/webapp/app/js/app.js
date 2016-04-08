@@ -1,6 +1,6 @@
 'use strict';
 
-var desafioChat = angular.module('desafioChat', ['ngRoute', 'eits-ng', 'ngMessages','ngMaterial', 'ngMdIcons', 'md.data.table']);
+var desafioChat = angular.module('desafioChat', ['ngRoute', 'eits-ng', 'ngMessages','ngMaterial', 'ngMdIcons', 'md.data.table', 'luegg.directives']);
 
 desafioChat.constant('appInfo', {
   name: 'DesafioChat',
@@ -21,18 +21,22 @@ desafioChat.config(function($routeProvider, $httpProvider, $importServiceProvide
 
   $routeProvider
     .when('/', {
-      templateUrl: 'app/views/main.html'
+      // templateUrl: 'app/views/main.html'
+    })
+    .when('/group/:id', {
+      templateUrl: 'app/views/user-chat-group.html',
+      controller: 'UserChatGroupController'
     })
     .when('/add-group',{
       templateUrl: 'app/views/group.html',
       controller: 'CreateGroupController'
     })
-    .when('/edit-group',{
+    .when('/edit-group/:id',{
       templateUrl: 'app/views/group.html',
       controller: 'EditGroupController'
     })
     .when('/users',{
-      templateUrl: 'app/views/usersList.html',
+      templateUrl: 'app/views/users-list.html',
       controller: 'UsersController'
     })
     .when('/create-user',{
@@ -61,4 +65,28 @@ desafioChat.config(function($mdThemingProvider) {
     .accentPalette('pink');
   $mdThemingProvider.theme('input', 'default')
     .primaryPalette('grey')
+});
+
+
+desafioChat.run(function($rootScope, $location,$mdSidenav, UserAuthenticatedService){
+    $rootScope.user = {};
+
+    $rootScope.showSideNav = true;
+
+    $rootScope.toggleSideNav = function(){
+       $mdSidenav('left').toggle();
+       $rootScope.showSideNav = !$rootScope.showSideNav;
+    };
+
+  // Pegar o usuario Logado no Sistema
+    UserAuthenticatedService.getAuthenticatedUser()
+      .then(function(result){
+        $rootScope.user = result;
+        console.log("UserAuthenticatedService ROOTSCOPE:", $rootScope.user);
+      },
+      function(error){
+        $location.path('/logout');
+      }
+  );
+
 });

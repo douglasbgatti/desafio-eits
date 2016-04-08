@@ -1,0 +1,72 @@
+<html xmlns:ng="http://angularjs.org">
+  <md-dialog aria-label="User Info" style="max-width: 1200px; max-height:800px">
+    <md-dialog-content style="margin-top:30px; margin-left:10px; height: 700px; width:1000px;">
+      <div layout="column" layout-fill role="main" flex>
+        <md-toolbar class="animate-show md-tall md-whiteframe-z1 md-hue-3" layout-align="center center">
+          <div class="md-toolbar-tools">
+            <h5 style="color:black"> Create Chat Group </h5>
+            <span flex></span>
+          </div>
+        </md-toolbar>
+
+          <md-content layout-padding layout-wrap style="height: 540px">
+            <form name="model.form">
+              <div layout="column" layout-sm="column" >
+                <md-input-container class="md-block">
+                  <label>Group Name</label>
+                  <input md-maxlength="50" required="" id="groupname" name="groupname" ng-model="model.chatGroup.groupName" ng-change="validateGroupName()">
+                  <div ng-messages="model.form.groupname.$error">
+                    <div ng-message="required">Group name is required and unique.</div>
+                    <div ng-message="md-maxlength">The name has to be less than 50 characters long.</div>
+                    <div ng-message="duplicateValue">This Chat Group name has already been used!</div>
+                  </div>
+                </md-input-container>
+
+                <h2 class="md-title">Add users to group:</h2>
+
+                <md-content class="md-padding autocomplete" layout="column" >
+                  <md-chips flex class="md-contact-chips"
+                    ng-model="model.usersSelected" md-require-match="true" md-autocomplete-snap md-on-add="removeDuplicateItemsFromUsersSelected()" md-on-remove="removeUserFromChatGroup($chip)" readonly="false" md-on-select="showUserInfo($event, $chip)">
+                    <md-autocomplete
+                        style="width:auto"
+                        md-menu-class="md-contact-chips-suggestions"
+                        md-selected-item="model.selectedItem"
+                        md-search-text="model.searchText"
+                        md-items="item in model.usersList | filter: {name: model.searchText}"
+                        md-no-cache="true"
+                        md-autoselect="true"
+                        placeholder="Find Users">
+                      <div class="md-contact-suggestion">
+                        <span class="md-contact-name">{{item.name}}</span>
+                        <span class="md-contact-email">{{item.email}}</span>
+                      </div>
+                    </md-autocomplete>
+                    <md-chip-template>
+                      <div class="md-contact-name">
+                        {{$chip.name}} - {{$chip.email}}
+                      </div>
+                    </md-chip-template>
+                  </md-chips>
+                </md-content>
+                <span flex="55"></span>
+
+                <div layout="row" layout-align="start center" flex>
+                  <span flex></span>
+                  <md-button class="md-fab" aria-label="Cancel" ng-click="hide()">
+                    <ng-md-icon icon="clear" style="fill:white;  margin-top: 5px;" size="36" aria-label="Cancel"></ng-md-icon>
+                  </md-button>
+                  <md-button class="md-fab" aria-label="Add New Group" ng-click="insertChatGroup()">
+                    <ng-md-icon icon="add" aria-label="Add" style="fill:white; margin-top: 5px;" size="36"></ng-md-icon>
+                  </md-button>
+                </div>
+
+              </md-content>
+
+            </div>
+          </form>
+        </div>
+
+
+      </md-dialog-content>
+    </md-dialog>
+  </html>
