@@ -289,4 +289,17 @@ desafioChat.controller('UserChatGroupController', function( $scope, $rootScope, 
         $scope.model.editChatGroupName = false;
       }
 
+
+      $scope.showUserInfo = function(event, userSelected) {
+        $mdDialog.show({
+          controller: 'UserInfoModalController',
+          templateUrl: 'app/views/user-info-modal.html',
+          targetEvent: event,
+          bindToController: false,
+          locals: {
+              user: userSelected
+          }
+      })
+      };
+
 });

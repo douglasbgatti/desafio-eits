@@ -159,16 +159,21 @@ $scope.addUserToChatGroup = function(user){
 
 
 $scope.removeUserFromChatGroup = function(user){
-  userChatGroupService.removeUserFromChatGroup(user.id, $scope.model.chatGroup.id, {
-    callbackHandler: function(result){
-      // $scope.model.usersSelected.push(result);
-    },
-    errorHandler: function(message, exception){
-      $mdToast.showSimple(message);
-      console.log('ERROR', message, exception);
-    }
+  if(user.role == 'USER'){
+      userChatGroupService.removeUserFromChatGroup(user.id, $scope.model.chatGroup.id, {
+        callbackHandler: function(result){
+          // $scope.model.usersSelected.push(result);
+        },
+        errorHandler: function(message, exception){
+          $mdToast.showSimple(message);
+          console.log('ERROR', message, exception);
+        }
 
-  });
+      });
+  }else{
+    $scope.loadChatGroup();
+    $mdToast.showSimple('Cannot remove an ADMINISTRATOR from a chat group!');
+  }
 }
 
 

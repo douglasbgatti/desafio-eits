@@ -8,7 +8,7 @@
         Users List
       </h5>
       <span flex></span>
-      <md-button class="md-icon-button" aria-label="Open Settings" ng-click="openCreateUserHandler()">
+      <md-button ng-if="user.role == 'ADMINISTRATOR'" class="md-icon-button" aria-label="Open Settings" ng-click="openCreateUserHandler()">
         <ng-md-icon icon="person_add" size="24" aria-label="Add user to Group" style="fill:white"></ng-md-icon>
       </md-button>
     </div>
@@ -41,16 +41,16 @@
               <th flex="45" md-column>E-mail</th>
               <th flex="10" md-column>Status</th>
               <th flex="10" md-column>Role</th>
-              <th flex="5" md-column>Options</th>
+              <th flex="5" md-column ng-if="user.role == 'ADMINISTRATOR'">Options</th>
             </tr>
           </thead>
           <tbody>
-            <tr md-row md-select="user" md-on-select="model.userSelected" ng-repeat="user in model.usersList | filter: model.filter| orderBy: model.query.order | limitTo: model.query.limit : (model.query.page -1) * model.query.limit">
-              <td flex="40" md-cell>{{user.name}}</td>
-              <td flex="45" md-cell>{{user.email}}</td>
-              <td flex="10" md-cell>{{user.enabled == true ? 'ACTIVE' : 'INACTIVE'}}</td>
-              <td flex="10" md-cell>{{user.role}}</td>
-              <td layout="row" flex="5" layout-align="end center">
+            <tr md-row md-select="u" md-on-select="model.userSelected" ng-repeat="u in model.usersList | filter: model.filter| orderBy: model.query.order | limitTo: model.query.limit : (model.query.page -1) * model.query.limit">
+              <td flex="40" md-cell>{{u.name}}</td>
+              <td flex="45" md-cell>{{u.email}}</td>
+              <td flex="10" md-cell>{{u.enabled == true ? 'ACTIVE' : 'INACTIVE'}}</td>
+              <td flex="10" md-cell>{{u.role}}</td>
+              <td layout="row" flex="5" layout-align="end center" ng-if="user.role == 'ADMINISTRATOR'">
                 <md-menu md-offset="0 -5">
                   <md-button aria-label="Options" class="md-icon-button" ng-click="$event.stopPropagation(); $mdOpenMenu();">
                     <ng-md-icon icon="more_vert"></ng-md-icon>
@@ -59,13 +59,13 @@
                     </md-tooltip>
                   </md-button>
                   <md-menu-content width="4" >
-                    <md-menu-item ng-click="openUserEditHandler($event, user)" >
+                    <md-menu-item ng-click="openUserEditHandler($event, u)" >
                       <md-button>Edit</md-button>
                     </md-menu-item>
-                    <md-menu-item ng-click="deactivateUser(user.id)" ng-if="user.enabled == true">
+                    <md-menu-item ng-click="deactivateUser(u.id)" ng-if="u.enabled == true">
                       <md-button>Deactivate</md-button>
                     </md-menu-item>
-                    <md-menu-item ng-click="activateUser(user.id)" ng-if="user.enabled == false">
+                    <md-menu-item ng-click="activateUser(u.id)" ng-if="u.enabled == false">
                       <md-button>Activate</md-button>
                     </md-menu-item>
                   </md-menu-content>
@@ -74,8 +74,13 @@
             </tr>
           </tbody>
         </table>
-      </md-data-table-container>
-      <md-table-pagination md-limit="model.query.limit" md-limit-options="model.limitOptions" md-page="model.query.page" md-total="{{model.usersList.length}}" md-page-select="model.options.pageSelect"></md-table-pagination>
+        </md-data-table-container>
+        <md-data-table-pagination
+          md-limit="model.query.limit"
+          md-page="model.query.page"
+          md-total="{{model.usersList.length}}">
+         </md-data-table-pagination>
+
     </div>
 
   </md-content>

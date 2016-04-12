@@ -22,7 +22,10 @@ desafioChat.controller('RootController',
     user: new User(),
     messages : [],
     maxMessages: 100,
-    message : new Message()
+    message : new Message(),
+    isFabMenuOpen: false,
+    isSearchingChatGroup: false,
+    searchText: ''
 
   };
 
@@ -77,22 +80,35 @@ $rootScope.showSideNav = true;
   };
 
   $scope.openChatGroupCreateHandler = function($event) {
-    $mdDialog.show({
-      controller: 'ChatGroupCreateModalController',
-      templateUrl: 'app/views/chat-group-create-modal.html',
-      targetEvent: event,
-      bindToController: false,
-  }).finally(function(){
-      $scope.loadChatGroups();
-  });
+      $mdDialog.show({
+        controller: 'ChatGroupCreateModalController',
+        templateUrl: 'app/views/chat-group-create-modal.html',
+        targetEvent: event,
+        bindToController: false,
+    }).finally(function(){
+        $scope.loadChatGroups();
+    });
+  };
+
+  $scope.listChatGroupsByFilter = function(){
+    userChatGroupService.listUserChatGroupsByUserAndFilter( $scope.model.searchText,  {
+      callbackHandler: function(result){
+        $scope.model.userChatGroupsList = result;
+        console.log('GROUPS SEARCH:', $scope.model.userChatGroupsList  );
+        $scope.$apply();
+      },
+      erroHandler: function(message, exception){
+        $mdToast.simple(message, exception);
+      }
+    });
+  };
+
+  $scope.openSearchChatGroup = function(){
+    $scope.model.isSearchingChatGroup = true;
   }
 
-  $scope.openEditGroupHandler = function(id) {
-    $location.path('/edit-group/' + id);
-  }
-
-  $scope.openDeleteGroupHandler = function() {
-    $location.path('/delete-group');
+  $scope.closeSearchInput = function(){
+    $scope.model.isSearchingChatGroup = false;
   }
 
   $scope.openUsersHandler = function() {
@@ -105,10 +121,8 @@ $rootScope.showSideNav = true;
 
   $scope.openIndexHandler = function(){
     $rootScope.showSideNav = true;
+    $rootScope.toggleSideNav();
     $location.path('/');
   }
-
-
-
 
 });

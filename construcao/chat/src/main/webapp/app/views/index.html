@@ -48,39 +48,61 @@
     </md-toolbar>
 
     <div layout="row" flex>
-      <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" ng-show="showSideNav" md-is-locked-open="$mdMedia('gt-md')">
-        <!-- <md-content layout-padding layout-wrap> -->
-        <md-toolbar class="animate-show md-tall md-whiteframe-z1" layout-align="center center">
-          <div class="md-toolbar-tools" layout="row">
-            <h5 flex="65">
-              <span>Chat Groups</span>
-            </h5>
-            <md-button class="md-fab" aria-label="Add New Group" ng-click="openChatGroupCreateHandler($event)">
-              <ng-md-icon icon="add" style="fill:white; margin-top:5px" size="36" aria-label="Plus"></ng-md-icon>
-            </md-button>
 
-          </div>
-        </md-toolbar>
-
+      <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2 md-hue-1" md-component-id="left" ng-show="showSideNav" md-is-locked-open="$mdMedia('gt-md')">
+        <md-content layout="column" ng-if="model.isSearchingChatGroup == false">
+          <md-toolbar class="animate-show md-tall md-whiteframe-z1" flex layout-align="center center">
+              <h5>
+                <span>Chat Groups</span>
+              </h5>
+          </md-toolbar>
+          <md-fab-speed-dial md-direction="left" md-open="model.isFabMenuOpen"
+                              class="md-scale md-fab-top-right"
+                              ng-mouseenter="model.isFabMenuOpen=true"
+                              ng-mouseleave="model.isFabMenuOpen=false">
+              <md-fab-trigger>
+                  <md-button aria-label="menu" class="md-fab md-warn">
+                    <ng-md-icon icon="more_vert" style="fill:white; margin-top:5px" size="36" aria-label="Menu"></ng-md-icon>
+                   </md-button>
+              </md-fab-trigger>
+              <md-fab-actions>
+                 <md-button class="md-fab" aria-label="Add New Group" ng-click="openChatGroupCreateHandler($event)">
+                    <ng-md-icon icon="add" style="fill:white; margin-top:5px" size="36" aria-label="Plus"></ng-md-icon>
+                 </md-button>
+                 <md-button class="md-fab" aria-label="Add New Group" ng-click="openSearchChatGroup()">
+                    <ng-md-icon icon="search" style="fill:white; margin-top:5px" size="36" aria-label="Plus"></ng-md-icon>
+                 </md-button>
+              </md-fab-actions>
+          </md-fab-speed-dial>
+        </md-content>
+        <md-content layout="column" ng-if="model.isSearchingChatGroup == true">
+          <md-toolbar class="animate-show md-tall md-whiteframe-z1" flex layout-align="center center">
+            <form ng-submit="closeSearchInput()">
+              <md-input-container class="md-block" flex>
+                  <label>Search for Chat Group</label>
+                  <input md-maxlength="50" required="" id="searchText" name="searchText" ng-model="model.searchText" ng-change="listChatGroupsByFilter()">
+                </md-input-container>
+            </form>
+          </md-toolbar>
+        </md-content>
         <!--  -->
-        <md-content layout-padding layout-wrap class="md-hue-1">
+        <md-content layout-padding layout-wrap class="md-hue-1" flex="87">
           <div ng-repeat="group in model.userChatGroupsList" ng-class="(group.latestMessage == null) ? md-accent : md-primary" ng-click="openChatHandler(group.chatGroup.id)">
             <md-card>
               <md-card-header>
                 <md-card-avatar>
-                  <ng-md-icon class="md-avatar-icon" icon="menu" size="12"></ng-md-icon>
+                  <ng-md-icon class="md-avatar-icon" icon="menu" size="24"></ng-md-icon>
                 </md-card-avatar>
                 <md-card-header-text>
                   <span class="md-title">{{group.chatGroup.groupName}}</span>
                 </md-card-header-text>
               </md-card-header>
               <md-card-content>
-                <p>{{group.chatGroup.latestMessage != null ? group.chatGroup.latestMessage.message : 'NO MESSAGES!'}}</p>
+                <p>{{group.chatGroup.latestMessage != null ? group.chatGroup.latestMessage.message : ''}}</p>
               </md-card-content>
             </md-card>
           </div>
         </md-content>
-
         <md-divider md-inset></md-divider>
 
       </md-sidenav>
@@ -126,9 +148,9 @@
         <script type="text/javascript" src="app/js/controllers/root-controller.js"></script>
         <script type="text/javascript" src="app/js/controllers/user-chat-group-controller.js"></script>
         <script type="text/javascript" src="app/js/controllers/chat-group-create-modal-controller.js"></script>
-        <script type="text/javascript" src="app/js/controllers/create-group-controller.js"></script>
-        <script type="text/javascript" src="app/js/controllers/edit-group-controller.js"></script>
-        <script type="text/javascript" src="app/js/controllers/users-controller.js"></script>
+        <!-- <script type="text/javascript" src="app/js/controllers/create-group-controller.js"></script> -->
+        <!-- <script type="text/javascript" src="app/js/controllers/edit-group-controller.js"></script> -->
+        <script type="text/javascript" src="app/js/controllers/users-list-controller.js"></script>
         <script type="text/javascript" src="app/js/controllers/create-user-modal-controller.js"></script>
         <script type="text/javascript" src="app/js/controllers/edit-user-modal-controller.js"></script>
         <script type="text/javascript" src="app/js/controllers/user-info-modal-controller.js"></script>

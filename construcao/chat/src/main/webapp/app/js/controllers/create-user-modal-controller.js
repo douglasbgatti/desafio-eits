@@ -47,7 +47,7 @@ desafioChat.controller('CreateUserEditModalController', function($scope, $rootSc
   };
 
   $scope.validateEmail = function(){
-    userService.findUserByEmail($scope.model.user.email, {
+    userService.findUserDetailsByEmail($scope.model.user.email, {
       callbackHandler: function(result) {
         // console.log("result", result);
           if(result != null){

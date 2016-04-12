@@ -132,9 +132,6 @@ $scope.editChatGroup = function(){
 
 };
 
-$scope.removeUserFromChatGroup = function(user){
-  userChatGroupService.removeUserFromUserChatGroup(user.id, userChatGroup.id);
-}
 
 $scope.addUserToChatGroup = function(user){
   var userChatGroup = new UserChatGroup();

@@ -35,6 +35,11 @@ public class UserService {
 	public User findUserByEmail(String email) {
 		return this.userRepository.findUserByEmail(email);
 	}
+	
+	@Transactional(readOnly = true)
+	public User findUserDetailsByEmail(String email) {
+		return this.userRepository.findUserDetailsByEmail(email);
+	}
 
 	@Transactional(readOnly = false)
 	public User insertUser(User user) {

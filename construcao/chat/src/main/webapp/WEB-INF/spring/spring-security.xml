@@ -12,39 +12,57 @@
 
 	<context:component-scan
 		base-package="br.com.eits.desafio.chat.security, br.com.eits.desafio.chat.domain" />
+		
+		
+<!-- 	<bean id="basicAuthenticationFilter"
+	  class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+	  <property name="authenticationManager" ref="authenticationManager"/>
+	  <property name="authenticationEntryPoint" ref="authenticationEntryPoint"/>
+	</bean>
+
+	<bean id="authenticationEntryPoint"
+	  class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+	  <property name="realmName" value="chat"/>
+	</bean>
+ -->
 
 
-	<security:http auto-config="true" use-expressions="true">
-		<!-- <security:csrf token-repository-ref="csrfTokenRepository" /> <security:csrf 
-			request-matcher-ref="csrfSecurityRequestMatcher" /> -->
 
-		<security:csrf disabled="true" />
-		<security:http-basic />
-
-		<security:intercept-url pattern="/login"
-			access="permitAll" />
-		<security:intercept-url pattern="/app/**"
-			access="permitAll" />
-		<security:intercept-url pattern="/webjars/**"
-			access="permitAll" />
-		<security:intercept-url pattern="/dwr/**"
-			access="permitAll()" />
-<!--     		<security:intercept-url pattern="/**"
-			access="isAuthenticated()" />   -->
-
-		<security:form-login 
-			login-page="/login"
-			login-processing-url="/authenticate" 
-			username-parameter="username"
-			password-parameter="password"
-			always-use-default-target="true" 
-			authentication-failure-url="./login-fail"
-			authentication-success-handler-ref="authenticationSuccessHandler" 
-			authentication-failure-handler-ref="authenticationFailureHandler"/>
-
-		<security:logout invalidate-session="true"
-			logout-success-url="/login" logout-url="/logout" />
+		<security:http auto-config="true" use-expressions="true">
+			<!-- <security:csrf token-repository-ref="csrfTokenRepository" /> <security:csrf 
+				request-matcher-ref="csrfSecurityRequestMatcher" /> -->
+	
+			<security:csrf disabled="true" />
+			<security:intercept-url pattern="/login"
+				access="permitAll" />
+			<security:intercept-url pattern="/app/**"
+				access="permitAll" />
+			<security:intercept-url pattern="/webjars/**"
+				access="permitAll" />
+			<security:intercept-url pattern="/dwr/**"
+				access="permitAll" />
+			<security:intercept-url pattern="/restful/**" access="hasAnyRole('ADMINISTRATOR', 'USER')" />
+			<security:intercept-url pattern="/**" access="isAuthenticated()" />
+	
+			<security:form-login 
+				login-page="/login"
+				login-processing-url="/authenticate" 
+				username-parameter="username"
+				password-parameter="password"
+				always-use-default-target="true" 
+				authentication-failure-url="./login-fail"
+				authentication-success-handler-ref="authenticationSuccessHandler" 
+				authentication-failure-handler-ref="authenticationFailureHandler"/>
+	
+			<security:logout 
+				invalidate-session="true"
+				logout-success-url="/login" 
+				logout-url="/logout" 
+				delete-cookies="true"/>
+				
+			<security:http-basic/>
 		</security:http>
+		
 
 	<security:authentication-manager>
 		<security:authentication-provider

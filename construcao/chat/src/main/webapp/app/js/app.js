@@ -75,7 +75,7 @@ desafioChat.run(function($rootScope, $location,$mdSidenav, UserAuthenticatedServ
 
     $rootScope.toggleSideNav = function(){
        $mdSidenav('left').toggle();
-       $rootScope.showSideNav = !$rootScope.showSideNav;
+      //  $rootScope.showSideNav = !$rootScope.showSideNav;
     };
 
   // Pegar o usuario Logado no Sistema

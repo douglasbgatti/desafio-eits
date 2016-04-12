@@ -53,7 +53,7 @@
             <thead>
             </thead>
             <tbody>
-              <tr md-row md-select="user" md-on-select="model.userSelected" ng-repeat="userChatGroupList in model.userChatGroupList">
+              <tr md-row md-select="user" md-on-select="model.userSelected" ng-repeat="userChatGroupList in model.userChatGroupList" ng-click="showUserInfo($event, userChatGroupList.user)">
                 <td flex="45" md-cell>{{userChatGroupList.user.email}}</td>
               </tr>
             </tbody>

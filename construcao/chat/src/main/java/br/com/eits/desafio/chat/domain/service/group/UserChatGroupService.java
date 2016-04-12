@@ -51,6 +51,10 @@ public class UserChatGroupService {
 		return this.userChatGroupRepository.findUserChatGroupByUserId(id);
 	}
 	
+	public List<UserChatGroup> listUserChatGroupByUserIdAndFilter(Long id, String filter){
+		return this.userChatGroupRepository.findUserChatGroupByUserIdAndFilter(id, filter);
+	}
+	
 	public List<UserChatGroup> listAllUserChatGroups(){
 		return this.userChatGroupRepository.findAllUserChatGroups();
 	}
@@ -68,6 +72,33 @@ public class UserChatGroupService {
 		List<UserChatGroup> userChatGroupList = new ArrayList<UserChatGroup>();
 		
 		userChatGroupList = listUserChatGroupByUserId(user.getId());
+		
+		//settar as ultimas mensagens do chatGroup
+		for (Iterator iterator = userChatGroupList.iterator(); iterator.hasNext();) {
+			UserChatGroup userChatGroup = (UserChatGroup) iterator.next();
+			
+			if(userChatGroup.getSentMessages().size() > 0){
+				userChatGroup.getChatGroup().setLatestMessage(userChatGroup.getSentMessages().get(0));
+			}
+		}
+		return userChatGroupList;
+	}
+	
+	/**
+	 * lista os usuarios de acordo com o role do administrador 
+	 * Se o user tiver o role Roles.ADMINISTRAOR lista todos os grupos 
+	 * 		-se do tipo Roles.USER lista somente os grupos em que esta inscrito
+	 * @return
+	 */
+	public List<UserChatGroup> listUserChatGroupsByUserAndFilter(String filter){
+		if( filter == null || filter.equals("")){
+			return this.listUserChatGroupsByUser();			
+		}
+		//TODO USER ROLE CONDITION
+		User user = ContextHolder.getAuthenticatedUser();
+		List<UserChatGroup> userChatGroupList = new ArrayList<UserChatGroup>();
+		
+		userChatGroupList = listUserChatGroupByUserIdAndFilter(user.getId(), filter);
 		
 		//settar as ultimas mensagens do chatGroup
 		for (Iterator iterator = userChatGroupList.iterator(); iterator.hasNext();) {
