@@ -45,7 +45,7 @@ public class ChatGroup implements Serializable{
 	@Column(name="id", unique=true)
 	private Long id;
 	
-	@Column(name="group_name", nullable=false, length=144)
+	@Column(name="group_name", nullable=false, unique=true, length=50)
 	private String groupName;
 	
 	/**
@@ -54,6 +54,9 @@ public class ChatGroup implements Serializable{
 	@Transient
 	private List<UserChatGroup> userGroupList = new ArrayList<UserChatGroup>();
 	
+	/**
+	 * utilizado para listar os usuarios vinculados ao grupo;
+	 */
 	@Transient
 	private List<User> userList = new ArrayList<User>();
 	
@@ -111,9 +114,5 @@ public class ChatGroup implements Serializable{
 	public void setUserList(List<User> userList) {
 		this.userList = userList;
 	}
-
-	
-	
-
 	
 }

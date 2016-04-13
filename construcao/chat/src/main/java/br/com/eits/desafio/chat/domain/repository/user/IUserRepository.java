@@ -24,6 +24,10 @@ public interface IUserRepository extends JpaRepository<User, Long>{
 			+ " FROM User user WHERE user.email= :email " )
 	User findUserDetailsByEmail(@Param("email")String email);
 	
+	@Query(value="Select new User(user.id, user.name, user.email, user.enabled, user.role) "
+			+ " FROM User user " )
+	List<User> listAllUsers();
+	
 	
 	@Query(value="SELECT new User( user.id, user.name, user.email, user.enabled, user.role ) " +
 			   "FROM User user " +

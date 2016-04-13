@@ -1,4 +1,4 @@
-desafioChat.controller('UserChatGroupController', function( $scope, $rootScope, $location, $importService, $routeParams, $mdToast, $mdDialog, ChatService, UserAuthenticatedService) {
+desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope, $location, $importService, $routeParams, $mdToast, $mdDialog, ChatService, UserAuthenticatedService) {
 
   $importService('userChatGroupService');
   $importService('chatGroupService');
@@ -244,7 +244,7 @@ desafioChat.controller('UserChatGroupController', function( $scope, $rootScope, 
       $scope.showManageUserToGroupHandler = function(event, chatGroupId){
           $mdDialog.show({
             controller: 'ChatGroupManageUsersModalController',
-            templateUrl: 'app/views/chat-group-add-user-modal.html',
+            templateUrl: 'app/views/chat-group-manage-user-modal.html',
             targetEvent: event,
             bindToController: false,
             locals: {

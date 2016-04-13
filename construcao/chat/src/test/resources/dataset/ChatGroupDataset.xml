@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<chat_group
+		id="1"
+		group_name="Development Group"
+	/>
+	<chat_group
+		id="2"
+		group_name="Support Group"
+	/>
+	<chat_group
+		id="3"
+		group_name="Testing Group"
+	/>
+</dataset>

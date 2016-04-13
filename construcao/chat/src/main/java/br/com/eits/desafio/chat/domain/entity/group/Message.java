@@ -65,9 +65,6 @@ public class Message implements Serializable{
 		this.visualized = visualized;
 	}
 	
-	
-	
-	
 	public Message(Long id, String message, Calendar sentTime, Boolean visualized, UserChatGroup userChatGroup) {
 		this.id = id;
 		this.message = message;
@@ -80,36 +77,29 @@ public class Message implements Serializable{
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public String getMessage() {
 		return message;
 	}
 
-
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
 
 	public Calendar getSentTime() {
 		return sentTime;
 	}
 
-
 	public void setSentTime(Calendar sentTime) {
 		this.sentTime = sentTime;
 	}
 
-
 	public Boolean getVisualized() {
 		return visualized;
 	}
-
 
 	public void setVisualized(Boolean visualized) {
 		this.visualized = visualized;
@@ -127,10 +117,6 @@ public class Message implements Serializable{
 	public String toString() {
 		return "Message [id=" + id + ", message=" + message + ", sentTime=" + sentTime + ", visualized=" + visualized
 				+ ", userChatGroup=" + userChatGroup + "]";
-	}
-
-
-
-	
+	}	
 
 }

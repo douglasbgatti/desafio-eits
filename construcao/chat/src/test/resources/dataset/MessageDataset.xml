@@ -1,0 +1,37 @@
+<dataset>
+	<message 
+		id="1"
+		message="Hey wats up!"
+		sent_time="2016-04-12 14:00:00"
+		visualized="true"
+		userchatgroup_id="1"
+	/>
+	<message 
+		id="2"
+		message="Are you there?"
+		sent_time="2016-04-12 14:01:00"
+		visualized="true"
+		userchatgroup_id="1"
+	/>
+	<message 
+		id="3"
+		message="Yeah"
+		sent_time="2016-04-12 14:02:00"
+		visualized="true"
+		userchatgroup_id="3"
+	/>
+	<message 
+		id="4"
+		message="Whats up?"
+		sent_time="2016-04-12 14:03:00"
+		visualized="true"
+		userchatgroup_id="3"
+	/>
+	<message 
+		id="5"
+		message="Help me out here!"
+		sent_time="2016-04-12 14:04:00"
+		visualized="false"
+		userchatgroup_id="1"
+	/>
+</dataset>

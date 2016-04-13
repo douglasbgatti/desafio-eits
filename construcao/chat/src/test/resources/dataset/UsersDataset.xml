@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<users
+		id="1"
+		email="dbg@gmail.com"
+		enabled="true"
+		name="Douglas B. Gatti"
+		password="$2a$10$krH8P09JjN.cRNwyDheczutS6p7b46xOY1TpXFURBUas3hijxnzxy"
+		role_type="0"
+	/>
+	<users
+		id="2"
+		email="jose@gmail.com"
+		enabled="false"
+		name="Jose da Silva"
+		password="$2a$10$krH8P09JjN.cRNwyDheczutS6p7b46xOY1TpXFURBUas3hijxnzxy"
+		role_type="1"
+	/>
+	<users
+		id="3"
+		email="maria@mail.com"
+		enabled="true"
+		name="Maria dos Santos"
+		password="$2a$10$krH8P09JjN.cRNwyDheczutS6p7b46xOY1TpXFURBUas3hijxnzxy"
+		role_type="1"
+	/>
+</dataset>

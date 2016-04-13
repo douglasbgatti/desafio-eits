@@ -30,10 +30,8 @@ public class UserChatGroupService {
 	@Autowired
 	private ChatGroupService chatGroupService;
 
-	public UserChatGroup getUserChatGroupByChatGroupId(Long chatGroupId) {
-		return this.userChatGroupRepository.getUserChatGroupByChatGroupId(chatGroupId);
-	}
 
+	@Transactional(readOnly=true)
 	public UserChatGroup getUserChatGroupById(Long userChatGroupId) {
 		return userChatGroupRepository.findOne(userChatGroupId);
 	}
@@ -41,20 +39,25 @@ public class UserChatGroupService {
 	@Transactional(readOnly=true)
 	public UserChatGroup getUserChatGroupByUserAndChatGroup(Long userId, Long chatGroupId) {
 		UserChatGroup userChatGroup = this.userChatGroupRepository.findUserChatGroupByUserAndChatGroup(userId, chatGroupId);
-		if(userChatGroup != null)
-			userChatGroup.getUser().setPassword(null);
+		
+		Assert.notNull(userChatGroup, "User is not subscribed to this Chat Group!");
+		
+		userChatGroup.getUser().setPassword("");		
 		
 		return userChatGroup;
 	}
 	
+	@Transactional(readOnly=true)
 	public List<UserChatGroup> listUserChatGroupByUserId(Long id){
 		return this.userChatGroupRepository.findUserChatGroupByUserId(id);
 	}
 	
+	@Transactional(readOnly=true)
 	public List<UserChatGroup> listUserChatGroupByUserIdAndFilter(Long id, String filter){
 		return this.userChatGroupRepository.findUserChatGroupByUserIdAndFilter(id, filter);
 	}
 	
+	@Transactional(readOnly=true)
 	public List<UserChatGroup> listAllUserChatGroups(){
 		return this.userChatGroupRepository.findAllUserChatGroups();
 	}
@@ -66,6 +69,7 @@ public class UserChatGroupService {
 	 * 		-se do tipo Roles.USER lista somente os grupos em que esta inscrito
 	 * @return
 	 */
+	@Transactional(readOnly=true)
 	public List<UserChatGroup> listUserChatGroupsByUser(){
 		//TODO USER ROLE CONDITION
 		User user = ContextHolder.getAuthenticatedUser();
@@ -90,11 +94,12 @@ public class UserChatGroupService {
 	 * 		-se do tipo Roles.USER lista somente os grupos em que esta inscrito
 	 * @return
 	 */
+	@Transactional(readOnly=true)
 	public List<UserChatGroup> listUserChatGroupsByUserAndFilter(String filter){
 		if( filter == null || filter.equals("")){
 			return this.listUserChatGroupsByUser();			
 		}
-		//TODO USER ROLE CONDITION
+		
 		User user = ContextHolder.getAuthenticatedUser();
 		List<UserChatGroup> userChatGroupList = new ArrayList<UserChatGroup>();
 		
@@ -112,14 +117,17 @@ public class UserChatGroupService {
 	}
 	
 	
-	public UserChatGroup updateUserChatGroup(UserChatGroup userChatGroup){
-		return this.userChatGroupRepository.saveAndFlush(userChatGroup);
-	}
-	
+	@Transactional(readOnly=false)
 	public UserChatGroup insertUserChatGroup(UserChatGroup userChatGroup){
 		Assert.notNull(userChatGroup);
+		UserChatGroup ucg = null;
+		try{
+			//Verifies if user is already subscribed to the chat group
+			ucg = this.getUserChatGroupByUserAndChatGroup(userChatGroup.getUser().getId(), userChatGroup.getChatGroup().getId());
+		}catch(IllegalArgumentException e){
+		}
 		
-		UserChatGroup ucg = this.getUserChatGroupByUserAndChatGroup(userChatGroup.getUser().getId(), userChatGroup.getChatGroup().getId());
+		//if the user is not already subscribed to the group a userChatGroup is created
 		if(ucg == null){
 			userChatGroup = this.userChatGroupRepository.save(userChatGroup);
 		}else{
@@ -129,6 +137,8 @@ public class UserChatGroupService {
 		
 		return userChatGroup;
 	}
+	
+	
 	
 	@Transactional(readOnly=true)
 	public List<UserChatGroup> listUserChatGroupsByChatGroupId(Long id){
@@ -140,20 +150,10 @@ public class UserChatGroupService {
 		this.userChatGroupRepository.deleteAllUserChatGroupsByChatGroupId(chatGroupId);
 	}
 	
-//	public UserChatGroup addUserToChatGroup(User user, Long chatGroupId){		
-//		ChatGroup chatGroup = this.chatGroupService.getChatGroup(chatGroupId);
-//		
-//		UserChatGroup userChatGroup = new UserChatGroup();
-//		userChatGroup.setUser(user);
-//		userChatGroup.setChatGroup(chatGroup);
-//		
-//		return this.insertUserChatGroup(userChatGroup);
-//	}
-	
+	@Transactional(readOnly=false)
 	public void removeUserFromChatGroup(Long userId, Long chatGroupId){
 		UserChatGroup userChatGroup = this.getUserChatGroupByUserAndChatGroup(userId, chatGroupId);
 		
 		this.userChatGroupRepository.delete(userChatGroup.getId());
 	}
-
 }

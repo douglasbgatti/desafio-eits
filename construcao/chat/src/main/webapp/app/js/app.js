@@ -21,31 +21,15 @@ desafioChat.config(function($routeProvider, $httpProvider, $importServiceProvide
 
   $routeProvider
     .when('/', {
-      // templateUrl: 'app/views/main.html'
+       templateUrl: 'app/views/main.html'
     })
     .when('/group/:id', {
       templateUrl: 'app/views/user-chat-group.html',
       controller: 'UserChatGroupController'
     })
-    .when('/add-group',{
-      templateUrl: 'app/views/group.html',
-      controller: 'CreateGroupController'
-    })
-    .when('/edit-group/:id',{
-      templateUrl: 'app/views/group.html',
-      controller: 'EditGroupController'
-    })
-    .when('/users',{
+    .when('/users-list',{
       templateUrl: 'app/views/users-list.html',
-      controller: 'UsersController'
-    })
-    .when('/create-user',{
-      templateUrl: 'app/views/user.html',
-      controller: 'CreateUserController'
-    })
-    .when('/edit-user/:id',{
-      templateUrl: 'app/views/user.html',
-      controller: 'EditUserController'
+      controller: 'UsersListController'
     })
 
 });
@@ -75,7 +59,7 @@ desafioChat.run(function($rootScope, $location,$mdSidenav, UserAuthenticatedServ
 
     $rootScope.toggleSideNav = function(){
        $mdSidenav('left').toggle();
-      //  $rootScope.showSideNav = !$rootScope.showSideNav;
+       $rootScope.showSideNav = !$rootScope.showSideNav;
     };
 
   // Pegar o usuario Logado no Sistema

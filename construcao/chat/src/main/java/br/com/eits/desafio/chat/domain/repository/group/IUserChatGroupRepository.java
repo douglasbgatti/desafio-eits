@@ -11,11 +11,6 @@ import br.com.eits.desafio.chat.domain.entity.group.Message;
 import br.com.eits.desafio.chat.domain.entity.group.UserChatGroup;
 
 public interface IUserChatGroupRepository extends JpaRepository<UserChatGroup, Long>{
-
-	@Query(value="Select new UserChatGroup(userChatGroup.id) "
-			+ "FROM UserChatGroup userChatGroup "
-			+ "WHERE userChatGroup.chatGroup.id = :chatGroupId " )
-	UserChatGroup getUserChatGroupByChatGroupId(@Param("chatGroupId") Long chatGroupId);
 	
 	
 	@Query(value="Select new UserChatGroup(userChatGroup.id, userChatGroup.user, userChatGroup.chatGroup) " 
@@ -30,12 +25,15 @@ public interface IUserChatGroupRepository extends JpaRepository<UserChatGroup, L
 	List<UserChatGroup> listUserChatGroupsByChatGroupId(@Param("chatGroupId") Long chatGroupId);
 	
 	
-	@Query(value="Select new UserChatGroup(userChatGroup.id, userChatGroup.chatGroup) " 
+//	@Query(value="Select new UserChatGroup(userChatGroup.id, userChatGroup.user, userChatGroup.chatGroup) " 
+//			+ " FROM UserChatGroup userChatGroup "
+//			+ " WHERE userChatGroup.user.id = :userId ")
+	@Query(value="Select userChatGroup " 
 			+ " FROM UserChatGroup userChatGroup "
 			+ " WHERE userChatGroup.user.id = :userId ")
 	List<UserChatGroup> findUserChatGroupByUserId(@Param("userId") Long userId);
 	
-	@Query(value="Select new UserChatGroup(userChatGroup.id, userChatGroup.chatGroup) " 
+	@Query(value="Select new UserChatGroup(userChatGroup.id, userChatGroup.user, userChatGroup.chatGroup) " 
 			+ " FROM UserChatGroup userChatGroup "
 			+ " WHERE userChatGroup.user.id = :userId AND userChatGroup.chatGroup.groupName LIKE %:filter% ")
 	List<UserChatGroup> findUserChatGroupByUserIdAndFilter(@Param("userId") Long userId, @Param("filter") String filter);

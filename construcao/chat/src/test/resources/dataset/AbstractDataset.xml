@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<public.users></public.users>
+	<public.chat_group></public.chat_group>
+	<public.user_chat_group></public.user_chat_group>
+	<public.message></public.message>
+</dataset>

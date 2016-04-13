@@ -112,7 +112,7 @@ $rootScope.showSideNav = true;
   }
 
   $scope.openUsersHandler = function() {
-    $location.path('/users');
+    $location.path('/users-list');
   }
 
   $scope.openChatHandler = function(groupId) {
@@ -121,7 +121,7 @@ $rootScope.showSideNav = true;
 
   $scope.openIndexHandler = function(){
     $rootScope.showSideNav = true;
-    $rootScope.toggleSideNav();
+    // $rootScope.toggleSideNav();
     $location.path('/');
   }
 

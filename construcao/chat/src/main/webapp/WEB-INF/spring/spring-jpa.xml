@@ -25,6 +25,7 @@
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
         <!-- spring based scanning for entity classes-->
         <property name="packagesToScan" value="br.com.eits.desafio.chat.domain.entity"/>
+        
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">

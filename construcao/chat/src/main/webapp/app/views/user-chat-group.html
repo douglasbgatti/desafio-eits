@@ -7,7 +7,7 @@
           </p>
           <span flex="5"></span>
          <md-button class="md-icon-button" aria-label="Edit Group Name" ng-click="showEditChatGroupNameInput()">
-          <ng-md-icon icon="mode_edit" size="24" aria-label="Edit Group Name" style="fill:white"></ng-md-icon>
+          <ng-md-icon icon="mode_edit" size="24" aria-label="Edit Group Name" style="fill:white; margin-top:-10px"></ng-md-icon>
         </md-button>
       </div>
       <div ng-if="model.editChatGroupName == true" flex>
@@ -34,9 +34,6 @@
       <md-button class="md-icon-button" aria-label="Open Settings" ng-click="showManageUserToGroupHandler($event, model.userChatGroup.chatGroup.id)">
         <ng-md-icon icon="person_add" size="24" aria-label="Add user to Group" style="fill:white"></ng-md-icon>
       </md-button>
-      <!-- <md-button class="md-icon-button" aria-label="Edit Group" ng-click="openEditGroupHandler(model.userChatGroup.chatGroup.id)">
-        <ng-md-icon icon="mode_edit" size="24" aria-label="Edit Group" style="fill:white"></ng-md-icon>
-      </md-button> -->
       <md-button class="md-icon-button" aria-label="Delete Group" ng-click="showConfirmDeleteChatGroup($event, model.chatGroup.id)">
         <ng-md-icon icon="remove_circle" size="24" aria-label="Delete Group" style="fill:white"></ng-md-icon>
       </md-button>

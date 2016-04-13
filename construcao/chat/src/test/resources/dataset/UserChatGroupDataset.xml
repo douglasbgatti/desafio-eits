@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<user_chat_group 
+		id="1"
+		chatgroup_id="1"
+		user_id="1"
+	/>
+	<user_chat_group 
+		id="2"
+		chatgroup_id="1"
+		user_id="2"
+	/>
+	<user_chat_group 
+		id="3"
+		chatgroup_id="1"
+		user_id="3"
+	/>
+	<user_chat_group 
+		id="4"
+		chatgroup_id="2"
+		user_id="1"
+	/>
+	<user_chat_group 
+		id="5"
+		chatgroup_id="3"
+		user_id="1"
+	/>
+</dataset>

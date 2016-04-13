@@ -10,6 +10,7 @@ import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.eits.desafio.chat.domain.entity.group.Message;
 import br.com.eits.desafio.chat.domain.repository.group.IChatGroupRepository;
@@ -27,33 +28,50 @@ public class MessageService{
 	private IMessageRepository messageRepository;
 	
 	
+	/**
+	 * Persists a new message adding the current time 
+	 * @param message
+	 * @return
+	 */
+	@Transactional(readOnly=false)
 	public Message insertMessage(Message message){
-		message.setSentTime(Calendar.getInstance());
-		LOG.info("MESSAGE:" + message.toString());
-		
+		message.setSentTime(Calendar.getInstance());		
 		return this.messageRepository.save(message);
 	}
 	
-
-	public Message updateMessage(Message message){
-		return this.messageRepository.saveAndFlush(message);
-	}
 	
-	public List<Message> listAllMessagesByChatGroupId(Long chatGroupId){
-		
+	/**
+	 * Lists all messages from a specific chatGroup
+	 * @param chatGroupId
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public List<Message> listAllMessagesByChatGroupId(Long chatGroupId){		
 		return this.messageRepository.listAllMessagesByChatGroupId(chatGroupId);
 	}
 	
+	/**
+	 * Deletes a msg only if the message belongs to the authenticated user
+	 * @param messageId
+	 * @throws CredentialException
+	 */
+	@Transactional(readOnly=false)
 	public void deleteMessage(Long messageId) throws CredentialException{
 		Message message = this.getMessage(messageId);
 		
+		//only deletes the message if the authenticated user sent the message
 		if(message.getUserChatGroup().getUser().getId() == ContextHolder.getAuthenticatedUser().getId()){		
 			this.messageRepository.delete(messageId);
 		}else{
-			new CredentialException("User can only delete his own messages!");
+			throw new CredentialException("User can only delete his own messages!");
 		}
 	}
 	
+	/**
+	 * Sets a message status to visualized
+	 * @param messageId
+	 */
+	@Transactional(readOnly=false)
 	public void setMessageStatusToVisualized(Long messageId){
 		Message message = this.messageRepository.findOne(messageId);
 		message.setVisualized(Boolean.TRUE);
@@ -61,9 +79,14 @@ public class MessageService{
 		this.messageRepository.saveAndFlush(message);
 	}
 	
+	/**
+	 * Gets a message by the messages id
+	 * @param id
+	 * @return
+	 */
+	@Transactional(readOnly=true)
 	public Message getMessage(Long id){
 		return this.messageRepository.findOne(id);
 	}
-	
 
 }

@@ -80,11 +80,7 @@ public class UserChatGroup implements Serializable{
 		this.id = id;
 		this.chatGroup = chatGroup;
 	}
-	
-	
-	
-	
-	
+		
 	public UserChatGroup(Long id) {
 		this.id = id;
 	}
@@ -121,9 +117,5 @@ public class UserChatGroup implements Serializable{
 	public void setSentMessages(List<Message> sentMessages) {
 		this.sentMessages = sentMessages;
 	}
-
-
-
-	
 	
 }
