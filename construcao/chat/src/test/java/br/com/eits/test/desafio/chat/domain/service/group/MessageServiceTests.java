@@ -45,16 +45,16 @@ public class MessageServiceTests extends AbstractIntegrationTests {
 		this.messageService.insertMessage(message);
 	}
 
-	@Test
-	@DatabaseSetup(type = DatabaseOperation.CLEAN_INSERT, value = { "/dataset/UsersDataset.xml",
-			"/dataset/ChatGroupDataset.xml", "/dataset/UserChatGroupDataset.xml", "/dataset/MessageDataset.xml" })
-	public void testListAllMessagesByChatGroupIdMustPass() {
-		final List<Message> messageList = this.messageService.listAllMessagesByChatGroupId(1L);
-		Assert.assertNotNull(messageList);
-
-		Assert.assertEquals(5, messageList.size());
-
-	}
+//	@Test
+//	@DatabaseSetup(type = DatabaseOperation.CLEAN_INSERT, value = { "/dataset/UsersDataset.xml",
+//			"/dataset/ChatGroupDataset.xml", "/dataset/UserChatGroupDataset.xml", "/dataset/MessageDataset.xml" })
+//	public void testListAllMessagesByChatGroupIdMustPass() {
+//		final List<Message> messageList = this.messageService.listAllMessagesByChatGroupId(1L);
+//		Assert.assertNotNull(messageList);
+//
+//		Assert.assertEquals(5, messageList.size());
+//
+//	}
 
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.CLEAN_INSERT, value = { "/dataset/UsersDataset.xml",

@@ -39,31 +39,6 @@ http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.
     <dwr:convert type="bean" class="org.springframework.security.core.userdetails.UserDetails"/>
   </dwr:configuration>
 
-  <!-- <bean id="dwrController" class="org.directwebremoting.spring.DwrController">
-   <property name="configurators">
-      <list>
-         <ref bean="dwrConfiguration"/>
-      </list>
-   </property>
-   <property name="debug" value="true"/>
-</bean> -->
-
-<!-- <bean id="dwrConfiguration" class="org.directwebremoting.spring.SpringConfigurator">
-   <property name="creators">
-      <map>
-         <entry key="beanName">
-            <bean class="org.directwebremoting.spring.CreatorConfig">
-               <property name="creator">
-                  <bean class="org.directwebremoting.spring.BeanCreator">
-                     <property name="bean" ref="BeanName"/>
-                  </bean>
-               </property>
-            </bean>
-         </entry>
-      </map>
-   </property>
-</bean> -->
-
 	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
 
 	<bean id="viewMappings" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">

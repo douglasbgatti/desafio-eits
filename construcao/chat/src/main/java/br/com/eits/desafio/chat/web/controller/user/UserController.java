@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,10 +113,10 @@ public class UserController {
 	 * @param filter
 	 * @return List<User>
 	 */
-	@RequestMapping(value="/list-users-by-filter/{filter}", method=RequestMethod.GET)
-	public @ResponseBody List<User> listUsersByFilter(@PathVariable String filter) {
-		return this.userService.listUsersByFilter(filter);
-	}
+//	@RequestMapping(value="/list-users-by-filter/{filter}/{page},{limit}", method=RequestMethod.GET)
+//	public @ResponseBody List<User> listUsersByFilter(@PathVariable String filter, @PathVariable int page, @PathVariable int limit ) {
+//		return this.userService.listUsersByFilter(filter);
+//	}
 
 	/**
 	 *  Lists all the users in the db

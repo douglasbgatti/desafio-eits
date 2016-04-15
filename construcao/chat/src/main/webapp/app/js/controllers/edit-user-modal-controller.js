@@ -1,4 +1,4 @@
-desafioChat.controller('EditUserModalController', function($scope, $routeParams, $importService, $location,  $mdDialog, $mdToast, userId) {
+desafioChat.controller('EditUserModalController', function($scope, $rootScope, $routeParams, $importService, $location,  $mdDialog, $mdToast, userId) {
 
   /**
    * Serviços importados do DWR
@@ -10,7 +10,9 @@ desafioChat.controller('EditUserModalController', function($scope, $routeParams,
     originalEmail: '',
     retypedPassword: '',
     userId: null,
-    pageHeader: 'Edit User',
+    window:{
+      name: 'Edit User'
+    },
     userId: '',
     creatingUser: false,
     form: null
@@ -36,7 +38,7 @@ desafioChat.controller('EditUserModalController', function($scope, $routeParams,
         }
       });
     } else {
-      $scope.showSimpleToast('User Id doesnt exist!');
+      $rootScope.showSimpleToast('User Id doesnt exist!');
     }
   }
 
@@ -46,19 +48,19 @@ desafioChat.controller('EditUserModalController', function($scope, $routeParams,
   $scope.editUser = function() {
     $scope.model.creatingUser = true;
     if($scope.model.user.email != '' && $scope.model.user.email != null){
-      $scope.model.form.$valid = true;    
+      $scope.model.form.$valid = true;
         if ($scope.model.userId != null) {
           userService.alterUser($scope.model.user, {
             callbackHandler: function(result) {
               console.log('SUCCESS:', result);
 
-              $scope.showSimpleToast('User has been updated successfully!');
+              $rootScope.showSimpleToast('User has been updated successfully!');
               $scope.hide();
-              $location.path('/users');
+              $location.path('/users-list');
             },
             errorHandler: function(message, exception) {
               console.log('ERROR:', message, exception);
-              $scope.showSimpleToast(message + ' ' + exception);
+              $rootScope.showSimpleToast(message + ' ' + exception);
             }
           });
         }
@@ -73,15 +75,6 @@ desafioChat.controller('EditUserModalController', function($scope, $routeParams,
     $mdDialog.hide();
   };
 
-
-  $scope.showSimpleToast = function(content) {
-    $mdToast.show(
-      $mdToast.simple()
-      .textContent(content)
-      .position('top right')
-      .hideDelay(5000)
-    );
-  }
 
   $scope.validateEmail = function(){
     userService.findUserByEmail($scope.model.user.email, {

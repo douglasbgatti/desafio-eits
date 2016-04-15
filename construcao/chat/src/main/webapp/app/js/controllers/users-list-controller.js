@@ -1,4 +1,4 @@
-desafioChat.controller('UsersListController', function($scope, $rootScope, $location, $mdDialog, $injector, $importService, $mdToast) {
+desafioChat.controller( 'UsersListController' , function($scope, $rootScope, $location, $mdDialog, $injector, $importService, $mdToast) {
 
   /**
    * Serviços importados do DWR
@@ -8,11 +8,12 @@ desafioChat.controller('UsersListController', function($scope, $rootScope, $loca
   $scope.model = {
     selectedUser: new User(),
     usersList: [],
-    filter: '',
+    filter: "",
     query: {
             order: 'name',
             limit: 5,
-            page: 1
+            page: 1,
+            request: {}
     },
     options: {
             rowSelection: true,
@@ -23,7 +24,7 @@ desafioChat.controller('UsersListController', function($scope, $rootScope, $loca
             boundaryLinks: false,
             limitSelect: true,
             pageSelect: true
-    }
+          }
 
   };
 
@@ -35,14 +36,14 @@ desafioChat.controller('UsersListController', function($scope, $rootScope, $loca
 
     userService.listUsersByFilter($scope.model.filter, {
       callbackHandler: function(result) {
-        console.log("result", result);
+        console.log("LIST USERS BY FILTER", result);
           $scope.model.usersList = result;
           $scope.$apply();
 
       },
       errorHandler: function(message, exception) {
         $mdToast.showSimple(message);
-        console.log('ERROR', message, exception);
+        console.log('ERROR',  exception);
       }
 
     });
@@ -58,7 +59,7 @@ desafioChat.controller('UsersListController', function($scope, $rootScope, $loca
     userService.activateUser(id,{
       callbackHandler: function(result) {
           console.log("activateUser", result);
-          $scope.showSimpleToast("User has been activated!");
+          $rootScope.showSimpleToast("User has been activated!");
           $scope.listUsersByFilterHandler();
       },
       errorHandler: function(message, exception) {
@@ -72,7 +73,7 @@ desafioChat.controller('UsersListController', function($scope, $rootScope, $loca
     userService.deactivateUser(id,{
       callbackHandler: function(result) {
         console.log("deactivateUser", result);
-        $scope.showSimpleToast("User has been deactivated!");
+        $rootScope.showSimpleToast("User has been deactivated!");
         $scope.listUsersByFilterHandler();
       },
       errorHandler: function(message, exception) {
@@ -81,16 +82,6 @@ desafioChat.controller('UsersListController', function($scope, $rootScope, $loca
       }
     });
   }
-
-
-  $scope.showSimpleToast = function(content) {
-    $mdToast.show(
-      $mdToast.simple()
-      .textContent(content)
-      .position('top right')
-      .hideDelay(5000)
-    );
-  };
 
   $scope.openUserEditHandler = function($event, user) {
     $mdDialog.show({

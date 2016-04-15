@@ -1,4 +1,4 @@
-desafioChat.controller('ChatGroupCreateModalController', function($scope, $location, $importService, $mdDialog, $mdToast) {
+desafioChat.controller('ChatGroupCreateModalController', function($scope, $rootScope, $location, $importService, $mdDialog, $mdToast, ChatGroupWebsocketService) {
 
 
 $importService('userService');
@@ -42,24 +42,28 @@ function createFilterFor(query) {
   };
 }
 
+/**
+* lists the users in the db - lists only USER Role because ADMINISTRATOS have access to every group
+*/
 $scope.loadAllUsers = function() {
   userService.listUsersByRole('USER', {
     callbackHandler: function(result) {
       console.log("result", result);
         $scope.model.usersList = result;
         $scope.$apply();
-
     },
     errorHandler: function(message, exception) {
       $mdToast.showSimple(message);
       console.log('ERROR', message, exception);
     }
-
   });
 };
 
-  $scope.loadAllUsers();
+$scope.loadAllUsers();
 
+/**
+* User info modal for selected user
+*/
 $scope.showUserInfo = function(event, userSelected) {
   $mdDialog.show({
     controller: 'UserInfoModalController',
@@ -117,34 +121,28 @@ $scope.insertChatGroup = function(){
     $scope.model.chatGroup.userGroupList.push(userChatGroup);
 
   });
+     chatGroupService.insertChatGroup($scope.model.chatGroup, {
+       callbackHandler: function(result) {
+         console.log("result", result);
+           $scope.model.chatGroup = result;
+           var group = {};
+           group.id = $scope.model.chatGroup.id;
+           group.groupName = $scope.model.chatGroup.groupName;
 
-   chatGroupService.insertChatGroup($scope.model.chatGroup, {
-     callbackHandler: function(result) {
-       console.log("result", result);
-         $scope.model.chatGroup = result;
-         $scope.showSimpleToast('Group has been created successfully!');
-         $scope.hide();
-         $location.path('/');
+           //Sends a notification to every user that a group has been created
+           group.notificationType = 'NEW_GROUP_NOTIFICATION';
+           ChatGroupWebsocketService.send(group);
 
-     },
-     errorHandler: function(message, exception) {
-       $mdToast.showSimple(message);
-       console.log('ERROR', message, exception);
-     }
-   });
+           $rootScope.showSimpleToast('Group has been created successfully!');
+           $scope.hide();
+       },
+       errorHandler: function(message, exception) {
+         $mdToast.showSimple(message);
+         console.log('ERROR', message, exception);
+       }
+     });
 
 }
-
-
-
-  $scope.showSimpleToast = function(content) {
-    $mdToast.show(
-      $mdToast.simple()
-      .textContent(content)
-      .position('top right')
-      .hideDelay(5000)
-    );
-  };
 
   /*
    * Fecha a dialog

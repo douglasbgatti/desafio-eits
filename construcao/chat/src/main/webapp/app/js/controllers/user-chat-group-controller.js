@@ -1,4 +1,4 @@
-desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope, $location, $importService, $routeParams, $mdToast, $mdDialog, ChatService, UserAuthenticatedService) {
+desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope, $location, $importService, $routeParams, $mdToast, $mdDialog, ChatWebsocketService, ChatGroupWebsocketService, UserAuthenticatedService, $notification) {
 
   $importService('userChatGroupService');
   $importService('chatGroupService');
@@ -12,17 +12,21 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
     userChatGroupList: [],
     editChatGroupName: false,
     chatGroup: new ChatGroup(),
-    formEditGroup: null
+    formEditGroup: null,
+    pageRequest: {
+      page: 0,
+      size: 100
+    }
   };
 
   $rootScope.showSideNav = true;
 
 
   $scope.loadUsersByChatGroup = function(){
-    userChatGroupService.listUserChatGroupsByChatGroupId($scope.model.chatGroupId, {
+    userChatGroupService.listUserChatGroupsByChatGroupId($scope.model.chatGroupId,  {
       callbackHandler: function(result){
-        $scope.model.userChatGroupList = result;
-        $scope.$apply();
+          $scope.model.userChatGroupList = result;
+          $scope.$apply();
       },
       errorHandler: function(message, exception){
         $mdToast.simple(message, exception);
@@ -41,10 +45,8 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
           $scope.model.chatGroup = $scope.model.userChatGroup.chatGroup;
           $scope.loadMessages();
           $scope.loadUsersByChatGroup();
-
           //inicializa uma conexão websocket com o servidor se subscrevendo para escutar ao topico do grupo atual;
-
-          ChatService.initialize($scope.model.chatGroupId);
+          ChatWebsocketService.initialize($scope.model.chatGroupId);
           $scope.$apply();
         },
         errorHandler: function(message, exception){
@@ -63,24 +65,27 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
   $scope.loadMessages = function(){
     if($rootScope.user.id !== null &&  $scope.model.chatGroupId != null){
 
-      messageService.listAllMessagesByChatGroupId( $scope.model.chatGroupId, {
+      messageService.listAllMessagesByChatGroupId( $scope.model.chatGroupId,  {
         callbackHandler: function(result){
           var msgs = result;
-
           //ao receber msg seta para visualizada quando não é a msg do proprio usuario
            angular.forEach(msgs, function(msg, key){
-             if((msg.userChatGroup.user.id != $rootScope.user.id) && msg.visualized != true){
+             if((msg.userChatGroup.user.id != $rootScope.user.id) && msg.visualized == false){
                $scope.setMessageStatusToVisualized(msg);
                msg.visualized = true;
+               //SETs the message notificationtype - when the websocket broker delivers the messages to the destinations the listener method will deal with each type differently;
+                msg.notificationType = 'MESSAGE_VISUALIZED_NOTIFICATION';
+               //send the message to websocket broker /topic/message/{chat_group_id}
+               ChatWebsocketService.send(msg);
              }
            });
-
           $scope.model.messages = msgs;
           $scope.$apply();
         },
         errorHandler: function(message, exception){
           $mdToast.simple(message, exception);
-          console.log('ERROR', message, exception);
+          console.log('ERROR',exception);
+          $rootScope.showSimpleToast(message);
         }
       });
     }
@@ -96,7 +101,10 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
             $scope.model.message = result;
             $scope.model.message.userChatGroup.sentMessages = [];
 
-            ChatService.send($scope.model.message);
+            //SETs the message notificationtype - when the websocket broker delivers the messages to the destinations the listener method will deal with each type differently;
+            $scope.model.message.notificationType = 'NEW_MESSAGE_NOTIFICATION';
+            //send the message to websocket broker /topic/message/{chat_group_id}
+            ChatWebsocketService.send($scope.model.message);
 
             $scope.model.message = new Message();
             $scope.$apply();
@@ -113,21 +121,64 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
 
 
     // Receives message from websocket service
-    ChatService.receive().then(null, null, function(message) {
-      console.log('MESSAGES RECEIVED' );
+    ChatWebsocketService.receive().then(null, null, function(message) {
       var msg = angular.fromJson(message);
       msg = angular.fromJson(msg.payload);
       msg.userChatGroup = angular.fromJson(msg.userChatGroup);
 
-      if((msg.userChatGroup.user.id != $rootScope.user.id) && msg.visualized != true){
-        $scope.setMessageStatusToVisualized(msg);
-        msg.visualized = true;
-      }else{
-        msg.visualized = false;
+      if(msg.notificationType === 'NEW_MESSAGE_NOTIFICATION' ){
+          $scope.notifyUser(msg.message);
+          if((msg.userChatGroup.user.id != $rootScope.user.id) && msg.visualized != true){
+            $scope.setMessageStatusToVisualized(msg);
+            msg.visualized = true;
+          }else{
+            msg.visualized = false;
+          }
+          $scope.model.messages.push(msg);
+          return;
       }
 
-      $scope.model.messages.push(msg);
+        if(msg.notificationType === 'DELETED_MESSAGE_NOTIFICATION' ){
+          angular.forEach($scope.model.messages, function(message, key){
+            if(message.id == msg.id){
+              $scope.model.messages.splice(key, 1);
+              return;
+            }
+          });
+        }
+
+        if(msg.notificationType === 'MESSAGE_VISUALIZED_NOTIFICATION' ){
+          angular.forEach($scope.model.messages, function(message, key){
+            if(message.id == msg.id){
+              message.visualized = true;
+              return;
+            }
+          });
+        }
     });
+
+
+    /**
+    *
+    */
+    $scope.notifyUser = function(message){
+    	$notification.requestPermission()
+        .then(
+        function success(value) {
+            console.log("ASKED FOR PERMISSION:", value);
+            new Notification('Desafio Chat', {
+              body: message,
+              dir: 'auto',
+              lang: 'en',
+              tag: 'my-tag',
+              icon: 'app/icons/chat_icon.png',
+              delay: 1000, // in ms
+              focusWindowOnClick: true // focus the window on click
+            });
+        }, function error() {
+            console.log("Can't request for notification");
+        })
+    };
 
     /**
     * Assim que o websocket entregar uma mensagem sera setado como visualizado;
@@ -137,6 +188,10 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
       if(message.userChatGroup.user.id != $rootScope.user.id){
         messageService.setMessageStatusToVisualized(message.id, {
           callbackHandler: function(result){
+            //SETs the message notificationtype - when the websocket broker delivers the messages to the destinations the listener method will deal with each type differently;
+            message.notificationType = 'MESSAGE_VISUALIZED_NOTIFICATION';
+            //sends the message to the websocket broker
+            ChatWebsocketService.send(message);
 
           },
           errorHandler: function(message, exception){
@@ -167,16 +222,17 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
       $scope.CONFIRM_CANCEL_MESSAGE = 'Cancel';
 
 
-      $scope.deleteMessage = function(message){
-        if(message.userChatGroup.user.id == $rootScope.user.id){
-          messageService.deleteMessage(message.id, {
+      $scope.deleteMessage = function(messageDeleted){
+        var msg = messageDeleted;
+        if(msg.userChatGroup.user.id == $rootScope.user.id){
+          messageService.deleteMessage(msg.id, {
             callbackHandler: function(result){
-              var toast = $mdToast.simple()
-                .content('SUCCESS: Message deleted!')
-                .action('OK')
-                .highlightAction(true)
-                .position('top right');
-              $mdToast.show(toast);
+              $rootScope.showSimpleToast('Message deleted successfully!');
+
+              //SETs the message notificationtype - when the websocket broker delivers the messages to the destinations the listener method will deal with each type differently;
+              msg.notificationType = 'DELETED_MESSAGE_NOTIFICATION';
+              //sends the message to the websocket broker
+              ChatWebsocketService.send(msg);
             },
             errorHandler: function(message, exception){
               var toast = $mdToast.simple()
@@ -228,12 +284,18 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
         chatGroupService.deleteChatGroup($scope.model.chatGroup.id, {
           callbackHandler: function(result){
             //TODO MSG
-            $mdToast.showSimple("GROUP HAS BEEN DELETED");
-              $location.path('/');
+            $rootScope.showSimpleToast('GROUP HAS BEEN DELETED SUCCESSFULLY!');
+
+            //Notifies eveery user that this group has been deleted
+            $scope.model.chatGroup.notificationType = 'DELETE_GROUP_NOTIFICATION';
+            ChatGroupWebsocketService.send($scope.model.chatGroup);
+
+            $location.path('/');
           },
           errorHandler: function(message, exception){
             $mdToast.showSimple(message);
-            console.log('ERROR DELETING GROUP',exception);
+            $rootScope.showSimpleToast('ERROR DELETING GROUP!');
+
             $location.path('/');
           }
         });

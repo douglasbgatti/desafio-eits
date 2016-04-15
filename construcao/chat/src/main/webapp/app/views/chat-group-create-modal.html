@@ -24,18 +24,25 @@
 
                 <h2 class="md-title">Add users to group:</h2>
 
-                <md-content class="md-padding autocomplete" layout="column" >
-                  <md-chips flex class="md-contact-chips"
-                    ng-model="model.usersSelected" md-require-match="true" md-autocomplete-snap md-on-add="removeDuplicateItemsFromUsersSelected()" md-on-remove="removeUserFromChatGroup($chip)" readonly="false" md-on-select="showUserInfo($event, $chip)">
+                <md-content class="md-padding autocomplete" layout="column" style="width:auto">
+                  <md-chips class="md-contact-chips"
+                      ng-model="model.usersSelected"
+                      md-require-match="true"
+                      md-autocomplete-snap
+                      md-on-add="removeDuplicateItemsFromUsersSelected()"
+                      md-on-remove="removeUserFromChatGroup($chip)"
+                      readonly="false"
+                      md-on-select="showUserInfo($event, $chip)">
                     <md-autocomplete
-                        style="width:auto"
                         md-menu-class="md-contact-chips-suggestions"
                         md-selected-item="model.selectedItem"
                         md-search-text="model.searchText"
                         md-items="item in model.usersList | filter: {name: model.searchText}"
                         md-no-cache="true"
                         md-autoselect="true"
-                        placeholder="Find Users">
+                        placeholder="Find Users"
+                        md-min-length="0"
+                        style="width:500px">
                       <div class="md-contact-suggestion">
                         <span class="md-contact-name">{{item.name}}</span>
                         <span class="md-contact-email">{{item.email}}</span>

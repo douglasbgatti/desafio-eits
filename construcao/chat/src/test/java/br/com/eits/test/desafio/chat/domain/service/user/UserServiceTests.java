@@ -201,24 +201,24 @@ public class UserServiceTests extends AbstractIntegrationTests{
 		Assert.assertNotEquals(null, user.getPassword());
 	}
 
-	@Test
-	@DatabaseSetup( type=DatabaseOperation.CLEAN_INSERT, value =
-	{		"/dataset/UsersDataset.xml",
-			"/dataset/ChatGroupDataset.xml",
-			"/dataset/UserChatGroupDataset.xml",
-			"/dataset/MessageDataset.xml"
-			})
-	public void testListUsersByFilterMustPass() {
-		final List<User> usersList = this.userService.listUsersByFilter("gmail");
-		Assert.assertNotNull(usersList);
-		Assert.assertEquals(2, usersList.size());
-		
-		final User user = usersList.get(0);
-		Assert.assertNotNull(user.getId());
-		Assert.assertNotNull(user.getName());
-		Assert.assertNotNull(user.getEmail());
-		Assert.assertNull(user.getPassword());
-	}
+//	@Test
+//	@DatabaseSetup( type=DatabaseOperation.CLEAN_INSERT, value =
+//	{		"/dataset/UsersDataset.xml",
+//			"/dataset/ChatGroupDataset.xml",
+//			"/dataset/UserChatGroupDataset.xml",
+//			"/dataset/MessageDataset.xml"
+//			})
+//	public void testListUsersByFilterMustPass() {
+//		final List<User> usersList = this.userService.listUsersByFilter("gmail");
+//		Assert.assertNotNull(usersList);
+//		Assert.assertEquals(2, usersList.size());
+//		
+//		final User user = usersList.get(0);
+//		Assert.assertNotNull(user.getId());
+//		Assert.assertNotNull(user.getName());
+//		Assert.assertNotNull(user.getEmail());
+//		Assert.assertNull(user.getPassword());
+//	}
 
 	@Test
 	@DatabaseSetup( type=DatabaseOperation.CLEAN_INSERT, value =

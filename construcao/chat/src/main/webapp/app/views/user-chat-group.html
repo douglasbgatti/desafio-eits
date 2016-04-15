@@ -57,9 +57,9 @@
           </table>
         </md-data-table-container>
       </div>
-      <md-content layout-padding layout-wrap md-scroll-y scroll-glue style="height:89%">
-        <div class="chatbox__messages" ng-repeat="message in model.messages" >
-            <div layout="column" ng-class="message.userChatGroup.user.id == model.userChatGroup.user.id ? 'chatbox__messages__user-message--ind-message user-message' : 'chatbox__messages__user-message--ind-message other-user-message'">
+      <md-content id="chatbox_div" layout-padding layout-wrap md-scroll-y scroll-glue style="height:89%">
+        <div  class="chatbox__messages" ng-repeat="message in model.messages" >
+            <div  layout="column" ng-class="message.userChatGroup.user.id == model.userChatGroup.user.id ? 'chatbox__messages__user-message--ind-message user-message' : 'chatbox__messages__user-message--ind-message other-user-message'">
               <div layout="row">
                 <div flex ="85">
                     <p class="name" style="font-weight:bold">{{message.userChatGroup.user.email }} [{{message.sentTime != null ?( message.sentTime | date:'dd-MM-yyyy HH:mm' ) : ' - ' }}]:</p>
@@ -77,7 +77,7 @@
             </div>
         </div>
       </md-content>
-      <form class="" name="messageForm" ng-submit="addMessage()" style="width:70%; height:7%">
+      <form class="" name="messageForm" ng-submit="addMessage()" style="width:70%; height:7%" novalidate>
         <div layout="row">
           <md-input-container class="md-block" flex-gt-sm="" flex="90" >
               <input type="text"md-maxlength="144"  name="message" placeholder="Enter your message" ng-model="model.message.message" flex>

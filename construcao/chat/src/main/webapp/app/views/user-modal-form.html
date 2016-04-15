@@ -5,12 +5,8 @@
         <md-toolbar class="animate-show md-tall md-whiteframe-z1 md-hue-3" layout-align="center center">
           <div class="md-toolbar-tools">
             <h5>
-              {{model.pageHeader}}
+              {{model.window.name}}
             </h5>
-            <span flex></span>
-            <md-button class="md-icon-button" aria-label="Return to Users List" ng-click="openCreateUserHandler($event)">
-              <ng-md-icon icon="keyboard_backspace" size="24" aria-label="Return" style="fill:white"></ng-md-icon>
-            </md-button>
           </div>
         </md-toolbar>
 
@@ -38,7 +34,7 @@
               <md-input-container>
                 <label>Password</label>
                 <input id="password" name="password" ng-model="model.user.password" type="password" required ng-minlength="4">
-                <div ng-messages="model.form.password.$error" ng-if="(model.form.password.$touched || model.form.$submitted) && model.model.pageHeader == 'Create User'">
+                <div ng-messages="model.form.password.$error" ng-if="(model.form.password.$touched || model.form.$submitted) && model.window.name == 'Create User'">
                   <div ng-message="required">Enter your password!</div>
                 </div>
                 <div ng-messages="model.form.confirmPassword.$error" ng-if="(model.form.confirmPassword.$touched || form.$submitted)">
@@ -50,7 +46,7 @@
                 <label>Re-type Password</label>
                 <input id="confirmPassword" name="confirmPassword" ng-model="model.retypePassword" type="password" required compare-to='model.user.password' ng-minlength="4">
                 <div ng-messages="model.form.confirmPassword.$error" ng-if="(model.form.confirmPassword.$touched || model.form.$submitted)">
-                  <div  ng-if="(model.pageHeader == 'Create User')" ng-message="required">Enter your password!</div>
+                  <div  ng-if="(model.window.name == 'Create User')" ng-message="required">Enter your password!</div>
                   <div ng-message="compareTo">Passwords doesnt match!</div>
                 </div>
               </md-input-container>
@@ -88,11 +84,11 @@
                 <md-button class="md-fab" aria-label="Cancel" ng-click="hide()">
                   <ng-md-icon icon="clear" style="fill:white;  margin-top: 5px;" size="36" aria-label="Cancel"></ng-md-icon>
                 </md-button>
-                <md-button ng-if="model.form.$valid && model.pageHeader == 'Create User'" class="md-fab" aria-label="Create User" ng-click="insertUser()">
+                <md-button ng-if="model.form.$valid && model.window.name == 'Create User'" class="md-fab" aria-label="Create User" ng-click="insertUser()">
                   <ng-md-icon icon="save" aria-label="Save" style="fill:white; margin-top: 5px;" size="36"></ng-md-icon>
                 </md-button>
 
-                <md-button ng-if="model.pageHeader == 'Edit User'" class="md-fab" aria-label="Create User" ng-click="editUser()">
+                <md-button ng-if="model.window.name == 'Edit User'" class="md-fab" aria-label="Create User" ng-click="editUser()">
                   <ng-md-icon icon="save" aria-label="Save" style="fill:white; margin-top: 5px;" size="36"></ng-md-icon>
                 </md-button>
               </md-content>

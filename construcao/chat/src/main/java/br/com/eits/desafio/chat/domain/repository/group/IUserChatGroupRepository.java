@@ -33,9 +33,10 @@ public interface IUserChatGroupRepository extends JpaRepository<UserChatGroup, L
 			+ " WHERE userChatGroup.user.id = :userId ")
 	List<UserChatGroup> findUserChatGroupByUserId(@Param("userId") Long userId);
 	
-	@Query(value="Select new UserChatGroup(userChatGroup.id, userChatGroup.user, userChatGroup.chatGroup) " 
+	@Query(value="Select userChatGroup " 
 			+ " FROM UserChatGroup userChatGroup "
-			+ " WHERE userChatGroup.user.id = :userId AND userChatGroup.chatGroup.groupName LIKE %:filter% ")
+			+ " WHERE userChatGroup.user.id = :userId "
+			+ " AND LOWER(userChatGroup.chatGroup.groupName) LIKE LOWER(CONCAT('%',:filter,'%'))")
 	List<UserChatGroup> findUserChatGroupByUserIdAndFilter(@Param("userId") Long userId, @Param("filter") String filter);
 	
 	@Query(value="Select new UserChatGroup(userChatGroup.id, userChatGroup.chatGroup) " 

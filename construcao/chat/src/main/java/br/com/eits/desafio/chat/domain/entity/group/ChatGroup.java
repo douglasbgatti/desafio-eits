@@ -62,6 +62,9 @@ public class ChatGroup implements Serializable{
 	
 	@Transient
 	private Message latestMessage;
+	
+	@Transient
+	private NotificationType notificationType;
 
 	public ChatGroup(){}
 	
@@ -114,5 +117,17 @@ public class ChatGroup implements Serializable{
 	public void setUserList(List<User> userList) {
 		this.userList = userList;
 	}
+
+
+	public NotificationType getNotificationType() {
+		return notificationType;
+	}
+
+
+	public void setNotificationType(NotificationType notificationType) {
+		this.notificationType = notificationType;
+	}
+	
+	
 	
 }

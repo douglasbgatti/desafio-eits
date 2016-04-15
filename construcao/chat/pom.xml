@@ -189,10 +189,7 @@
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
 			<version>2.5.2</version>
-		</dependency>
-		
-
-		
+		</dependency>		
 		
 
 		<dependency>
@@ -247,6 +244,65 @@
 			<artifactId>angular-material-data-table</artifactId>
 			<version>0.8.13</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>github-com-neoziro-angular-notification</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+<!-- 		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>html5-desktop-notifications</artifactId>
+		    <version>1.0.1</version>
+		</dependency> -->
+		
+
+	<!-- 	<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-web-notification</artifactId>
+		    <version>0.0.66</version>
+		    <exclusions>
+		    	<exclusion>
+					<groupId>org.webjars.bower</groupId>
+					<artifactId>HTML5-Desktop-Notifications2</artifactId>
+       			 </exclusion>
+		    </exclusions>
+		</dependency> -->
+		
+				<!-- WEBSOCKET DEPENDENCIES -->
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>sockjs-client</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>stomp-websocket</artifactId>
+			<version>2.3.4</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>angular-scroll-glue</artifactId>
+			<version>2.0.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>ui-router</artifactId>
+			<version>0.2.15</version>
+		</dependency>
+
 		<!-- FIM DEPENDENCIAS WEBJARS -->
 
 
@@ -285,58 +341,9 @@
 			<version>1.3.3</version>
 		</dependency>
 
-		<!-- WEBSOCKET DEPENDENCIES -->
-		<dependency>
-			<groupId>javax.websocket</groupId>
-			<artifactId>javax.websocket-api</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.webjars.bower</groupId>
-			<artifactId>sockjs-client</artifactId>
-			<version>1.0.3</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.webjars.bower</groupId>
-			<artifactId>stomp-websocket</artifactId>
-			<version>2.3.4</version>
-		</dependency>
 
 
 
-		<dependency>
-			<groupId>org.webjars.bower</groupId>
-			<artifactId>angular-scroll-glue</artifactId>
-			<version>2.0.6</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.webjars.bower</groupId>
-			<artifactId>ui-router</artifactId>
-			<version>0.2.15</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.thymeleaf</groupId>
-			<artifactId>thymeleaf</artifactId>
-			<version>2.1.4.RELEASE</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.thymeleaf</groupId>
-			<artifactId>thymeleaf-spring4</artifactId>
-			<version>2.1.4.RELEASE</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.thymeleaf.extras</groupId>
-			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
-			<version>2.1.2.RELEASE</version>
-		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -349,6 +356,8 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.7.3</version>
 		</dependency>
+		
+		
 
 
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var desafioChat = angular.module('desafioChat', ['ngRoute', 'eits-ng', 'ngMessages','ngMaterial', 'ngMdIcons', 'md.data.table', 'luegg.directives']);
+var desafioChat = angular.module('desafioChat', ['ngRoute', 'eits-ng', 'ngMessages','ngMaterial', 'ngMdIcons', 'md.data.table', 'luegg.directives', 'notification']);
 
 desafioChat.constant('appInfo', {
   name: 'DesafioChat',
@@ -52,10 +52,21 @@ desafioChat.config(function($mdThemingProvider) {
 });
 
 
-desafioChat.run(function($rootScope, $location,$mdSidenav, UserAuthenticatedService){
+desafioChat.run(function($rootScope, $location,$mdSidenav, UserAuthenticatedService, $mdToast){
     $rootScope.user = {};
 
     $rootScope.showSideNav = true;
+
+    $rootScope.showSimpleToast = function(content) {
+      $mdToast.show(
+        $mdToast.simple()
+        .textContent(content)
+        .position('top right')
+        .hideDelay(15000)
+        .action('OK')
+        .highlightAction(true)
+      );
+    };
 
     $rootScope.toggleSideNav = function(){
        $mdSidenav('left').toggle();

@@ -10,7 +10,9 @@ desafioChat.controller('CreateUserEditModalController', function($scope, $rootSc
     user: new User(),
     retypedPassword: '',
     usersList: [],
-    pageHeader: 'Create User',
+    window:{
+      name: 'Create User'
+    },
     creatingUser: false,
     form: null
 
@@ -34,7 +36,7 @@ desafioChat.controller('CreateUserEditModalController', function($scope, $rootSc
           console.log('SUCCESS:', result);
 
           $scope.hide();
-          $scope.showSimpleToast('The user has been created successfully and should receive an e-mail confirming the user created shortly!');
+          $rootScope.showSimpleToast('The user has been created successfully and should receive an e-mail confirming the user created shortly!');
 
           // $location.path('/users');
         },
@@ -61,16 +63,6 @@ desafioChat.controller('CreateUserEditModalController', function($scope, $rootSc
         console.log('ERROR', message, exception);
       }
     });
-  };
-
-
-  $scope.showSimpleToast = function(content) {
-    $mdToast.show(
-      $mdToast.simple()
-      .textContent(content)
-      .position('top right')
-      .hideDelay(5000)
-    );
   };
 
   /*

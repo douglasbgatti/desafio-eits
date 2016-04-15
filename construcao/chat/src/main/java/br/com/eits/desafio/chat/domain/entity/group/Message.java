@@ -1,28 +1,21 @@
 package br.com.eits.desafio.chat.domain.entity.group;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.Calendar;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
-
-import br.com.eits.desafio.chat.domain.entity.user.User;
 
 
 @Entity
@@ -30,8 +23,7 @@ import br.com.eits.desafio.chat.domain.entity.user.User;
 @Audited
 @SequenceGenerator(name="MESSAGE_SEQUENCE", sequenceName="MESSAGE_SEQUENCE", allocationSize=1)
 @DataTransferObject(javascript="Message")
-public class Message implements Serializable{
-	
+public class Message implements Serializable{	
 	/**
 	 * 
 	 */
@@ -56,6 +48,14 @@ public class Message implements Serializable{
 	@ManyToOne(fetch=FetchType.EAGER ,optional=true)
 	private UserChatGroup userChatGroup;
 	
+	
+	/**
+	 * Used for the websocket connection - to differ from new-message / deleted-message / visualized message
+	 * 
+	 */
+	@Transient
+	private NotificationType notificationType;
+	
 
 	public Message(){}	
 	
@@ -71,6 +71,15 @@ public class Message implements Serializable{
 		this.sentTime = sentTime;
 		this.visualized = visualized;
 		this.userChatGroup = userChatGroup;
+	}
+	
+	public Message(Long id, String message, Calendar sentTime, Boolean visualized, UserChatGroup userChatGroup, NotificationType type) {
+		this.id = id;
+		this.message = message;
+		this.sentTime = sentTime;
+		this.visualized = visualized;
+		this.userChatGroup = userChatGroup;
+		this.notificationType = type;
 	}
 
 	public Long getId() {
@@ -111,6 +120,16 @@ public class Message implements Serializable{
 
 	public void setUserChatGroup(UserChatGroup userChatGroup) {
 		this.userChatGroup = userChatGroup;
+	}
+
+	@Transient
+	public NotificationType getNotificationType() {
+		return notificationType;
+	}
+
+	@Transient
+	public void setNotificationType(NotificationType notificationType) {
+		this.notificationType = notificationType;
 	}
 
 	@Override

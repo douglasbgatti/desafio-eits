@@ -7,6 +7,8 @@ import javax.security.auth.login.CredentialException;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,15 +40,15 @@ private static final Logger LOG = Logger.getLogger(MessageController.class);
 		return this.messageService.insertMessage(message);
 	}
 	
-	/**
-	 * 
-	 * @param chatGroupId
-	 * @return
-	 */
-	@RequestMapping(value="/list-all-messages-by-chat-group-id/{chatGroupId}", method=RequestMethod.GET )
-	public @ResponseBody List<Message> listAllMessagesByChatGroupId(@PathVariable Long chatGroupId){		
-		return this.messageService.listAllMessagesByChatGroupId(chatGroupId);
-	}
+//	/**
+//	 * 
+//	 * @param chatGroupId
+//	 * @return
+//	 */
+//	@RequestMapping(value="/list-all-messages-by-chat-group-id/{chatGroupId}", method=RequestMethod.GET )
+//	public @ResponseBody Page<Message> listAllMessagesByChatGroupId(@PathVariable Long chatGroupId, @RequestBody PageRequest pageRequest){		
+//		return this.messageService.listAllMessagesByChatGroupId(chatGroupId, pageRequest);
+//	}
 	
 	/**
 	 * 

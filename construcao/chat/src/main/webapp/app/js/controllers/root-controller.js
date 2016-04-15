@@ -1,7 +1,7 @@
 'user strict';
 
 desafioChat.controller('RootController',
-    function( $scope, $rootScope, $injector, $location, UserAuthenticatedService, $mdBottomSheet, $mdSidenav, $mdDialog, $mdToast, $importService) {
+    function( $scope, $rootScope, $injector, $location, UserAuthenticatedService, $mdBottomSheet, $mdSidenav, $mdDialog, $mdToast, $importService, ChatGroupWebsocketService) {
 
   /**
   * DWR IMPORT SERVICES
@@ -31,16 +31,6 @@ desafioChat.controller('RootController',
 
 
 $rootScope.showSideNav = true;
-  /**
- * Injeta os m�todos, atributos e seus estados herdados de AbstractCRUDController.
- * @see AbstractCRUDController
- */
-// $injector.invoke('AbstractCrudController', this, {
-//   $scope: $scope
-// });
-
-//FROM AbstractCRUDController
-// $scope.initUser();
 
   UserAuthenticatedService.getAuthenticatedUser().then(function(result){
     $scope.model.user = result;
@@ -67,6 +57,31 @@ $rootScope.showSideNav = true;
   };
 
   $scope.loadChatGroups();
+
+
+//initialized the websocket connection to listen when a new group is created
+  ChatGroupWebsocketService.initialize();
+
+  // Receives message from websocket service
+  ChatGroupWebsocketService.receive().then(null, null, function(chatGroup) {
+      $scope.loadChatGroups();
+      var group = angular.fromJson(chatGroup);
+      group = angular.fromJson(group.payload);
+      console.log(group);
+
+      console.log($location.path());
+      if(group.notificationType === 'DELETE_GROUP_NOTIFICATION'){
+        $rootScope.showSimpleToast("Chat Group [" + group.groupName + "] has been deleted!" );
+
+        var url = $location.path();
+        var array = url.split('/');
+
+        console.log(array);
+        if(array.length > 0 &&  array[1] == 'group' && parseInt(array[2]) == group.id){
+          $location.path('/');
+        }
+      }
+  });
 
 
 
@@ -103,6 +118,14 @@ $rootScope.showSideNav = true;
     });
   };
 
+
+  $scope.closeSearchInputAndClearText = function(){
+    $scope.model.isSearchingChatGroup = false;
+    $scope.model.searchText = '';
+
+    $scope.listChatGroupsByFilter();
+  }
+
   $scope.openSearchChatGroup = function(){
     $scope.model.isSearchingChatGroup = true;
   }
@@ -120,8 +143,7 @@ $rootScope.showSideNav = true;
   }
 
   $scope.openIndexHandler = function(){
-    $rootScope.showSideNav = true;
-    // $rootScope.toggleSideNav();
+    $rootScope.toggleSideNav();
     $location.path('/');
   }
 

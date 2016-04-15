@@ -1,4 +1,4 @@
-desafioChat.controller('ChatGroupManageUsersModalController', function($scope, $location, $q, $timeout, $importService, $mdDialog, $mdToast, chatGroupId) {
+desafioChat.controller('ChatGroupManageUsersModalController', function($scope, $location, $q, $timeout, $importService, $mdDialog, $mdToast, ChatGroupWebsocketService, chatGroupId) {
   $importService('userService');
   $importService('chatGroupService');
   /*-------------------------------------------------------------------
@@ -16,10 +16,6 @@ desafioChat.controller('ChatGroupManageUsersModalController', function($scope, $
     selectedItem: null,
     isDuplicate: false
   };
-
-
-
-
 
 
 /**
@@ -146,6 +142,7 @@ $scope.addUserToChatGroup = function(user){
       userChatGroupService.insertUserChatGroup(userChatGroup, {
         callbackHandler: function(result){
           //$scope.model.usersSelected.push(result);
+          ChatGroupWebsocketService.send();
 
         },
         errorHandler: function(message, exception){
@@ -176,16 +173,6 @@ $scope.removeUserFromChatGroup = function(user){
   }
 }
 
-
-
-  $scope.showSimpleToast = function(content) {
-    $mdToast.show(
-      $mdToast.simple()
-      .textContent(content)
-      .position('top right')
-      .hideDelay(5000)
-    );
-  };
 
   /*
    * Fecha a dialog
