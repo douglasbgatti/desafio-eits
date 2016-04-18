@@ -22,19 +22,19 @@ desafioChat.controller('EditUserModalController', function($scope, $rootScope, $
   $scope.getUser = function() {
     $scope.model.userId = userId;
     $scope.model.creatingUser = true;
-    console.log("GETUSER - ID:", $scope.model.userId);
+    ("GETUSER - ID:", $scope.model.userId);
     if ($scope.model.userId != null) {
       userService.getUser($scope.model.userId, {
         callbackHandler: function(result) {
           $scope.model.user = result;
           $scope.model.originalEmail = $scope.model.user.email;
           $scope.model.showForm = true;
-          console.log('user:', $scope.model);
+          ('user:', $scope.model);
           $scope.model.creatingUser = false;
           $scope.$apply();
         },
         errorHandler: function(message, exception) {
-          console.log('ERROR:', message);
+          ('ERROR:', message);
         }
       });
     } else {
@@ -52,14 +52,14 @@ desafioChat.controller('EditUserModalController', function($scope, $rootScope, $
         if ($scope.model.userId != null) {
           userService.alterUser($scope.model.user, {
             callbackHandler: function(result) {
-              console.log('SUCCESS:', result);
+              ('SUCCESS:', result);
 
               $rootScope.showSimpleToast('User has been updated successfully!');
               $scope.hide();
               $location.path('/users-list');
             },
             errorHandler: function(message, exception) {
-              console.log('ERROR:', message, exception);
+              ('ERROR:', message, exception);
               $rootScope.showSimpleToast(message + ' ' + exception);
             }
           });
@@ -90,7 +90,7 @@ desafioChat.controller('EditUserModalController', function($scope, $rootScope, $
       },
       errorHandler: function(message, exception) {
         $mdToast.showSimple(message);
-        console.log('ERROR', message, exception);
+        ('ERROR', message, exception);
       }
     });
   };

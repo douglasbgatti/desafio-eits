@@ -22,7 +22,11 @@ import br.com.eits.desafio.chat.domain.entity.user.User;
 import br.com.eits.desafio.chat.domain.service.user.UserService;
 
 
-
+/**
+ * Custom authentication provider - Validates credentials with the users database
+ * @author dougl
+ *
+ */
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
@@ -33,20 +37,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		
-		
 		String email = authentication.getName();
 		String password = (String) authentication.getCredentials();
-		
-		LOG.info("EMAIL=" + email + "  PASS:" + password);
 		
 		User user = userService.findUserByEmail(email);
 		
 		if(user == null){
 			 throw new BadCredentialsException("Email not found.");
 		}
-		
-		LOG.info("USER:" + user);
+
 		if(user.isEnabled() == false){
 			throw new DisabledException("User is not Enabled!");
 		}

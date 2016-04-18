@@ -2,12 +2,18 @@ package br.com.eits.desafio.chat.domain.service.user;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +23,7 @@ import br.com.eits.desafio.chat.domain.entity.user.Roles;
 import br.com.eits.desafio.chat.domain.entity.user.User;
 import br.com.eits.desafio.chat.domain.repository.user.IUserRepository;
 import br.com.eits.desafio.chat.security.ContextHolder;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
 
 @Service
 @Transactional
@@ -28,7 +35,10 @@ public class UserService {
 	private IUserRepository userRepository;
 
 	@Autowired
-	private MailSender mailSenderService;
+	private MailSenderService mailSenderService;
+	
+	@Autowired
+	private SessionRegistry sessionRegistry;
 
 	/**
 	 * Finds the full user including password
@@ -96,7 +106,20 @@ public class UserService {
 		} else {
 			user.setPassword(getFullUser(user.getId()).getPassword());
 		}
-
+		
+	
+		List<Object> currentSessions = sessionRegistry.getAllPrincipals();
+		for (Object userSession : currentSessions) {
+			LOG.debug("USER SESSION: " + userSession.toString());
+			final User userEdited = (User) userSession;
+			if(userEdited.getId() == user.getId()){
+				List<SessionInformation> sessionDetails = this.sessionRegistry.getAllSessions(userEdited, false);
+				for (SessionInformation sessionInformation : sessionDetails) {
+					sessionInformation.expireNow();
+				}
+			}
+		}
+		
 		return this.userRepository.saveAndFlush(user);
 	}
 
@@ -110,6 +133,18 @@ public class UserService {
 	public User activateUser(Long id) {
 		User user = getFullUser(id);
 		user.setEnabled(true);
+		
+		List<Object> currentSessions = sessionRegistry.getAllPrincipals();
+		for (Object userSession : currentSessions) {
+			LOG.debug("USER SESSION: " + userSession.toString());
+			final User userEdited = (User) userSession;
+			if(userEdited.getId() == id){
+				List<SessionInformation> sessionDetails = this.sessionRegistry.getAllSessions(userEdited, false);
+				for (SessionInformation sessionInformation : sessionDetails) {
+					sessionInformation.expireNow();
+				}
+			}
+		}
 
 		return this.userRepository.saveAndFlush(user);
 	}
@@ -124,6 +159,18 @@ public class UserService {
 	public User deactivateUser(Long id) {
 		User user = getFullUser(id);
 		user.setEnabled(false);
+		
+		List<Object> currentSessions = sessionRegistry.getAllPrincipals();
+		for (Object userSession : currentSessions) {
+			LOG.debug("USER SESSION: " + userSession.toString());
+			final User userEdited = (User) userSession;
+			if(userEdited.getId() == id){
+				List<SessionInformation> sessionDetails = this.sessionRegistry.getAllSessions(userEdited, false);
+				for (SessionInformation sessionInformation : sessionDetails) {
+					sessionInformation.expireNow();
+				}
+			}
+		}
 
 		return this.userRepository.saveAndFlush(user);
 	}

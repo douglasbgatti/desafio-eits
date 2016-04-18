@@ -14,8 +14,6 @@ desafioChat.constant('roleTypes', {
 });
 
 desafioChat.config(function($routeProvider, $httpProvider, $importServiceProvider){
-  console.log('config');
-
   // para utilizar o eits-dwr-broker - chama-se o importService('nomeServico');
   $importServiceProvider.setBrokerURL('/chat/dwr/interface');
 
@@ -77,7 +75,6 @@ desafioChat.run(function($rootScope, $location,$mdSidenav, UserAuthenticatedServ
     UserAuthenticatedService.getAuthenticatedUser()
       .then(function(result){
         $rootScope.user = result;
-        console.log("UserAuthenticatedService ROOTSCOPE:", $rootScope.user);
       },
       function(error){
         $location.path('/logout');

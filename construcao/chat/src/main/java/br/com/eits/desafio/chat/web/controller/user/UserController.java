@@ -23,7 +23,7 @@ import com.sun.glass.ui.Application;
 import br.com.eits.desafio.chat.domain.entity.user.Roles;
 import br.com.eits.desafio.chat.domain.entity.user.User;
 import br.com.eits.desafio.chat.domain.repository.user.IUserRepository;
-import br.com.eits.desafio.chat.domain.service.user.MailSender;
+import br.com.eits.desafio.chat.domain.service.user.MailSenderService;
 import br.com.eits.desafio.chat.domain.service.user.UserService;
 import br.com.eits.desafio.chat.security.ContextHolder;
 

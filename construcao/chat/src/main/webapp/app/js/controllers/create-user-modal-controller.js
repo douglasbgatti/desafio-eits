@@ -33,7 +33,7 @@ desafioChat.controller('CreateUserEditModalController', function($scope, $rootSc
 
       userService.insertUser($scope.model.user, {
         callbackHandler: function(result) {
-          console.log('SUCCESS:', result);
+          ('SUCCESS:', result);
 
           $scope.hide();
           $rootScope.showSimpleToast('The user has been created successfully and should receive an e-mail confirming the user created shortly!');
@@ -41,7 +41,7 @@ desafioChat.controller('CreateUserEditModalController', function($scope, $rootSc
           // $location.path('/users');
         },
         errorHandler: function(message, exception) {
-          console.log('ERROR:', message);
+          ('ERROR:', message);
           $mdToast.simple(exception);
           $location.path('/');
         }
@@ -51,7 +51,7 @@ desafioChat.controller('CreateUserEditModalController', function($scope, $rootSc
   $scope.validateEmail = function(){
     userService.findUserDetailsByEmail($scope.model.user.email, {
       callbackHandler: function(result) {
-        // console.log("result", result);
+        // ("result", result);
           if(result != null){
               $scope.model.form.email.$setValidity('duplicateEmail', false);
           }else{
@@ -60,7 +60,7 @@ desafioChat.controller('CreateUserEditModalController', function($scope, $rootSc
       },
       errorHandler: function(message, exception) {
         $mdToast.showSimple(message);
-        console.log('ERROR', message, exception);
+        ('ERROR', message, exception);
       }
     });
   };

@@ -96,7 +96,7 @@ public class ChatGroupServiceTests extends AbstractIntegrationTests {
 		Assert.assertNotNull(chatGroup);
 		
 		final ChatGroup nonExistentChatGroup = this.chatGroupService.verifyChatGroupNameIsUsed("blablabla");
-		Assert.assertNull(chatGroup);		
+		Assert.assertNull(nonExistentChatGroup);		
 	}
 	
 	

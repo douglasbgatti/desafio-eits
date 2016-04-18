@@ -1,6 +1,6 @@
 'user strict';
 
-desafioChat.controller('RootController',
+desafioChat.controller( 'RootController' ,
     function( $scope, $rootScope, $injector, $location, UserAuthenticatedService, $mdBottomSheet, $mdSidenav, $mdDialog, $mdToast, $importService, ChatGroupWebsocketService) {
 
   /**
@@ -34,7 +34,7 @@ $rootScope.showSideNav = true;
 
   UserAuthenticatedService.getAuthenticatedUser().then(function(result){
     $scope.model.user = result;
-    console.log($scope.model.user);
+    ($scope.model.user);
   },
   function(error){
     $location.path('logout');
@@ -47,7 +47,7 @@ $rootScope.showSideNav = true;
     userChatGroupService.listUserChatGroupsByUser( {
       callbackHandler: function(result){
         $scope.model.userChatGroupsList = result;
-        console.log('CHATGROUPLIST:', $scope.model.userChatGroupsList  );
+        ('CHATGROUPLIST:', $scope.model.userChatGroupsList  );
         $scope.$apply();
       },
       erroHandler: function(message, exception){
@@ -67,16 +67,16 @@ $rootScope.showSideNav = true;
       $scope.loadChatGroups();
       var group = angular.fromJson(chatGroup);
       group = angular.fromJson(group.payload);
-      console.log(group);
+      (group);
 
-      console.log($location.path());
+      ($location.path());
       if(group.notificationType === 'DELETE_GROUP_NOTIFICATION'){
         $rootScope.showSimpleToast("Chat Group [" + group.groupName + "] has been deleted!" );
 
         var url = $location.path();
         var array = url.split('/');
 
-        console.log(array);
+        (array);
         if(array.length > 0 &&  array[1] == 'group' && parseInt(array[2]) == group.id){
           $location.path('/');
         }
@@ -109,7 +109,7 @@ $rootScope.showSideNav = true;
     userChatGroupService.listUserChatGroupsByUserAndFilter( $scope.model.searchText,  {
       callbackHandler: function(result){
         $scope.model.userChatGroupsList = result;
-        console.log('GROUPS SEARCH:', $scope.model.userChatGroupsList  );
+        ('GROUPS SEARCH:', $scope.model.userChatGroupsList  );
         $scope.$apply();
       },
       erroHandler: function(message, exception){

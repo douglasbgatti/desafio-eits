@@ -4,6 +4,8 @@
 package br.com.eits.desafio.chat.exception;
 
 /**
+ * Custom Exception for when the user tries to register a new chatgroup that already exists in database
+ * 
  * @author douglas
  *
  */

@@ -10,9 +10,6 @@ import br.com.eits.desafio.chat.domain.entity.group.Message;
 
 public interface IMessageRepository extends JpaRepository<Message, Long> {
 
-//	@Query(value = "select new Message(message.id, message.message, message.sentTime, message.visualized, message.userChatGroup) "
-//			+ "FROM Message message " + "WHERE message.userChatGroup.id = :userChatGroupId ")
-//	List<Message> listMessagesByUserChatGroupId(@Param("userChatGroupId") Long userChatGroupId);
 
 	@Query(value = "select new Message(message.id, message.message, message.sentTime, message.visualized, message.userChatGroup) "
 			+ " FROM Message message " 

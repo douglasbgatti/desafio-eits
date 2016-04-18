@@ -35,7 +35,7 @@ desafioChat.service('ChatGroupWebsocketService', function($rootScope, $q, $timeo
 
     var startListener = function() {
       $rootScope.groups_socket.stomp.subscribe(service.CHAT_TOPIC, function(data) {
-        console.log("LISTENER:", data);
+        ("LISTENER:", data);
         listener.notify(getMessage(data));
       });
     };

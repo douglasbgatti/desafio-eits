@@ -30,7 +30,7 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
       },
       errorHandler: function(message, exception){
         $mdToast.simple(message, exception);
-        console.log('ERROR', message, exception);
+        ('ERROR', message, exception);
       }
     });
   };
@@ -51,7 +51,7 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
         },
         errorHandler: function(message, exception){
           $mdToast.simple(message, exception);
-          console.log('ERROR', message, exception);
+          ('ERROR', message, exception);
         }
       });
     }
@@ -84,7 +84,7 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
         },
         errorHandler: function(message, exception){
           $mdToast.simple(message, exception);
-          console.log('ERROR',exception);
+          ('ERROR',exception);
           $rootScope.showSimpleToast(message);
         }
       });
@@ -111,7 +111,7 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
           },
           errorHandler: function(message, exception){
             $mdToast.simple(message);
-            console.log('ERROR', exception);
+            ('ERROR', exception);
           }
         });
 
@@ -165,7 +165,7 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
     	$notification.requestPermission()
         .then(
         function success(value) {
-            console.log("ASKED FOR PERMISSION:", value);
+            ("ASKED FOR PERMISSION:", value);
             new Notification('Desafio Chat', {
               body: message,
               dir: 'auto',
@@ -176,7 +176,7 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
               focusWindowOnClick: true // focus the window on click
             });
         }, function error() {
-            console.log("Can't request for notification");
+            ("Can't request for notification");
         })
     };
 
@@ -231,6 +231,7 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
 
               //SETs the message notificationtype - when the websocket broker delivers the messages to the destinations the listener method will deal with each type differently;
               msg.notificationType = 'DELETED_MESSAGE_NOTIFICATION';
+              ("MESSAGE DELETED!: " , msg);
               //sends the message to the websocket broker
               ChatWebsocketService.send(msg);
             },
@@ -326,7 +327,7 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
           },
           errorHandler: function(message, exception){
             $mdToast.simple(message);
-            console.log('ERROR', exception);
+            ('ERROR', exception);
           }
         });
       }
@@ -335,14 +336,14 @@ desafioChat.controller( 'UserChatGroupController' , function( $scope, $rootScope
       $scope.validateGroupName = function(){
         chatGroupService.verifyChatGroupNameIsUsed($scope.model.chatGroup.groupName, {
           callbackHandler: function(result) {
-            // console.log("result", result);
+            // ("result", result);
               if(result != null){
                   $scope.model.formEditGroup.groupname.$setValidity('duplicateValue', false);
               }
           },
           errorHandler: function(message, exception) {
             $mdToast.showSimple(message);
-            console.log('ERROR', message, exception);
+            ('ERROR', message, exception);
           }
         });
       };

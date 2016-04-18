@@ -10,12 +10,20 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 import br.com.eits.desafio.chat.websocket.controller.WebSocketController;
 
+/**
+ * 
+ * @author douglas
+ *
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 @ComponentScan(basePackages="br.com.eits.desafio.chat.websocket.controller")
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	private static final Logger LOG = Logger.getLogger(WebSocketConfig.class);
 
+	/**
+	 * Message broker configuration - enabling a simple broker and setting destination
+	 */
   @Override
   public void configureMessageBroker(MessageBrokerRegistry config) {
     config.enableSimpleBroker("/topic");
@@ -24,6 +32,9 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     LOG.debug("ConfigureMessageBroker:" + config.toString());
   }
 
+  /**
+   * Registering websocket endpoint
+   */
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
     registry.addEndpoint("/websocket").withSockJS();

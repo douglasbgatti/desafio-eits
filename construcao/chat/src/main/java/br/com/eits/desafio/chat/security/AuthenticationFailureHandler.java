@@ -11,6 +11,11 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 
+/**
+ * Authentication failures Handlers and HttpServlet responses for each type of exception
+ * @author dougl
+ *
+ */
 public class AuthenticationFailureHandler implements org.springframework.security.web.authentication.AuthenticationFailureHandler
 {
 	/*

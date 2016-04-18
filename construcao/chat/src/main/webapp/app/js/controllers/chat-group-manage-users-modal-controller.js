@@ -47,12 +47,12 @@ $scope.loadChatGroup = function(){
       $scope.model.chatGroup = result;
       $scope.model.window.name = 'Edit - ' + $scope.model.chatGroup.groupName;
       $scope.model.usersSelected = $scope.model.chatGroup.userList;
-      console.log("EditChatGroup:" , $scope.model);
+      ("EditChatGroup:" , $scope.model);
       $scope.$apply();
     },
     errorHandler: function(message, exception){
       $mdToast.showSimple(message);
-      console.log('ERROR', message, exception);
+      ('ERROR', message, exception);
     }
   });
 };
@@ -61,13 +61,13 @@ $scope.loadChatGroup = function(){
 $scope.loadAllUsers = function() {
   userService.listUsersByRole('USER', {
     callbackHandler: function(result) {
-      console.log("result", result);
+      ("result", result);
         $scope.model.usersList = result;
         $scope.$apply();
     },
     errorHandler: function(message, exception) {
       $mdToast.showSimple(message);
-      console.log('ERROR', message, exception);
+      ('ERROR', message, exception);
     }
   });
 };
@@ -92,14 +92,14 @@ $scope.showUserInfo = function(event, userSelected) {
 $scope.validateGroupName = function(){
   chatGroupService.verifyChatGroupNameIsUsed($scope.model.chatGroup.groupName, {
     callbackHandler: function(result) {
-      // console.log("result", result);
+      // ("result", result);
         if(result != null){
             $scope.form.groupName.$setValidity(duplicateValue, false);
         }
     },
     errorHandler: function(message, exception) {
       $mdToast.showSimple(message);
-      console.log('ERROR', message, exception);
+      ('ERROR', message, exception);
     }
   });
 };
@@ -112,7 +112,7 @@ $scope.checkIsDuplicate = function(userAdded){
             // removes user from array if it already exists in db
             angular.forEach($scope.model.usersSelected, function(user, key) {
                 if(user === userAdded){
-                    console.log("CHECK IS DUPE", user);
+                    ("CHECK IS DUPE", user);
                     $scope.model.usersSelected.splice(key , 1);
                 }
             });
@@ -122,7 +122,7 @@ $scope.checkIsDuplicate = function(userAdded){
     },
     errorHandler: function(message, exception){
         $mdToast.simple(message, exception);
-        console.log('ERROR', message, exception);
+        ('ERROR', message, exception);
         $location.path('/');
       }
   });
@@ -147,7 +147,7 @@ $scope.addUserToChatGroup = function(user){
         },
         errorHandler: function(message, exception){
           $mdToast.showSimple(message);
-          console.log('ERROR', message, exception);
+          ('ERROR', message, exception);
         }
 
       });
@@ -163,7 +163,7 @@ $scope.removeUserFromChatGroup = function(user){
         },
         errorHandler: function(message, exception){
           $mdToast.showSimple(message);
-          console.log('ERROR', message, exception);
+          ('ERROR', message, exception);
         }
 
       });

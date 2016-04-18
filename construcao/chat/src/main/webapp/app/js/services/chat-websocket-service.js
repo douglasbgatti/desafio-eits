@@ -37,7 +37,7 @@ desafioChat.service('ChatWebsocketService', function($rootScope, $q, $timeout) {
 
     var startListener = function() {
       $rootScope.socket.stomp.subscribe(service.CHAT_TOPIC, function(data) {
-        console.log("LISTENER:", data);
+        ("LISTENER:", data);
         listener.notify(getMessage(data));
       });
     };
@@ -47,7 +47,7 @@ desafioChat.service('ChatWebsocketService', function($rootScope, $q, $timeout) {
 
       if($rootScope.socket.stomp != null || $rootScope.socket.client != null){
          $rootScope.socket.stomp.disconnect();
-        // console.log("STOMP AND CLIENT", $rootScope.socket.stomp, $rootScope.socket.client);
+        // ("STOMP AND CLIENT", $rootScope.socket.stomp, $rootScope.socket.client);
       }
 
       service.CHAT_TOPIC = "/topic/message/" + chatGroupId;

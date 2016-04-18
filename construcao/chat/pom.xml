@@ -19,7 +19,44 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			
+					<!-- Unit and Integration Tests -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<configuration>
+				<includes>
+					<include>**/*Tests.java</include>
+				</includes>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-failsafe-plugin</artifactId>
+			<configuration>
+				<!-- <parallel>methods</parallel> <threadCount>10</threadCount> -->
+				<includes>
+					<include>
+						**/*Tests.java</include>
+				</includes>
+			</configuration>
+			<executions>
+				<execution>
+					<id>integration-test</id>
+					<goals>
+						<goal>integration-test</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>verify</id>
+					<goals>
+						<goal>verify</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
 		</plugins>
+		
 	</build>
 
 	<properties>
@@ -179,7 +216,7 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.github.springtestdbunit</groupId>
 			<artifactId>spring-test-dbunit</artifactId>
@@ -189,8 +226,8 @@
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
 			<version>2.5.2</version>
-		</dependency>		
-		
+		</dependency>
+
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -244,32 +281,15 @@
 			<artifactId>angular-material-data-table</artifactId>
 			<version>0.8.13</version>
 		</dependency>
-		
-		<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>github-com-neoziro-angular-notification</artifactId>
-		    <version>1.1.1</version>
-		</dependency>
-<!-- 		<dependency>
-		    <groupId>org.webjars</groupId>
-		    <artifactId>html5-desktop-notifications</artifactId>
-		    <version>1.0.1</version>
-		</dependency> -->
-		
 
-	<!-- 	<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>angular-web-notification</artifactId>
-		    <version>0.0.66</version>
-		    <exclusions>
-		    	<exclusion>
-					<groupId>org.webjars.bower</groupId>
-					<artifactId>HTML5-Desktop-Notifications2</artifactId>
-       			 </exclusion>
-		    </exclusions>
-		</dependency> -->
-		
-				<!-- WEBSOCKET DEPENDENCIES -->
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>github-com-neoziro-angular-notification</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+
+		<!-- WEBSOCKET DEPENDENCIES -->
 		<dependency>
 			<groupId>javax.websocket</groupId>
 			<artifactId>javax.websocket-api</artifactId>
@@ -356,8 +376,8 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.7.3</version>
 		</dependency>
-		
-		
+
+
 
 
 

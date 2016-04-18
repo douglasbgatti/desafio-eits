@@ -12,18 +12,18 @@ import org.springframework.security.core.Authentication;
 
 import br.com.eits.desafio.chat.domain.entity.user.User;
 
+/**
+ * 
+ * @author douglas
+ *
+ */
 public class AuthenticationSuccessHandler implements org.springframework.security.web.authentication.AuthenticationSuccessHandler
 {
-	/**
-	 * 
-	 */
 	private static final Logger LOG = Logger.getLogger( AuthenticationSuccessHandler.class.getName() );
 	
 	/**
 	 * 
 	 */
-//	@Autowired
-//	private IEmpresaRepository empresaRepository;
 	
 	/* (non-Javadoc)
 	 * @see org.springframework.security.web.authentication.AuthenticationSuccessHandler#onAuthenticationSuccess(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.security.core.Authentication)
@@ -33,6 +33,6 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
 	{
 		User usuario = ( User ) authentication.getPrincipal();		
 		ContextHolder.getAuthenticatedUser();
-		LOG.info( "onAuthenticationSuccess :: "+authentication );
+		LOG.info( "onAuthenticationSuccess :: " + authentication );
 	}
 }

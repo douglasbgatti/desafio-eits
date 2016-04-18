@@ -136,6 +136,55 @@ public class Message implements Serializable{
 	public String toString() {
 		return "Message [id=" + id + ", message=" + message + ", sentTime=" + sentTime + ", visualized=" + visualized
 				+ ", userChatGroup=" + userChatGroup + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((sentTime == null) ? 0 : sentTime.hashCode());
+		result = prime * result + ((userChatGroup == null) ? 0 : userChatGroup.hashCode());
+		result = prime * result + ((visualized == null) ? 0 : visualized.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Message other = (Message) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (message == null) {
+			if (other.message != null)
+				return false;
+		} else if (!message.equals(other.message))
+			return false;
+		if (sentTime == null) {
+			if (other.sentTime != null)
+				return false;
+		} else if (!sentTime.equals(other.sentTime))
+			return false;
+		if (userChatGroup == null) {
+			if (other.userChatGroup != null)
+				return false;
+		} else if (!userChatGroup.equals(other.userChatGroup))
+			return false;
+		if (visualized == null) {
+			if (other.visualized != null)
+				return false;
+		} else if (!visualized.equals(other.visualized))
+			return false;
+		return true;
 	}	
 
 }

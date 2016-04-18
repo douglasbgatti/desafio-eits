@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.eits.desafio.chat.domain.entity.group.ChatGroup;
 import br.com.eits.desafio.chat.domain.service.group.ChatGroupService;
 import br.com.eits.desafio.chat.exception.DuplicateChatGroupNameException;
-
+/**
+ * Restful API
+ * @author douglas
+ *
+ */
 @RestController
 @RequestMapping("/restful/api/chat-group")
 public class ChatGroupController {

@@ -32,18 +32,18 @@ desafioChat.controller( 'UsersListController' , function($scope, $rootScope, $lo
   $rootScope.showSideNav = false;
 
   $scope.listUsersByFilterHandler = function() {
-    console.log('listUsersByFilterHandler:', $scope.model);
+    ('listUsersByFilterHandler:', $scope.model);
 
     userService.listUsersByFilter($scope.model.filter, {
       callbackHandler: function(result) {
-        console.log("LIST USERS BY FILTER", result);
+        ("LIST USERS BY FILTER", result);
           $scope.model.usersList = result;
           $scope.$apply();
 
       },
       errorHandler: function(message, exception) {
         $mdToast.showSimple(message);
-        console.log('ERROR',  exception);
+        ('ERROR',  exception);
       }
 
     });
@@ -58,13 +58,13 @@ desafioChat.controller( 'UsersListController' , function($scope, $rootScope, $lo
   $scope.activateUser = function(id){
     userService.activateUser(id,{
       callbackHandler: function(result) {
-          console.log("activateUser", result);
+          ("activateUser", result);
           $rootScope.showSimpleToast("User has been activated!");
           $scope.listUsersByFilterHandler();
       },
       errorHandler: function(message, exception) {
         $mdToast.showSimple(message);
-        console.log('ERROR', message, exception);
+        ('ERROR', message, exception);
       }
     });
   }
@@ -72,13 +72,13 @@ desafioChat.controller( 'UsersListController' , function($scope, $rootScope, $lo
   $scope.deactivateUser = function(id){
     userService.deactivateUser(id,{
       callbackHandler: function(result) {
-        console.log("deactivateUser", result);
+        ("deactivateUser", result);
         $rootScope.showSimpleToast("User has been deactivated!");
         $scope.listUsersByFilterHandler();
       },
       errorHandler: function(message, exception) {
         $mdToast.showSimple(message);
-        console.log('ERROR', message, exception);
+        ('ERROR', message, exception);
       }
     });
   }

@@ -19,6 +19,4 @@ public interface IChatGroupRepository extends JpaRepository<ChatGroup, Long>{
 			+ " FROM ChatGroup chatGroup WHERE chatGroup.groupName = :name " )
 	ChatGroup verifyChatGroupNameIsUsed(@Param("name") String name);
 
-	
-
 }

@@ -26,8 +26,8 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/restful/**"
 			access="hasAnyRole('ADMINISTRATOR', 'USER')" />
-<!-- 		<security:intercept-url pattern="/**"
-			access="isAuthenticated()" /> -->
+ 		<security:intercept-url pattern="/**"
+			access="isAuthenticated()" /> 
 
 		<security:form-login login-page="/login"
 			login-processing-url="/authenticate" username-parameter="username"
@@ -38,8 +38,15 @@
 
 		<security:logout invalidate-session="true"
 			logout-success-url="/login" logout-url="/logout" delete-cookies="true" />
+			
+		<security:session-management> 
+		    <security:concurrency-control max-sessions="1" expired-url="/" session-registry-alias="sessionRegistry"/>
+		</security:session-management>
 
 		<security:http-basic />
+		
+		
+		
 	</security:http>
 
 
@@ -53,5 +60,7 @@
 		class="br.com.eits.desafio.chat.security.AuthenticationFailureHandler" />
 	<bean id="authenticationSuccessHandler"
 		class="br.com.eits.desafio.chat.security.AuthenticationSuccessHandler" />
+		
+		
 
 </beans>

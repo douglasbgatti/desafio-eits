@@ -48,13 +48,13 @@ function createFilterFor(query) {
 $scope.loadAllUsers = function() {
   userService.listUsersByRole('USER', {
     callbackHandler: function(result) {
-      console.log("result", result);
+      // ("result", result);
         $scope.model.usersList = result;
         $scope.$apply();
     },
     errorHandler: function(message, exception) {
       $mdToast.showSimple(message);
-      console.log('ERROR', message, exception);
+      // ('ERROR', message, exception);
     }
   });
 };
@@ -79,14 +79,14 @@ $scope.showUserInfo = function(event, userSelected) {
 $scope.validateGroupName = function(){
   chatGroupService.verifyChatGroupNameIsUsed($scope.model.chatGroup.groupName, {
     callbackHandler: function(result) {
-      // console.log("result", result);
+      // ("result", result);
         if(result != null){
             $scope.form.groupName.$setValidity(duplicateValue, false);
         }
     },
     errorHandler: function(message, exception) {
       $mdToast.showSimple(message);
-      console.log('ERROR', message, exception);
+      ('ERROR', message, exception);
     }
   });
 };
@@ -123,7 +123,7 @@ $scope.insertChatGroup = function(){
   });
      chatGroupService.insertChatGroup($scope.model.chatGroup, {
        callbackHandler: function(result) {
-         console.log("result", result);
+         ("result", result);
            $scope.model.chatGroup = result;
            var group = {};
            group.id = $scope.model.chatGroup.id;
@@ -138,7 +138,7 @@ $scope.insertChatGroup = function(){
        },
        errorHandler: function(message, exception) {
          $mdToast.showSimple(message);
-         console.log('ERROR', message, exception);
+         ('ERROR', message, exception);
        }
      });
 
